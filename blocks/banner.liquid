@@ -1,0 +1,25 @@
+<nav class="top-menu">
+    <ul>
+        {% for link in linklists.top-menu.links %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>
+
+{% schema %}
+{
+  "name": "Banner Block",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Select a menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner with Menu"
+    }
+  ]
+}
+{% endschema %}
