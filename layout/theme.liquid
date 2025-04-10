@@ -373,5 +373,64 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('#Search-In-Modal');
+    const predictiveContainer = document.querySelector('.predictive-search--header');
+
+    // Create a container for custom collection suggestions
+    const suggestionBox = document.createElement('div');
+    suggestionBox.classList.add('custom-collections');
+    suggestionBox.style.padding = '10px';
+    suggestionBox.style.borderTop = '1px solid #eee';
+    suggestionBox.style.backgroundColor = '#fff';
+
+    async function fetchCollections(term) {
+      try {
+        const res = await fetch(`/search/suggest.json?q=${encodeURIComponent(term)}&resources[type]=collection&resources[limit]=5`);
+        const data = await res.json();
+        return data.resources.results.collections || [];
+      } catch (err) {
+        console.error('Collection fetch failed:', err);
+        return [];
+      }
+    }
+
+    searchInput.addEventListener('input', async (e) => {
+      const term = e.target.value.trim();
+      if (term.length < 2) {
+        suggestionBox.innerHTML = '';
+        return;
+      }
+
+      const collections = await fetchCollections(term);
+      suggestionBox.innerHTML = '';
+
+      if (collections.length > 0) {
+        collections.forEach((collection) => {
+          const link = document.createElement('a');
+          link.href = collection.url;
+          link.textContent = `🔎 ${collection.title}`;
+          link.style.display = 'block';
+          link.style.padding = '6px 0';
+          link.style.fontSize = '14px';
+          link.style.color = '#222';
+          link.style.textDecoration = 'none';
+          suggestionBox.appendChild(link);
+        });
+
+        if (!predictiveContainer.contains(suggestionBox)) {
+          predictiveContainer.appendChild(suggestionBox);
+        }
+      } else {
+        if (predictiveContainer.contains(suggestionBox)) {
+          predictiveContainer.removeChild(suggestionBox);
+        }
+      }
+    });
+  });
+</script>
+
   </body>
 </html>
