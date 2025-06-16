@@ -104,6 +104,35 @@
                 </small>
               </div>
             {%- else -%}
+
+
+            <div class="pan-card-upload" style="margin-bottom: 2rem;">
+  <div style="margin-bottom: 1rem;">
+    <label for="attributes[pan_card_number]" style="font-weight: bold;">PAN Card Number:</label>
+    <input
+      type="text"
+      id="attributes[pan_card_number]"
+      name="attributes[pan_card_number]"
+      pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+      title="Enter valid PAN (e.g., ABCDE1234F)"
+      required
+      style="width: 100%; padding: 0.5rem;"
+    />
+  </div>
+
+  <div style="margin-bottom: 1rem;">
+    <label for="pan_card_upload" style="font-weight: bold;">Upload PAN Card (PDF/Image):</label>
+    <input
+      type="file"
+      id="pan_card_upload"
+      name="pan_card_upload"
+      accept=".jpg,.jpeg,.png,.pdf"
+      style="width: 100%; padding: 0.5rem;"
+    />
+  </div>
+</div>
+
+        
               <div class="cart__ctas" {{ block.shopify_attributes }}>
                 <button
                   type="submit"
