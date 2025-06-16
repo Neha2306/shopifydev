@@ -107,30 +107,30 @@
 
 
             <div class="pan-card-upload" style="margin-bottom: 2rem;">
-  <div style="margin-bottom: 1rem;">
-    <label for="attributes[pan_card_number]" style="font-weight: bold;">PAN Card Number:</label>
-    <input
-      type="text"
-      id="attributes[pan_card_number]"
-      name="attributes[pan_card_number]"
-      pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
-      title="Enter valid PAN (e.g., ABCDE1234F)"
-      required
-      style="width: 100%; padding: 0.5rem;"
-    />
-  </div>
-
-  <div style="margin-bottom: 1rem;">
-    <label for="pan_card_upload" style="font-weight: bold;">Upload PAN Card (PDF/Image):</label>
-    <input
-      type="file"
-      id="pan_card_upload"
-      name="pan_card_upload"
-      accept=".jpg,.jpeg,.png,.pdf"
-      style="width: 100%; padding: 0.5rem;"
-    />
-  </div>
-</div>
+              <div style="margin-bottom: 1rem;">
+                <label for="attributes[pan_card_number]" style="font-weight: bold;">PAN Card Number:</label>
+                <input
+                  type="text"
+                  id="attributes[pan_card_number]"
+                  name="attributes[pan_card_number]"
+                  pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                  title="Enter valid PAN (e.g., ABCDE1234F)"
+                  required
+                  style="width: 100%; padding: 0.5rem;"
+                />
+              </div>
+            
+              <div style="margin-bottom: 1rem;">
+                <label for="pan_card_upload" style="font-weight: bold;">Upload PAN Card (PDF/Image):</label>
+                <input
+                  type="file"
+                  id="pan_card_upload"
+                  name="pan_card_upload"
+                  accept=".jpg,.jpeg,.png,.pdf"
+                  style="width: 100%; padding: 0.5rem;"
+                />
+              </div>
+            </div>
 
         
               <div class="cart__ctas" {{ block.shopify_attributes }}>
@@ -161,6 +161,79 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const checkoutForm = document.querySelector('form[action*="/cart"]');
+    const fileInput = document.getElementById("pan_card_upload");
+    const panInput = document.getElementById("attributes[pan_card_number]");
+
+    checkoutForm.addEventListener("submit", async function (e) {
+      e.preventDefault(); // Stop form submission
+
+      const panValue = panInput.value.trim();
+      const file = fileInput.files[0];
+
+      // Validate PAN format
+      if (!panValue || !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(panValue)) {
+        alert("Please enter a valid PAN number.");
+        return;
+      }
+
+      let base64String = null;
+
+      // Step 1: Convert file to base64 (if file is selected)
+      if (file) {
+        try {
+          base64String = await convertFileToBase64(file);
+        } catch (error) {
+          console.error("Error reading file:", error);
+          alert("Could not read PAN file. Please try again.");
+          return;
+        }
+      }
+
+      console.log("base64String");
+      console.log(base64String);
+
+      // // Step 2: Call PAN validation API
+      // try {
+      //   const response = await fetch("https://your-api-endpoint.com/validate-pan", {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify({
+      //       pan: panValue,
+      //       file: base64String,
+      //     }),
+      //   });
+
+      //   const data = await response.json();
+
+      //   if (!data.valid) {
+      //     alert("PAN validation failed: " + (data.message || "Invalid PAN"));
+      //     return;
+      //   }
+
+      //   // Step 3: All good — submit the form
+      //   checkoutForm.submit();
+      // } catch (error) {
+      //   console.error("API error:", error);
+      //   alert("Error validating PAN. Please try again.");
+      // }
+    });
+
+    // Helper: Convert file to Base64
+    function convertFileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = (err) => reject(err);
+        reader.readAsDataURL(file);
+      });
+    }
+  });
+</script>
+
 
 {% schema %}
 {
