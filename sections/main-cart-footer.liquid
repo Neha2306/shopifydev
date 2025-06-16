@@ -164,22 +164,22 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const checkoutButton = document.querySelector('form[action*="/cart"] [name="checkout"]');
+    const cartForm = document.getElementById("cart"); // This is key
     const fileInput = document.getElementById("pan_card_upload");
     const panInput = document.getElementById("attributes[pan_card_number]");
 
-    if (!checkoutButton || !fileInput || !panInput) return;
+    if (!cartForm || !fileInput || !panInput) return;
 
-    checkoutButton.addEventListener("click", async function (e) {
-      alert("sdfsdfsdfsdfs");
-      e.preventDefault(); // Prevent default redirect to checkout
+    cartForm.addEventListener("submit", async function (e) {
+      alert("sdfsdf");
+      e.preventDefault(); // 🚫 Stop form from submitting by default
 
       const panValue = panInput.value.trim();
       const file = fileInput.files[0];
 
       // ✅ PAN format check
       if (!panValue || !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(panValue)) {
-        alert("Please enter a valid PAN number (e.g., ABCDE1234F).");
+        alert("Please enter a valid PAN number (e.g., ABCDE1234F)");
         return;
       }
 
@@ -194,7 +194,7 @@
         }
       }
 
-    //   // ✅ Call PAN validation API
+    //   // ✅ Call API
     //   try {
     //     const response = await fetch("https://your-api-endpoint.com/validate-pan", {
     //       method: "POST",
@@ -212,15 +212,14 @@
     //       return;
     //     }
 
-    //     // ✅ All good → manually submit form
-    //     checkoutButton.closest("form").submit();
+    //     // ✅ All good → manually submit the form
+    //     cartForm.submit();
     //   } catch (error) {
-    //     console.error("PAN validation error:", error);
-    //     alert("Error validating PAN. Please try again.");
+    //     console.error("API Error:", error);
+    //     alert("Something went wrong during PAN validation.");
     //   }
     // });
 
-    // 📦 Helper function
     function convertFileToBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
