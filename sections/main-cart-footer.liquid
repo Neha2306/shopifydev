@@ -163,19 +163,16 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
     const checkoutButton = document.getElementById("checkout");
-    console.log("checkoutButton");
-    console.log(checkoutButton);
     const fileInput = document.getElementById("pan_card_upload");
     const panInput = document.getElementById("attributes[pan_card_number]");
 
-    // if (!checkoutButton || !fileInput || !panInput) return;
+    if (!checkoutButton || !fileInput || !panInput) return;
 
-    alert(checkoutButton);
-    
     checkoutButton.addEventListener("click", async function (e) {
       e.preventDefault(); // 🔒 Stop default navigation
+
+      alert(checkoutButton);
 
       // const panValue = panInput.value.trim();
       // const file = fileInput.files[0];
@@ -232,7 +229,6 @@
         reader.readAsDataURL(file);
       });
     }
-  });
 </script>
 
 
