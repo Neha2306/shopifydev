@@ -12,5 +12,91 @@
   "context": {
     "market": "mexico"
   },
-  "sections": {}
+  "sections": {
+    "featured_product_WGbkX": {
+      "type": "featured-product",
+      "disabled": false,
+      "settings": {
+        "product": "",
+        "color_scheme": "",
+        "secondary_background": false,
+        "header-19883199c78dd4c457e4142869866f6b": null,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "header-3a33e3d6988df5e78dd977253fded023": null,
+        "padding_top": 36,
+        "padding_bottom": 36
+      },
+      "blocks": {
+        "text_WjWFf": {
+          "type": "text",
+          "disabled": false,
+          "settings": {
+            "text": "{{ section.settings.product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title_qYDqW": {
+          "type": "title",
+          "disabled": false,
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_chgeE": {
+          "type": "price",
+          "disabled": false,
+          "settings": {}
+        },
+        "variant_picker_NAbXx": {
+          "type": "variant_picker",
+          "disabled": false,
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector_fiyPz": {
+          "type": "quantity_selector",
+          "disabled": false,
+          "settings": {}
+        },
+        "buy_buttons_QythP": {
+          "type": "buy_buttons",
+          "disabled": false,
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "share_NH46G": {
+          "type": "share",
+          "disabled": false,
+          "settings": {
+            "share_label": "Share",
+            "paragraph-96e2c3e7ed50d7519be316cf7f26316f": null,
+            "paragraph-9ecab1eb00b6ace27f6f444b3c4bcae3": null
+          }
+        }
+      },
+      "block_order": [
+        "text_WjWFf",
+        "title_qYDqW",
+        "price_chgeE",
+        "variant_picker_NAbXx",
+        "quantity_selector_fiyPz",
+        "buy_buttons_QythP",
+        "share_NH46G"
+      ],
+      "name": "t:sections.featured-product.presets.name"
+    }
+  },
+  "order": [
+    "featured_product_WGbkX"
+  ]
 }

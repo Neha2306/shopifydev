@@ -8,9 +8,9 @@
  * ------------------------------------------------------------
  */
 {
-  "parent": "header-group.json",
+  "parent": "metaobject/social_links.json",
   "context": {
-    "market": "international"
+    "market": "in"
   },
   "sections": {}
 }
