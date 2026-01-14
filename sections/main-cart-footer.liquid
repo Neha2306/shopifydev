@@ -231,6 +231,31 @@
     }
 </script>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const checkoutButtons = document.querySelectorAll(
+      'button[name="checkout"], input[name="checkout"]'
+    );
+
+    checkoutButtons.forEach(btn => {
+      btn.addEventListener("click", function () {
+        // Signal intent to checkout
+        fetch("/cart/update.js", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            attributes: {
+              enforce_min_order: "true",
+            },
+          }),
+        });
+      });
+    });
+  });
+</script>
+
 
 {% schema %}
 {
