@@ -220,7 +220,7 @@
     //   }
     // });
 
-    // Utility: Convert file to base64
+    {% comment %} // Utility: Convert file to base64
     function convertFileToBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -228,7 +228,31 @@
         reader.onerror = reject;
         reader.readAsDataURL(file);
       });
-    }
+    } {% endcomment %}
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+  const checkoutButtons = document.querySelectorAll(
+    'button[name="checkout"], input[name="checkout"]'
+  );
+alert("dfsdfsdf");
+  checkoutButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      fetch("/cart/update.js", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          attributes: {
+            enforce_min_order: "true",
+          },
+        }),
+      });
+    });
+  });
+});
+
 </script>
 
 {% schema %}
