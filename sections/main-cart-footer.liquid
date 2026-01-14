@@ -229,33 +229,7 @@
         reader.readAsDataURL(file);
       });
     }
-
-
-    document.addEventListener("DOMContentLoaded", function () {
-      const checkoutButtons = document.querySelectorAll(
-        'button[name="checkout"], input[name="checkout"]'
-      );
-console.log("sdfsdfsdfsdf");
-      checkoutButtons.forEach(btn => {
-        btn.addEventListener("click", function () {
-          console.log("sdfsdfsdfsdf");
-          // Signal intent to checkout
-          fetch("/cart/update.js", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              attributes: {
-                enforce_min_order: "true",
-              },
-            }),
-          });
-        });
-      });
-    });
 </script>
-
 
 {% schema %}
 {
