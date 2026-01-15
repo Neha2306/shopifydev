@@ -1,24 +1,29 @@
-{%- if customer == nil -%}
-  <script>
-    window.location = '{{ routes.account_login_url }}?return_url={{ request.path | url_encode }}';
-  </script>
-  <noscript>
-    <meta http-equiv="refresh" content="0;url={{ routes.account_login_url }}?return_url={{ request.path | url_encode }}">
-  </noscript>
-{%- else -%}
+<section class="page-custom">
+  <div class="page-custom__inner">
+    <h1 class="page-custom__title">
+      {{ page.title }}
+    </h1>
 
-  {%- comment -%}
-    Only logged-in customers can see the content below
-  {%- endcomment -%}
+    {% if customer %}
+      <p>Welcome, {{ customer.email }}. This is your custom page.</p>
+    {% else %}
+      <p>This is a custom page visible to everyone.</p>
+    {% endif %}
 
-  {% layout 'theme' %}
-
-  <h1>{{ page.title }}</h1>
-
-  <p>Welcome, {{ customer.email }}. This is your custom page.</p>
-
-  <div>
-    {{ page.content }}
+    <div class="page-custom__content">
+      {{ page.content }}
+    </div>
   </div>
+</section>
 
-{%- endif -%}
+{% schema %}
+{
+  "name": "Custom page content",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Custom page content"
+    }
+  ]
+}
+{% endschema %}
