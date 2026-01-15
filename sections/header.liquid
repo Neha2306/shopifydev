@@ -225,10 +225,10 @@
         {%- endif -%}
       </div>
       {% render 'header-search', input_id: 'Search-In-Modal' %}
-{{ shop.id }}
+
       {%- if shop.customer_accounts_enabled -%}
         <a
-          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+          href="{%- if customer -%}/68570316988/account/pages/019b9968-7a2b-71d6-9f77-cb40ea3a466a{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
           class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"
           rel="nofollow"
         >
