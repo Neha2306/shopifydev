@@ -227,11 +227,16 @@
       {% render 'header-search', input_id: 'Search-In-Modal' %}
 
       {%- if shop.customer_accounts_enabled -%}
-        <a
+        {% comment %} <a
           href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
           class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"
           rel="nofollow"
-        >
+        > {% endcomment %}
+          <a
+  href="{% if customer %}/account/pages/019bc10d-a109-7e42-9be1-3b4c92874027{% else %}{{ routes.account_login_url }}{% endif %}"
+  class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"
+  rel="nofollow"
+>
           {%- if section.settings.enable_customer_avatar -%}
             <account-icon>
               {%- if customer and customer.has_avatar? -%}
