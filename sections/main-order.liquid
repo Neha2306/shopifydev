@@ -19,6 +19,14 @@
     <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
     <a href="{{ routes.account_url }}">{{ 'customer.account.return' | t }}</a>
   </div>
+<div class="account-wrapper">
+  {% render 'account-sidebar' %}
+
+  <div class="account-content">
+    <h1>My Account</h1>
+    {{ customer.first_name }}
+  </div>
+</div>
 
   <div>
     <div>
