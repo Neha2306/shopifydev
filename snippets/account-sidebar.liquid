@@ -1,0 +1,27 @@
+<nav class="account-sidebar">
+  <ul>
+    <li>
+      <a href="/account" class="{% if template == 'customers/account' %}active{% endif %}">
+        Dashboard
+      </a>
+    </li>
+
+    <li>
+      <a href="/account/orders" class="{% if template contains 'customers/order' %}active{% endif %}">
+        Orders
+      </a>
+    </li>
+
+    <li>
+      <a href="/account/addresses" class="{% if template == 'customers/addresses' %}active{% endif %}">
+        Addresses
+      </a>
+    </li>
+
+    <li>
+      <a href="/account/logout">
+        Logout
+      </a>
+    </li>
+  </ul>
+</nav>
