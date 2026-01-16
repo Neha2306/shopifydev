@@ -17,6 +17,10 @@
 </section>
 
 <script>
+  console.log("settings.storefront_public_token");
+  console.log(settings.storefront_public_token);
+  console.log("shop.permanent_domain");
+  console.log(shop.permanent_domain);
   window.storefrontConfig = {
     apiUrl: "https://{{ shop.permanent_domain }}/api/2025-04/graphql.json",
     token: "{{ settings.storefront_public_token | escape }}",
