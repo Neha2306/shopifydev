@@ -16,6 +16,59 @@
   </div>
 </section>
 
+<script>
+  window.storefrontConfig = {
+    apiUrl: "https://{{ shop.permanent_domain }}/api/2025-04/graphql.json",
+    token: "{{ settings.storefront_public_token | escape }}",
+  };
+</script>
+
+{% javascript %}
+  (function() {
+    if (!window.storefrontConfig) return;
+
+    const { apiUrl, token } = window.storefrontConfig;
+
+    async function fetchProducts() {
+      const query = `
+        query FeaturedProducts($first: Int!) {
+          products(first: $first) {
+            edges {
+              node {
+                id
+                handle
+                title
+              }
+            }
+          }
+        }
+      `;
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': token,
+        },
+        body: JSON.stringify({
+          query,
+          variables: { first: 4 },
+        }),
+      });
+
+      const { data, errors } = await response.json();
+      if (errors) {
+        console.error(errors);
+        return;
+      }
+
+      console.log(data.products.edges);
+    }
+
+    fetchProducts();
+  })();
+{% endjavascript %}
+
 {% schema %}
 {
   "name": "Custom page content",
