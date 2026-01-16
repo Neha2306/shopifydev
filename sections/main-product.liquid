@@ -85,7 +85,7 @@
         >
           {%- assign product_form_id = 'product-form-' | append: section.id -%}
             {%- assign price = 100 -%}
-            {%- assign increase_percent = 80 -%}
+            {%- assign increase_percent = 1.23 -%}
             {%- assign finalprice = price | times: increase_percent | divided_by: 100 | plus: price -%}
             {{finalprice }}
           {%- for block in section.blocks -%}
