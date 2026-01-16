@@ -84,8 +84,13 @@
           class="product__info-container{% if section.settings.enable_sticky_info %} product__column-sticky{% endif %}"
         >
           {%- assign product_form_id = 'product-form-' | append: section.id -%}
-          {%- assign final_price = 100 | plus: original_price | times: 80 | divided_by: 100 -%}
-          {{final_price }}
+          {%- assign price = 100 -%}
+{%- assign increase_percent = 80 -%}
+
+{%- assign finalprice = price | times: increase_percent | divided_by: 100 | plus: price -%}
+
+
+          {{finalprice }}
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when '@app' -%}
