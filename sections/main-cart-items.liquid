@@ -532,7 +532,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         sections_url: window.location.pathname,
       }),
     });
-    refreshMainContent();
+    {% comment %} refreshMainContent(); {% endcomment %}
     {% comment %} const data = await res.json();
     console.log("data");
     console.log(data);
