@@ -589,34 +589,22 @@ function refreshMainContent() {
 
 function initCartScriptsAgain() {
   // Re-bind your custom toggle
-  {% comment %} bindCartToggle(); {% endcomment %}
-
-  // If your theme has its own cart init, call it here:
-  if (window.theme && typeof window.theme.initCart === 'function') {
-    window.theme.initCart();
-  }
-}
-
-</script>
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('[data-cart-toggle]');
   if (!toggle) return;
 
-  // Optional: sync the initial UI state from the cart (if you fetch it)
-  // For now we just assume it's "off" (aria-checked = false)
+  // If we've already bound this toggle, skip
+  if (toggle.dataset.toggleBound === 'true') return;
+  toggle.dataset.toggleBound = 'true';
 
   toggle.addEventListener('click', async () => {
     const currentlyOn = toggle.getAttribute('aria-checked') === 'true';
     const newState = !currentlyOn;
 
-    // Update the aria state & visual state
+    // Update the aria state & visual state immediately
     toggle.setAttribute('aria-checked', newState ? 'true' : 'false');
 
     try {
-      // IMPORTANT: this POST /cart/update.js is what triggers Cart Transform
+      // POST /cart/update.js to update attributes (triggers Cart Transform, etc.)
       const response = await fetch('/cart/update.js', {
         method: 'POST',
         headers: {
@@ -625,8 +613,6 @@ function initCartScriptsAgain() {
         },
         body: JSON.stringify({
           attributes: {
-            // You can add more attributes; just make sure keys match what your
-            // Cart Transform input query looks for
             header_toggle_active: newState ? 'true' : 'false',
           },
         }),
@@ -640,12 +626,13 @@ function initCartScriptsAgain() {
       }
 
       const cart = await response.json();
-      // At this point Shopify has re-run your cart.transform.run function.
-      // If you have a mini-cart drawer, re-render it using this `cart` data.
-      // Example (pseudo):
+      // Shopify has now re-run your cart transform function (if you have one)
+
+      // If you want to re-render the cart page content:
+      refreshMainContent(); // This call must exist in your other code
+
+      // Or if you use a drawer:
       // updateMiniCartUI(cart);
-       refreshMainContent();
-      {% comment %} document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', {bubbles: true})); {% endcomment %}
 
     } catch (err) {
       console.error('Error calling /cart/update.js from header toggle', err);
@@ -653,7 +640,13 @@ function initCartScriptsAgain() {
       toggle.setAttribute('aria-checked', currentlyOn ? 'true' : 'false');
     }
   });
-});
+
+  // If your theme has its own cart init, call it here:
+  if (window.theme && typeof window.theme.initCart === 'function') {
+    window.theme.initCart();
+  }
+}
+
 </script>
 
 
