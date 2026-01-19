@@ -532,6 +532,60 @@
 })();
 </script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.querySelector('[data-cart-toggle]');
+  if (!toggle) return;
+
+  // Optional: sync the initial UI state from the cart (if you fetch it)
+  // For now we just assume it's "off" (aria-checked = false)
+
+  toggle.addEventListener('click', async () => {
+    const currentlyOn = toggle.getAttribute('aria-checked') === 'true';
+    const newState = !currentlyOn;
+
+    // Update the aria state & visual state
+    toggle.setAttribute('aria-checked', newState ? 'true' : 'false');
+
+    try {
+      // IMPORTANT: this POST /cart/update.js is what triggers Cart Transform
+      const response = await fetch('/cart/update.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          attributes: {
+            // You can add more attributes; just make sure keys match what your
+            // Cart Transform input query looks for
+            header_toggle_active: newState ? 'true' : 'false',
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        console.error('Failed to update cart for header toggle', response.status);
+        // Optionally revert the UI state on error
+        toggle.setAttribute('aria-checked', currentlyOn ? 'true' : 'false');
+        return;
+      }
+
+      const cart = await response.json();
+      // At this point Shopify has re-run your cart.transform.run function.
+      // If you have a mini-cart drawer, re-render it using this `cart` data.
+      // Example (pseudo):
+      // updateMiniCartUI(cart);
+
+    } catch (err) {
+      console.error('Error calling /cart/update.js from header toggle', err);
+      // Revert UI state on error
+      toggle.setAttribute('aria-checked', currentlyOn ? 'true' : 'false');
+    }
+  });
+});
+</script>
+
 
 {% schema %}
 {
