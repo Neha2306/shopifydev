@@ -614,7 +614,8 @@ async function refreshCart() {
       // updateMiniCartUI(cart);
 
       document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', {bubbles: true}));
-
+      console.log("Sdfsdfsf");
+      await refreshCart();
     } catch (err) {
       console.error('Error calling /cart/update.js from header toggle', err);
       // Revert UI state on error
