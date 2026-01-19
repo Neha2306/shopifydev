@@ -55,7 +55,7 @@
           {% endif %}
           class="product-variant-id"
         >
-          <input type="hidden" name="properties[calculated_price]" value="2000">
+          {% comment %} <input type="hidden" name="properties[calculated_price]" value="2000"> {% endcomment %}
 
         {%- if gift_card_recipient_feature_active -%}
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
