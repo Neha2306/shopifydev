@@ -521,7 +521,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    await fetch('/cart/update.js', {
+    await fetch('/cart/change.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -559,7 +559,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
       // IMPORTANT: this POST /cart/update.js is what triggers Cart Transform
-      const response = await fetch('/cart/update.js', {
+      const response = await fetch('/cart/change.js', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
