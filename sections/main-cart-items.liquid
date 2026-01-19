@@ -519,18 +519,27 @@
 </cart-items>
 
 <script>
-(async function () {
-  await fetch('/cart/update.js', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      attributes: {
-        _last_refresh: String(Date.now()),
-      },
-    }),
-  });
-})();
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    await fetch('/cart/update.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        attributes: {
+          _last_refresh: String(Date.now()),
+        },
+      }),
+    });
+  } catch (e) {
+    console.error('Cart pre-refresh failed', e);
+  } finally {
+    // Show cart only after transform has run
+    const cart = document.getElementById('CartPage');
+    if (cart) cart.style.visibility = 'visible';
+  }
+});
 </script>
+
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
