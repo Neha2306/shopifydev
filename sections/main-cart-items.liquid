@@ -538,6 +538,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (cart) cart.style.visibility = 'visible';
   }
 });
+await refreshCartSection();
+<script>
+async function refreshCartSection() {
+  const res = await fetch(`${location.pathname}?sections=main-cart-items`);
+  const html = await res.json();
+
+  const container = document.querySelector('[data-cart-items]');
+  if (container && html['main-cart-items']) {
+    container.innerHTML = html['main-cart-items'];
+  }
+}
+</script>
+
 </script>
 
 
