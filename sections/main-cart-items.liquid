@@ -632,8 +632,8 @@ function refreshMainContent() {
       // If you have a mini-cart drawer, re-render it using this `cart` data.
       // Example (pseudo):
       // updateMiniCartUI(cart);
-
-      document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', {bubbles: true}));
+       refreshMainContent();
+      {% comment %} document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', {bubbles: true})); {% endcomment %}
 
     } catch (err) {
       console.error('Error calling /cart/update.js from header toggle', err);
