@@ -528,16 +528,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         attributes: {
           _last_refresh: String(Date.now()),
         },
-        sections: ['main-cart-items'],
+        sections: [
+          'main-cart-items',
+          'main-cart-footer',
+          'cart-icon-bubble'
+        ],
         sections_url: window.location.pathname,
       }),
     });
 
     const data = await res.json();
-    console.log("data");
-    consol.log(data);
-    {% comment %} document.querySelector('#main-cart-items').innerHTML =
-      data.sections['main-cart-items']; {% endcomment %}
+
+    if (data.sections) {
+      document.querySelector('#main-cart-items').innerHTML =
+        data.sections['main-cart-items'];
+
+      document.querySelector('#main-cart-footer').innerHTML =
+        data.sections['main-cart-footer'];
+
+      document.querySelector('#cart-icon-bubble').innerHTML =
+        data.sections['cart-icon-bubble'];
+    }
 
   } catch (e) {
     console.error('Cart pre-refresh failed', e);
