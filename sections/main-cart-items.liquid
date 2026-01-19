@@ -533,6 +533,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (e) {
     console.error('Cart pre-refresh failed', e);
   } finally {
+    document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', {bubbles: true}));
     // Show cart only after transform has run
     const cart = document.getElementById('CartPage');
     if (cart) cart.style.visibility = 'visible';
