@@ -551,6 +551,8 @@ function refreshCartSection() {
   fetch(`${window.Shopify.routes.root}cart?view=ajax`)
     .then((res) => res.text())
     .then((html) => {
+      console.log("html");
+      console.log(html);
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, 'text/html');
       const newCart = doc.querySelector('[data-cart]');
