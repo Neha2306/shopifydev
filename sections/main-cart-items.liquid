@@ -547,7 +547,8 @@
     if (!data?.sections) return;
 
     const parser = new DOMParser();
-
+    console.log("data");
+    cosnole.log(data);
     {% comment %} CART_SECTIONS.forEach((sectionId) => {
       const html = data.sections[sectionId];
       if (!html) return;
