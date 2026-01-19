@@ -532,7 +532,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         sections_url: window.location.pathname,
       }),
     });
-    refreshCartSection();
+    refreshMainContent();
     {% comment %} const data = await res.json();
     console.log("data");
     console.log(data);
@@ -547,24 +547,43 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-function refreshCartSection() {
-  fetch(`${window.Shopify.routes.root}cart?view=ajax`)
-    .then((res) => res.text())
+function refreshMainContent() {
+  const currentUrl = window.location.href; // or window.location.pathname
+
+  return fetch(currentUrl, {
+    method: 'GET',
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest', // optional but useful to detect ajax on server if needed
+    },
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`Failed to fetch page HTML: ${res.status}`);
+      }
+      return res.text();
+    })
     .then((html) => {
-      console.log("html");
-      console.log(html);
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, 'text/html');
-      console.log("doc");
-      console.log(doc);
-      console.log(doc.querySelector('[MainContent]'));
-      const newCart = doc.querySelector('[MainContent]');
-      const currentCart = document.querySelector('[MainContent]');
-      if (newCart && currentCart) {
-        currentCart.innerHTML = newCart.innerHTML;
+
+      const newMain = doc.querySelector('#MainContent');
+      const currentMain = document.querySelector('#MainContent');
+
+      if (!newMain || !currentMain) {
+        console.error('Could not find #MainContent in new or current document');
+        return;
       }
+
+      // Replace all content inside #MainContent with the new version
+      currentMain.innerHTML = newMain.innerHTML;
+
+      // OPTIONAL: if your theme relies on some JS init after DOM changes,
+      // you might call a re-init function here.
+      // initCartScriptsAgain();
     })
-    .catch((err) => console.error('Error refreshing cart section', err));
+    .catch((error) => {
+      console.error('Error refreshing #MainContent:', error);
+    });
 }
 </script>
 
