@@ -534,9 +534,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     const data = await res.json();
-
-    document.querySelector('#main-cart-items').innerHTML =
-      data.sections['main-cart-items'];
+    console.log("data");
+    consol.log(data);
+    {% comment %} document.querySelector('#main-cart-items').innerHTML =
+      data.sections['main-cart-items']; {% endcomment %}
 
   } catch (e) {
     console.error('Cart pre-refresh failed', e);
