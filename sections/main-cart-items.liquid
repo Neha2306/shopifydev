@@ -519,31 +519,56 @@
 </cart-items>
 
 <script>
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    const res = await fetch('/cart/update.js', {
+(() => {
+  const CART_SECTIONS = [
+    'main-cart-items',
+    'main-cart-footer',
+    'cart-icon-bubble',
+  ];
+
+  async function refreshCart() {
+    const response = await fetch('/cart/update.js', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         attributes: {
           _last_refresh: String(Date.now()),
         },
-        sections: ['main-cart-items', 'main-cart-footer'],
+        sections: CART_SECTIONS,
         sections_url: window.location.pathname,
       }),
     });
 
-    const data = await res.json();
-    console.log("data");
-    console.log(data);
-    console.log(data.sections['main-cart-items']);
-    {% comment %} document.querySelector('#main-cart-items').innerHTML =
-      data.sections['main-cart-items']; {% endcomment %}
+    if (!response.ok) return;
 
-  } catch (e) {
-    console.error('Cart pre-refresh failed', e);
+    const data = await response.json();
+    if (!data?.sections) return;
+
+    const parser = new DOMParser();
+
+    CART_SECTIONS.forEach((sectionId) => {
+      const html = data.sections[sectionId];
+      if (!html) return;
+
+      const doc = parser.parseFromString(html, 'text/html');
+      const newSection = doc.querySelector(`#${sectionId}`);
+      const oldSection = document.querySelector(`#${sectionId}`);
+
+      if (newSection && oldSection) {
+        oldSection.replaceWith(newSection);
+      }
+    });
   }
-});
+
+  document.addEventListener('DOMContentLoaded', () => {
+    refreshCart().catch(() => {});
+  });
+
+  // OPTIONAL: expose globally for toggles / quantity buttons
+  window.refreshCart = refreshCart;
+})();
 </script>
 
 
