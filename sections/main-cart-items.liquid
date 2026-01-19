@@ -557,8 +557,9 @@ function refreshCartSection() {
       const doc = parser.parseFromString(html, 'text/html');
       console.log("doc");
       console.log(doc);
-      const newCart = doc.querySelector('[data-cart]');
-      const currentCart = document.querySelector('[data-cart]');
+      console.log(doc.querySelector('[MainContent]'));
+      const newCart = doc.querySelector('[MainContent]');
+      const currentCart = document.querySelector('[MainContent]');
       if (newCart && currentCart) {
         currentCart.innerHTML = newCart.innerHTML;
       }
