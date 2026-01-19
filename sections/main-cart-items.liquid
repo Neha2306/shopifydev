@@ -532,7 +532,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         sections_url: window.location.pathname,
       }),
     });
-
+    refreshCartSection();
     {% comment %} const data = await res.json();
     console.log("data");
     console.log(data);
@@ -546,6 +546,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('Cart pre-refresh failed', e);
   }
 });
+
+function refreshCartSection() {
+  fetch(`${window.Shopify.routes.root}cart?view=ajax`)
+    .then((res) => res.text())
+    .then((html) => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const newCart = doc.querySelector('[data-cart]');
+      const currentCart = document.querySelector('[data-cart]');
+      if (newCart && currentCart) {
+        currentCart.innerHTML = newCart.innerHTML;
+      }
+    })
+    .catch((err) => console.error('Error refreshing cart section', err));
+}
 </script>
 
 
