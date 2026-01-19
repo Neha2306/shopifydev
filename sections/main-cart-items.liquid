@@ -521,22 +521,25 @@
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    await fetch('/cart/change.js', {
+    const res = await fetch('/cart/update.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         attributes: {
           _last_refresh: String(Date.now()),
         },
+        sections: ['main-cart-items'],
+        sections_url: window.location.pathname,
       }),
     });
+
+    const data = await res.json();
+
+    document.querySelector('#main-cart-items').innerHTML =
+      data.sections['main-cart-items'];
+
   } catch (e) {
     console.error('Cart pre-refresh failed', e);
-  } finally {
-    document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', {bubbles: true}));
-    // Show cart only after transform has run
-    const cart = document.getElementById('CartPage');
-    if (cart) cart.style.visibility = 'visible';
   }
 });
 </script>
@@ -559,7 +562,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
       // IMPORTANT: this POST /cart/update.js is what triggers Cart Transform
-      const response = await fetch('/cart/change.js', {
+      const response = await fetch('/cart/update.js', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
