@@ -532,6 +532,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         sections_url: window.location.pathname,
       }),
     });
+    refreshMainContent();
     {% comment %} refreshMainContent(); {% endcomment %}
     {% comment %} const data = await res.json();
     console.log("data");
@@ -579,12 +580,24 @@ function refreshMainContent() {
 
       // OPTIONAL: if your theme relies on some JS init after DOM changes,
       // you might call a re-init function here.
-      // initCartScriptsAgain();
+      initCartScriptsAgain();
     })
     .catch((error) => {
       console.error('Error refreshing #MainContent:', error);
     });
 }
+
+function initCartScriptsAgain() {
+  // Re-bind your custom toggle
+  {% comment %} bindCartToggle(); {% endcomment %}
+
+  // If your theme has its own cart init, call it here:
+  if (window.theme && typeof window.theme.initCart === 'function') {
+    console.log("SDfsfsdfsdf")
+    window.theme.initCart();
+  }
+}
+
 </script>
 
 
