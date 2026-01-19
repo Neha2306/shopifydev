@@ -538,7 +538,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (cart) cart.style.visibility = 'visible';
   }
 });
-await refreshCartSection();
+{% comment %} await refreshCartSection(); {% endcomment %}
 <script>
 async function refreshCartSection() {
   const res = await fetch(`${location.pathname}?sections=main-cart-items`);
