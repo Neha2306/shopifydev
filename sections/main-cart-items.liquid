@@ -451,6 +451,19 @@
   </div>
 </cart-items>
 
+<script>
+await fetch('/cart/update.js', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    attributes: {
+      _last_refresh: String(Date.now()),
+    },
+  }),
+});
+
+</script>
+
 {% schema %}
 {
   "name": "t:sections.main-cart-items.name",
