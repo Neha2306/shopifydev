@@ -548,7 +548,7 @@
 
     const parser = new DOMParser();
 
-    CART_SECTIONS.forEach((sectionId) => {
+    {% comment %} CART_SECTIONS.forEach((sectionId) => {
       const html = data.sections[sectionId];
       if (!html) return;
 
@@ -559,7 +559,7 @@
       if (newSection && oldSection) {
         oldSection.replaceWith(newSection);
       }
-    });
+    }); {% endcomment %}
   }
 
   document.addEventListener('DOMContentLoaded', () => {
