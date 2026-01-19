@@ -537,7 +537,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log("data");
     console.log(data);
     console.log(data.sections['main-cart-items']);
-    document.querySelector('#main-cart-items').replaceWith(data.sections['main-cart-items']);
+    document.querySelector('#main-cart-items').replaceWith(data.querySelector('#main-cart-items'));
 
   } catch (e) {
     console.error('Cart pre-refresh failed', e);
