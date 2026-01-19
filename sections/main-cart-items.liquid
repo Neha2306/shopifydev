@@ -539,8 +539,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log(data.sections['main-cart-items']);
     const parser = new DOMParser();
     const mainCartItemData = parser.parseFromString(data.sections['main-cart-items'], 'text/html');
+    const mainCartFooterData = parser.parseFromString(data.sections['main-cart-footer'], 'text/html');
     document.querySelector('#main-cart-items').replaceWith(mainCartItemData.querySelector(`#main-cart-items`));
-
+    document.querySelector('#main-cart-footer').replaceWith(mainCartItemData.querySelector(`#main-cart-footer`));
   } catch (e) {
     console.error('Cart pre-refresh failed', e);
   }
