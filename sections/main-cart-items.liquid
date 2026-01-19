@@ -535,36 +535,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   } finally {
     document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', {bubbles: true}));
     // Show cart only after transform has run
-    await refreshCart();
     const cart = document.getElementById('CartPage');
     if (cart) cart.style.visibility = 'visible';
   }
 });
-
-
-async function refreshCart() {
-  try {
-    // Fetch updated cart sections AFTER cart transforms run
-    const response = await fetch(
-      `${location.pathname}?sections=main-cart-items,main-cart-footer`
-    );
-    const sections = await response.json();
-
-    // Replace cart items
-    const itemsContainer = document.querySelector('[data-cart-items]');
-    if (itemsContainer && sections['main-cart-items']) {
-      itemsContainer.innerHTML = sections['main-cart-items'];
-    }
-
-    // Replace cart footer (totals, buttons)
-    const footerContainer = document.querySelector('[data-cart-footer]');
-    if (footerContainer && sections['main-cart-footer']) {
-      footerContainer.innerHTML = sections['main-cart-footer'];
-    }
-  } catch (e) {
-    console.error('Cart refresh failed', e);
-  }
-}
 </script>
 
 
@@ -614,8 +588,7 @@ async function refreshCart() {
       // updateMiniCartUI(cart);
 
       document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', {bubbles: true}));
-      console.log("Sdfsdfsf");
-      await refreshCart();
+
     } catch (err) {
       console.error('Error calling /cart/update.js from header toggle', err);
       // Revert UI state on error
