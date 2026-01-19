@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }),
     });
 
-    const data = await res.json();
+    {% comment %} const data = await res.json();
     console.log("data");
     console.log(data);
     console.log(data.sections['main-cart-items']);
@@ -541,7 +541,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const mainCartItemData = parser.parseFromString(data.sections['main-cart-items'], 'text/html');
     const mainCartFooterData = parser.parseFromString(data.sections['main-cart-footer'], 'text/html');
     document.querySelector('#main-cart-items').replaceWith(mainCartItemData.querySelector(`#main-cart-items`));
-    document.querySelector('#main-cart-footer').replaceWith(mainCartFooterData.querySelector(`#main-cart-footer`));
+    document.querySelector('#main-cart-footer').replaceWith(mainCartFooterData.querySelector(`#main-cart-footer`)); {% endcomment %}
   } catch (e) {
     console.error('Cart pre-refresh failed', e);
   }
