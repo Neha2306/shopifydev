@@ -17,6 +17,56 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+
+  .header-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-toggle__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.header-toggle__text {
+  font-size: 0.9rem;
+}
+
+.header-toggle__switch {
+  width: 40px;
+  height: 22px;
+  border-radius: 11px;
+  border: 1px solid #ccc;
+  background-color: #ddd;
+  padding: 0;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s ease;
+}
+
+.header-toggle__switch[aria-checked="true"] {
+  background-color: #3a8bfd; /* active color */
+}
+
+.header-toggle__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: white;
+  transition: transform 0.2s ease;
+}
+
+.header-toggle__switch[aria-checked="true"] .header-toggle__thumb {
+  transform: translateX(18px);
+}
 {%- endstyle -%}
 
 {%- unless settings.cart_type == 'drawer' -%}
