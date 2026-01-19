@@ -577,7 +577,7 @@
       // Example (pseudo):
       // updateMiniCartUI(cart);
 
-      
+      document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', {bubbles: true}));
 
     } catch (err) {
       console.error('Error calling /cart/update.js from header toggle', err);
