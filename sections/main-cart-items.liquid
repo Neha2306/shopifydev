@@ -613,7 +613,7 @@ function initCartScriptsAgain() {
         },
         body: JSON.stringify({
           attributes: {
-            header_toggle_active: newState ? 'true' : 'false',
+            _last_refresh: String(Date.now()),
           },
         }),
       });
