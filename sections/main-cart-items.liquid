@@ -527,6 +527,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       body: JSON.stringify({
         attributes: {
           _last_refresh: String(Date.now()),
+          isApplied: 'false'
         },
         sections: ['main-cart-items', 'main-cart-footer'],
         sections_url: window.location.pathname,
@@ -614,6 +615,7 @@ function initCartScriptsAgain() {
         body: JSON.stringify({
           attributes: {
             _last_refresh: String(Date.now()),
+            isApplied: 'false'
           },
         }),
       });
