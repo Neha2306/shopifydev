@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         sections_url: window.location.pathname,
       }),
     });
-    refreshMainContent();
+    {% comment %} refreshMainContent(); {% endcomment %}
     {% comment %} refreshMainContent(); {% endcomment %}
     {% comment %} const data = await res.json();
     console.log("data");
@@ -629,9 +629,9 @@ function initCartScriptsAgain() {
 
       const cart = await response.json();
       // Shopify has now re-run your cart transform function (if you have one)
-
+window.location.reload();
       // If you want to re-render the cart page content:
-      refreshMainContent(); // This call must exist in your other code
+      {% comment %} refreshMainContent(); // This call must exist in your other code {% endcomment %}
 
       // Or if you use a drawer:
       // updateMiniCartUI(cart);
