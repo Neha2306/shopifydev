@@ -148,14 +148,14 @@
       <button>
         {{ 'customer.login_page.sign_in' | t }}
       </button>
-
+ <button type="button">Login</button>
       <a href="{{ routes.account_register_url }}">
         {{ 'customer.login_page.create_account' | t }}
       </a>
     {%- endform -%}
   </div>
 
-  <button type="button">Login</button>
+ 
 
   {%- if shop.checkout.guest_login -%}
     <div>
