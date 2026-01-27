@@ -160,7 +160,7 @@
           window.location.href = '/custom-dashboard';
         },
         error: function(err) {
-          console.log('Login failed', err);
+          console.log('Login failed', err.message);
           {% comment %} jQuery('#loginError').text('Invalid email or password'); {% endcomment %}
         }
       });
