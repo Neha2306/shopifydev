@@ -135,14 +135,14 @@
 </div>
 
 <script>
-  $(document).ready(function() {
-    $('#loginForm').submit(function(e) {
+  jQuery(document).ready(function() {
+    jQuery('#loginForm').submit(function(e) {
       e.preventDefault();
 
       // Clear previous error
-      $('#loginError').text('');
+      {% comment %} jQuery('#loginError').text(''); {% endcomment %}
 
-      $.ajax({
+      jQuery.ajax({
         type: 'POST',
         url: '/account/login',
         data: {
@@ -160,7 +160,7 @@
         },
         error: function(err) {
           console.log('Login failed', err);
-          $('#loginError').text('Invalid email or password');
+          {% comment %} jQuery('#loginError').text('Invalid email or password'); {% endcomment %}
         }
       });
     });
