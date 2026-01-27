@@ -127,7 +127,7 @@
         {{ form.errors.messages.password }}.
       </span>
     {%- endif -%}
-    <button type="button" id="loginForm">Login</button>
+    <button type="button" id="loginButton">Login</button>
     <button>
       {{ 'customer.register.submit' | t }}
     </button>
@@ -135,35 +135,49 @@
 </div>
 
 <script>
-  jQuery(document).ready(function() {
-    jQuery('#loginForm').click(function(e) {
-      console.log("inside click ievent");
-      e.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+  const loginButton = document.getElementById('loginButton');
 
-      // Clear previous error
-      {% comment %} jQuery('#loginError').text(''); {% endcomment %}
+  loginButton.addEventListener('click', function() {
+    // Dynamic parameters from JS
+    const email = 'dogagi1788@ixunbo.com';      // set dynamically
+    const password = 'Demo@12345';    // set dynamically
+    const redirectUrl = '/';   // optional
 
-      jQuery.ajax({
-        type: 'POST',
-        url: '/account/login',
-        data: {
-          'customer[email]': "dogagi1788@ixunbo.com",//$('#Email').val(),
-          'customer[password]': "Demo@12345",//$('#Password').val(),
-        },
-        success: function(response) {
-          console.log('Login attempted');
+    // Create a form dynamically
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/account/login';
+    form.style.display = 'none';
 
-          // Redirect manually since Shopify AJAX login won't auto-redirect
-          window.location.href = '/custom-dashboard';
-        },
-        error: function(err) {
-          console.log('Login failed', err);
-          {% comment %} jQuery('#loginError').text('Invalid email or password'); {% endcomment %}
-        }
-      });
-    });
+    // Required Shopify fields
+    form.innerHTML = `
+      <input type="hidden" name="form_type" value="customer_login">
+      <input type="hidden" name="utf8" value="✓">
+      <input type="hidden" name="customer[email]" value="${email}">
+      <input type="hidden" name="customer[password]" value="${password}">
+      <input type="hidden" name="redirect_url" value="${redirectUrl}">
+    `;
+
+    // Submit via hidden iframe to allow CAPTCHA
+    const iframe = document.createElement('iframe');
+    iframe.name = 'login-iframe';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    form.target = 'login-iframe';
+    document.body.appendChild(form);
+    form.submit();
+
+    // Optional: handle success/failure
+    iframe.onload = function() {
+      // Fallback: redirect after submission
+      window.location.href = redirectUrl;
+    };
   });
+});
 </script>
+
 
 
 {% schema %}
