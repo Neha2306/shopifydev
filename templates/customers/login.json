@@ -31,59 +31,10 @@
       "settings": {
         "include_margins": true
       }
-    },
-    "1769518530864462d3": {
-      "type": "apps",
-      "blocks": {
-        "miniorange_otp_login_register_otp_login_pbbpwK": {
-          "type": "shopify://apps/miniorange-otp-login-register/blocks/otp-login/dba67ab6-2825-41e1-83fd-7500e426945d",
-          "settings": {
-            "container_alignment": "center",
-            "container_width": 500,
-            "container_background_color": "#ffffff",
-            "container_margin": 20,
-            "elements_spacing": 24,
-            "common_border_radius": 6,
-            "heading_type": "text",
-            "heading_text": "Login to Your Account",
-            "heading_text_color": "#000000",
-            "sender_toggle_active_bg": "#F4F4F4",
-            "sender_phone_label": "Phone",
-            "sender_email_label": "Email",
-            "sender_whatsapp_label": "WhatsApp",
-            "phone_input_placeholder": "Mobile Number",
-            "email_input_placeholder": "Email Address",
-            "sender_toggle_inactive_bg": "#F4F4F4",
-            "sender_toggle_active_text_color": "#000000",
-            "sender_toggle_inactive_text_color": "#9A9A9A",
-            "input_bg_color": "#ffffff",
-            "input_text_color": "#000000",
-            "input_font_size": 15,
-            "button_label": "Send OTP",
-            "button_bg_color": "#000000",
-            "button_text_color": "#ffffff",
-            "button_border_radius": 8,
-            "button_width_type": "full",
-            "button_custom_width": 300,
-            "footer_note_text": "",
-            "footer_note_color": "#666666",
-            "footer_note_font_size": 14,
-            "footer_note_alignment": "center",
-            "allow_country_selection": true
-          }
-        }
-      },
-      "block_order": [
-        "miniorange_otp_login_register_otp_login_pbbpwK"
-      ],
-      "settings": {
-        "include_margins": true
-      }
     }
   },
   "order": [
     "main",
-    "17695115094b23a8ca",
-    "1769518530864462d3"
+    "17695115094b23a8ca"
   ]
 }
