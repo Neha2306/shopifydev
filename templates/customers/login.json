@@ -32,15 +32,15 @@
             "heading_type": "text",
             "heading_text": "Login to Your Account",
             "heading_text_color": "#000000",
-            "sender_toggle_active_bg": "#F4F4F4",
+            "sender_toggle_active_bg": "#f4f4f4",
             "sender_phone_label": "Phone",
             "sender_email_label": "Email",
             "sender_whatsapp_label": "WhatsApp",
             "phone_input_placeholder": "Mobile Number",
             "email_input_placeholder": "Email Address",
-            "sender_toggle_inactive_bg": "#F4F4F4",
+            "sender_toggle_inactive_bg": "#f4f4f4",
             "sender_toggle_active_text_color": "#000000",
-            "sender_toggle_inactive_text_color": "#9A9A9A",
+            "sender_toggle_inactive_text_color": "#9a9a9a",
             "input_bg_color": "#ffffff",
             "input_text_color": "#000000",
             "input_font_size": 15,
@@ -64,10 +64,35 @@
       "settings": {
         "include_margins": true
       }
+    },
+    "1769494322721dad89": {
+      "type": "apps",
+      "blocks": {
+        "miniorange_otp_login_register_otp_login_popup_button_RYTmTy": {
+          "type": "shopify://apps/miniorange-otp-login-register/blocks/otp-login-popup-button/dba67ab6-2825-41e1-83fd-7500e426945d",
+          "settings": {
+            "button_alignment": "center",
+            "button_margin": 20,
+            "button_label": "Login With OTP",
+            "button_bg_color": "#000000",
+            "button_text_color": "#ffffff",
+            "button_border_radius": 8,
+            "button_width_type": "custom",
+            "button_custom_width": 300
+          }
+        }
+      },
+      "block_order": [
+        "miniorange_otp_login_register_otp_login_popup_button_RYTmTy"
+      ],
+      "settings": {
+        "include_margins": true
+      }
     }
   },
   "order": [
     "main",
-    "1769494256fdf0d426"
+    "1769494256fdf0d426",
+    "1769494322721dad89"
   ]
 }
