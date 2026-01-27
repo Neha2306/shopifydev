@@ -147,11 +147,8 @@
         type: 'POST',
         url: '/account/login',
         data: {
-          'form_type': 'customer_login',
-          'utf8': '✓',
           'customer[email]': "dogagi1788@ixunbo.com",//$('#Email').val(),
           'customer[password]': "Demo@12345",//$('#Password').val(),
-          'redirect_url': '/custom-dashboard' // optional extra parameter
         },
         success: function(response) {
           console.log('Login attempted');
