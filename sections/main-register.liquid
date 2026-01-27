@@ -205,6 +205,8 @@ document.addEventListener('DOMContentLoaded', function() {
           window.location.href = redirectUrl;
         }
       } catch (err) {
+        console.log("errorr");
+        console.log(err);
         // Cross-origin errors are normal; fallback to redirect
         window.location.href = redirectUrl;
       }
