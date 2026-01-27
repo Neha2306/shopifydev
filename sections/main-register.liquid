@@ -127,12 +127,7 @@
         {{ form.errors.messages.password }}.
       </span>
     {%- endif -%}
-    <!-- Login Button Only -->
-<button type="button" id="loginButton">Login</button>
-
-<!-- Optional: show login errors -->
-<div id="loginError" style="color:red; margin-top:10px;"></div>
-
+    <button type="button" id="loginForm">Login</button>
     <button>
       {{ 'customer.register.submit' | t }}
     </button>
@@ -140,81 +135,35 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const loginButton = document.getElementById('loginButton');
-  const errorDiv = document.getElementById('loginError');
+  jQuery(document).ready(function() {
+    jQuery('#loginForm').click(function(e) {
+      console.log("inside click ievent");
+      e.preventDefault();
 
-  loginButton.addEventListener('click', function() {
-    errorDiv.textContent = ''; // Clear previous errors
+      // Clear previous error
+      {% comment %} jQuery('#loginError').text(''); {% endcomment %}
 
-    // ===== Dynamic login parameters =====
-    const email = 'dogagi1788@ixunbo.com';       // replace with dynamic value
-    const password = 'Demo@12345';     // replace with dynamic value
-    const redirectUrl = '/';    // optional redirect
+      jQuery.ajax({
+        type: 'POST',
+        url: '/account/login',
+        data: {
+          'customer[email]': "dogagi1788@ixunbo.com",//$('#Email').val(),
+          'customer[password]': "Demo@12345",//$('#Password').val(),
+        },
+        success: function(response) {
+          console.log('Login attempted');
 
-    // ===== Use existing Shopify login form to respect hCaptcha =====
-    let form = document.getElementById('hiddenLoginForm');
-
-    // Create the form if it doesn't exist
-    if (!form) {
-      form = document.createElement('form');
-      form.id = 'hiddenLoginForm';
-      form.method = 'POST';
-      form.action = '/account/login';
-      form.style.display = 'none';
-
-      // Required Shopify fields
-      form.innerHTML = `
-        <input type="hidden" name="form_type" value="customer_login">
-        <input type="hidden" name="utf8" value="✓">
-        <input type="hidden" name="customer[email]">
-        <input type="hidden" name="customer[password]">
-        <input type="hidden" name="redirect_url">
-      `;
-
-      document.body.appendChild(form);
-    }
-
-    // Set dynamic values
-    form.querySelector('input[name="customer[email]"]').value = email;
-    form.querySelector('input[name="customer[password]"]').value = password;
-    form.querySelector('input[name="redirect_url"]').value = redirectUrl;
-
-    // ===== Submit via hidden iframe to keep AJAX-style without page reload =====
-    let iframe = document.getElementById('login-iframe');
-    if (!iframe) {
-      iframe = document.createElement('iframe');
-      iframe.name = 'login-iframe';
-      iframe.style.display = 'none';
-      iframe.id = 'login-iframe';
-      document.body.appendChild(iframe);
-    }
-
-    form.target = 'login-iframe';
-    form.submit(); // Shopify handles CAPTCHA automatically
-
-    // ===== Detect iframe load to handle redirect or errors =====
-    iframe.onload = function() {
-      try {
-        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-        const errorEl = iframeDoc.querySelector('.errors');
-        if (errorEl) {
-          errorDiv.textContent = errorEl.innerText;
-        } else {
-          // Success: redirect
-          window.location.href = redirectUrl;
+          // Redirect manually since Shopify AJAX login won't auto-redirect
+          window.location.href = '/custom-dashboard';
+        },
+        error: function(err) {
+          console.log('Login failed', err);
+          {% comment %} jQuery('#loginError').text('Invalid email or password'); {% endcomment %}
         }
-      } catch (err) {
-        console.log("errorr");
-        console.log(err);
-        // Cross-origin errors are normal; fallback to redirect
-        window.location.href = redirectUrl;
-      }
-    };
+      });
+    });
   });
-});
 </script>
-
 
 
 {% schema %}
