@@ -134,6 +134,40 @@
   {%- endform -%}
 </div>
 
+<script>
+  $(document).ready(function() {
+    $('#loginForm').submit(function(e) {
+      e.preventDefault();
+
+      // Clear previous error
+      $('#loginError').text('');
+
+      $.ajax({
+        type: 'POST',
+        url: '/account/login',
+        data: {
+          'form_type': 'customer_login',
+          'utf8': '✓',
+          'customer[email]': "dogagi1788@ixunbo.com",//$('#Email').val(),
+          'customer[password]': "Demo@12345",//$('#Password').val(),
+          'redirect_url': '/custom-dashboard' // optional extra parameter
+        },
+        success: function(response) {
+          console.log('Login attempted');
+
+          // Redirect manually since Shopify AJAX login won't auto-redirect
+          window.location.href = '/custom-dashboard';
+        },
+        error: function(err) {
+          console.log('Login failed', err);
+          $('#loginError').text('Invalid email or password');
+        }
+      });
+    });
+  });
+</script>
+
+
 {% schema %}
 {
   "name": "t:sections.main-register.name",
