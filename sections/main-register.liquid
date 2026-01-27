@@ -127,44 +127,11 @@
         {{ form.errors.messages.password }}.
       </span>
     {%- endif -%}
-    <button type="button" id="loginForm">Login</button>
     <button>
       {{ 'customer.register.submit' | t }}
     </button>
   {%- endform -%}
 </div>
-
-<script>
-  jQuery(document).ready(function() {
-    jQuery('#loginForm').click(function(e) {
-      console.log("inside click ievent");
-      e.preventDefault();
-
-      // Clear previous error
-      {% comment %} jQuery('#loginError').text(''); {% endcomment %}
-
-      jQuery.ajax({
-        type: 'POST',
-        url: '/account/login',
-        data: {
-          'customer[email]': "dogagi1788@ixunbo.com",//$('#Email').val(),
-          'customer[password]': "Demo@12345",//$('#Password').val(),
-        },
-        success: function(response) {
-          console.log('Login attempted');
-
-          // Redirect manually since Shopify AJAX login won't auto-redirect
-          window.location.href = '/custom-dashboard';
-        },
-        error: function(err) {
-          console.log('Login failed', err);
-          {% comment %} jQuery('#loginError').text('Invalid email or password'); {% endcomment %}
-        }
-      });
-    });
-  });
-</script>
-
 
 {% schema %}
 {
