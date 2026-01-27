@@ -148,12 +148,14 @@ document.addEventListener('DOMContentLoaded', function() {
     errorDiv.textContent = ''; // Clear previous errors
 
     // ===== Dynamic login parameters =====
-    const email = 'dogagi1788@ixunbo.com';       // Replace dynamically
-    const password = 'Demo@12345';     // Replace dynamically
-    const redirectUrl = '/';    // Optional redirect after login
+    const email = 'dogagi1788@ixunbo.com';       // replace with dynamic value
+    const password = 'Demo@12345';     // replace with dynamic value
+    const redirectUrl = '/';    // optional redirect
 
-    // ===== Create or reuse hidden login form =====
+    // ===== Use existing Shopify login form to respect hCaptcha =====
     let form = document.getElementById('hiddenLoginForm');
+
+    // Create the form if it doesn't exist
     if (!form) {
       form = document.createElement('form');
       form.id = 'hiddenLoginForm';
@@ -169,6 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <input type="hidden" name="customer[password]">
         <input type="hidden" name="redirect_url">
       `;
+
       document.body.appendChild(form);
     }
 
@@ -177,28 +180,40 @@ document.addEventListener('DOMContentLoaded', function() {
     form.querySelector('input[name="customer[password]"]').value = password;
     form.querySelector('input[name="redirect_url"]').value = redirectUrl;
 
-    // ===== Create or reuse hidden iframe =====
+    // ===== Submit via hidden iframe to keep AJAX-style without page reload =====
     let iframe = document.getElementById('login-iframe');
     if (!iframe) {
       iframe = document.createElement('iframe');
-      iframe.id = 'login-iframe';
       iframe.name = 'login-iframe';
       iframe.style.display = 'none';
+      iframe.id = 'login-iframe';
       document.body.appendChild(iframe);
     }
 
     form.target = 'login-iframe';
-    form.submit(); // Shopify handles hCaptcha automatically
+    form.submit(); // Shopify handles CAPTCHA automatically
 
-    // ===== Fallback: redirect after submission =====
-    // Cannot access iframe content due to cross-origin, so redirect safely
-    setTimeout(() => {
-      {% comment %} window.location.href = redirectUrl; {% endcomment %}
-    }, 1000); // small delay to ensure Shopify sets session cookie
+    // ===== Detect iframe load to handle redirect or errors =====
+    iframe.onload = function() {
+      try {
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        const errorEl = iframeDoc.querySelector('.errors');
+        if (errorEl) {
+          errorDiv.textContent = errorEl.innerText;
+        } else {
+          // Success: redirect
+          window.location.href = redirectUrl;
+        }
+      } catch (err) {
+        console.log("errorr");
+        console.log(err);
+        // Cross-origin errors are normal; fallback to redirect
+        window.location.href = redirectUrl;
+      }
+    };
   });
 });
 </script>
-
 
 
 
