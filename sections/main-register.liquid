@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== Fallback: redirect after submission =====
     // Cannot access iframe content due to cross-origin, so redirect safely
     setTimeout(() => {
-      window.location.href = redirectUrl;
+      {% comment %} window.location.href = redirectUrl; {% endcomment %}
     }, 1000); // small delay to ensure Shopify sets session cookie
   });
 });
