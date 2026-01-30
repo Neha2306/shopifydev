@@ -434,5 +434,21 @@
 </script>
 
   {% include 'store-credit-launcher' %}
+
+  <!-- Session / inactivity timeout modal -->
+<div id="session-timeout-overlay" style="display:none;">
+  <div id="session-timeout-modal">
+    <h2>Your session is about to expire</h2>
+    <p>
+      For your security, we’ll sign you out soon if there’s no activity.
+      Click “Stay signed in” to continue shopping.
+    </p>
+    <button id="session-timeout-stay">Stay signed in</button>
+    <button id="session-timeout-signout">Sign out</button>
+  </div>
+</div>
+
+<!-- Load timeout script -->
+<script src="{{ 'session-timeout.js' | asset_url }}" defer></script>
 </body>
 </html>
