@@ -115,7 +115,12 @@ function startTimerLoop() {
     if (isLoggedIn()) {
        console.log("loggedin");
       const minutesLeft = LOGIN_MAX_MIN - loginMinutes;
-
+      console.log("LOGIN_MAX_MIN");
+      console.log(LOGIN_MAX_MIN);
+      console.log("loginMinutes");
+      console.log(loginMinutes);
+      console.log("minutesLeft");
+      console.log(minutesLeft);
       // Show warning when close to logout
       if (minutesLeft <= WARNING_MIN_BEFORE_LOGOUT && minutesLeft > 0) {
         showWarningModal();
