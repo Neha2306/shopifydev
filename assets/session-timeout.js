@@ -1,7 +1,7 @@
 // ---------- CONFIG ----------
 const BROWSING_INACTIVITY_MIN = 30;   // browsing/analytics inactivity
-const LOGIN_MAX_MIN = 24 * 60;        // max logged-in time (~24h)
-const WARNING_MIN_BEFORE_LOGOUT = 5;  // show modal 5 min before logout
+const LOGIN_MAX_MIN = 5;        // max logged-in time (~24h)
+const WARNING_MIN_BEFORE_LOGOUT = 2;  // show modal 5 min before logout
 
 // Keys for localStorage
 const LS_KEYS = {
