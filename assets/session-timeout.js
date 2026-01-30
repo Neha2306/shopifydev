@@ -1,7 +1,7 @@
 // ---------- CONFIG ----------
 const BROWSING_INACTIVITY_MIN = 30;   // browsing/analytics inactivity
-const LOGIN_MAX_MIN = 5;        // max logged-in time (~24h)
-const WARNING_MIN_BEFORE_LOGOUT = 2;  // show modal 5 min before logout
+const LOGIN_MAX_MIN = 24 * 60;        // max logged-in time (~24h)
+const WARNING_MIN_BEFORE_LOGOUT = 5;  // show modal 5 min before logout
 
 // Keys for localStorage
 const LS_KEYS = {
@@ -113,8 +113,10 @@ function startTimerLoop() {
 
     // 2) Logged-in max session time + warning
     if (isLoggedIn()) {
+        
       const minutesLeft = LOGIN_MAX_MIN - loginMinutes;
-
+      console.log("minutesLeft");
+console.log(minutesLeft);
       // Show warning when close to logout
       if (minutesLeft <= WARNING_MIN_BEFORE_LOGOUT && minutesLeft > 0) {
         showWarningModal();
