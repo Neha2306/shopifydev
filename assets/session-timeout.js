@@ -128,6 +128,8 @@ console.log(minutesLeft);
         window.location.href = '/account/logout?return_url=/account/login';
       }
     } else {
+        console.log("loginMinutes");
+console.log(loginMinutes);
       hideWarningModal();
     }
   }, 30 * 1000); // check every 30 seconds
