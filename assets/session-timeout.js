@@ -1,7 +1,7 @@
 // ---------- CONFIG ----------
 const BROWSING_INACTIVITY_MIN = 30;   // browsing/analytics inactivity
-const LOGIN_MAX_MIN = 5;        // max logged-in time (~24h)
-const WARNING_MIN_BEFORE_LOGOUT = 2;  // show modal 5 min before logout
+const LOGIN_MAX_MIN = 24 * 60;        // max logged-in time (~24h)
+const WARNING_MIN_BEFORE_LOGOUT = 5;  // show modal 5 min before logout
 
 // Keys for localStorage
 const LS_KEYS = {
@@ -27,8 +27,10 @@ function isLoggedIn() {
   // Simple heuristic: Shopify sets this variable in some themes,
   // or you can inject it via Liquid.
   // Safer: inject via Liquid:
-  // <script>window.__customerLoggedIn = {{ customer ? 'true' : 'false' }};</script>
-  return  window.__customerLoggedIn = {{ customer | json }};
+  console.log("customer");
+  console.log(customer);
+  <script>window.__customerLoggedIn = {{ customer ? 'true' : 'false' }};</script>
+  return window.__customerLoggedIn;
 }
 
 // ---------- STATE INIT ----------
@@ -110,10 +112,9 @@ function startTimerLoop() {
       // You can also clear personalization state here.
       // This is silent, no UX required.
     }
-    console.log("isLoggedIn");
+
     // 2) Logged-in max session time + warning
     if (isLoggedIn()) {
-        console.log("loggedin")
       const minutesLeft = LOGIN_MAX_MIN - loginMinutes;
 
       // Show warning when close to logout
@@ -127,7 +128,6 @@ function startTimerLoop() {
         window.location.href = '/account/logout?return_url=/account/login';
       }
     } else {
-        console.log("Nonloggedin")
       hideWarningModal();
     }
   }, 30 * 1000); // check every 30 seconds
