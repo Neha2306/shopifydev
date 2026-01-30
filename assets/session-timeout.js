@@ -133,6 +133,7 @@ function startTimerLoop() {
       }
     } else {
       console.log("ot loggedin");
+      console.log(isLoggedIn());
       hideWarningModal();
     }
   }, 30 * 1000); // check every 30 seconds
