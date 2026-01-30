@@ -28,7 +28,7 @@ function isLoggedIn() {
   // or you can inject it via Liquid.
   // Safer: inject via Liquid:
   // <script>window.__customerLoggedIn = {{ customer ? 'true' : 'false' }};</script>
-  return window.__customerLoggedIn === true;
+  return window.isCustomerLoggedIn;
 }
 
 // ---------- STATE INIT ----------
