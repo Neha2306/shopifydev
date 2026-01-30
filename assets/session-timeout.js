@@ -1,15 +1,13 @@
 // ---------- CONFIG ----------
 const BROWSING_INACTIVITY_MIN = 30;   // browsing/analytics inactivity
-const LOGIN_MAX_MIN = 24 * 60;        // max logged-in time (~24h)
-const WARNING_MIN_BEFORE_LOGOUT = 5;  // show modal 5 min before logout
+const LOGIN_MAX_MIN = 5        // max logged-in time (~24h)
+const WARNING_MIN_BEFORE_LOGOUT = 1;  // show modal 5 min before logout
 
 // Keys for localStorage
 const LS_KEYS = {
   lastActivity: 'shop_session_last_activity',
   loginStartedAt: 'shop_login_started_at',
 };
-
-console.log("sdfsdfsdf")
 
 // ---------- HELPERS ----------
 function nowMs() {
@@ -112,9 +110,10 @@ function startTimerLoop() {
       // You can also clear personalization state here.
       // This is silent, no UX required.
     }
-
+    console.log("isLoggedIn");
     // 2) Logged-in max session time + warning
     if (isLoggedIn()) {
+        console.log("LoggedIn");
       const minutesLeft = LOGIN_MAX_MIN - loginMinutes;
 
       // Show warning when close to logout
@@ -128,6 +127,7 @@ function startTimerLoop() {
         window.location.href = '/account/logout?return_url=/account/login';
       }
     } else {
+        console.log("NonLoggedIn");
       hideWarningModal();
     }
   }, 30 * 1000); // check every 30 seconds
