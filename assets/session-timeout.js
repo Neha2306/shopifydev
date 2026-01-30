@@ -9,6 +9,8 @@ const LS_KEYS = {
   loginStartedAt: 'shop_login_started_at',
 };
 
+console.log("sdfsdfsdf")
+
 // ---------- HELPERS ----------
 function nowMs() {
   return Date.now();
@@ -113,10 +115,8 @@ function startTimerLoop() {
 
     // 2) Logged-in max session time + warning
     if (isLoggedIn()) {
-        
       const minutesLeft = LOGIN_MAX_MIN - loginMinutes;
-      console.log("minutesLeft");
-console.log(minutesLeft);
+
       // Show warning when close to logout
       if (minutesLeft <= WARNING_MIN_BEFORE_LOGOUT && minutesLeft > 0) {
         showWarningModal();
@@ -128,8 +128,6 @@ console.log(minutesLeft);
         window.location.href = '/account/logout?return_url=/account/login';
       }
     } else {
-        console.log("loginMinutes");
-console.log(loginMinutes);
       hideWarningModal();
     }
   }, 30 * 1000); // check every 30 seconds
