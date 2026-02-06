@@ -51,6 +51,8 @@
       })
       .then(response => response.json())
       .then(data => {
+        console.log("data");
+        console.log(data);
         if (data.ok) {
           statusBox.style.color = 'green';
           statusBox.textContent = 'Account created successfully. Please check your email to log in.';
