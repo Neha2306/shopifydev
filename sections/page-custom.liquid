@@ -16,7 +16,7 @@
     }
   }
 {%- endstyle -%}
-{{ customer }}
+{{ customer.orders.first.created_at }}
 <div class="customer order section-{{ section.id }}-padding">
   <div>
     <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
