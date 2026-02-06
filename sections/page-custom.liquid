@@ -45,10 +45,10 @@
       jQuery.ajax({
         url: "https://601e-13-93-119-81.ngrok-free.app/webhooks/orders-create",
         method: "POST", // The HTTP method to use for the request
-        {% comment %} dataType: "json", // The type of data that you’re exerciseecting back {% endcomment %}
+        dataType: "json", // The type of data that you’re exerciseecting back
         {% comment %} headers: {“X-Shopify-Access-Token”: “7a914f63fda68e2af725acd6bbfcaf51”}, {% endcomment %}
         {% comment %} headers: { 'Content-Type': 'application/json' }, {% endcomment %}
-        body: payload,
+        data: payload,
         crossDomain: true,
         error: function(response) {
           console.log("error")
