@@ -48,7 +48,10 @@
         dataType: "json", // The type of data that you’re exerciseecting back
         {% comment %} headers: {“X-Shopify-Access-Token”: “7a914f63fda68e2af725acd6bbfcaf51”}, {% endcomment %}
         {% comment %} headers: { 'Content-Type': 'application/json' }, {% endcomment %}
-        data: payload,
+        data: {                      // Data to be sent to the server
+        param1: "value1",
+        param2: "value2"
+    },
         crossDomain: true,
         error: function(response) {
           console.log("error")
