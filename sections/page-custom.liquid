@@ -1,11 +1,23 @@
 {% if customer %}
 
   
-<form id="registrationform" class="registrationform">
-  <input id="firstname" name="firstname" class="firstname">
-  <input id="firstname" name="lastname" class="lastname">
-  <input id="emailaddress" name="emailaddress" class="emailaddress">
-  <input id="contactnumber" name="contactnumber" class="contactnumber">
+<form id="registrationform" class="registrationform" autocomplete="off" data-discover="true">
+  <div class="form-group">
+    <label for="firstname">First Name <span aria-hidden="true" style="color: red;">*</span></label>
+    <input type="text" id="firstname" name="firstname" aria-required="true" value="">
+  </div>
+  <div class="form-group">
+    <label for="lastname">Last Name <span aria-hidden="true" style="color: red;">*</span></label>
+    <input type="text" id="lastname" name="lastname" aria-required="true" value="">
+  </div>
+  <div class="form-group">
+    <label for="emailaddress">Email Address <span aria-hidden="true" style="color: red;">*</span></label>
+    <input type="email" id="emailaddress" name="emailaddress" aria-required="true" value="">
+  </div>
+  <div class="form-group">
+    <label for="contactnumber">Contact Number <span aria-hidden="true" style="color: red;">*</span></label>
+    <input type="number" id="contactnumber" name="contactnumber" aria-required="true" value="">
+  </div>
   <input type="hidden" value="Demo@123456">
   <button type="button">Create Customer</button>
 </form>
