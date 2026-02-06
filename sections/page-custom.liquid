@@ -45,7 +45,8 @@
       fetch('https://601e-13-93-119-81.ngrok-free.app/webhooks/orders-create', {  // <-- your app proxy or backend route
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify(payload)
       })
