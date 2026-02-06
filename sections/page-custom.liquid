@@ -22,7 +22,54 @@
   <button type="button">Create Customer</button>
 </form>
 
-  
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('ajax-customer-register');
+    const statusBox = document.getElementById('register-status');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      statusBox.textContent = 'Creating your account...';
+
+      const formData = new FormData(form);
+
+      const payload = {
+        firstName: formData.get('firstname') || '',
+        lastName: formData.get('lastname') || '',
+        email: formData.get('emailaddress') || '',
+        phone: formData.get('contactnumber') || '',
+        emailMarketing: formData.get('emailMarketing') === 'on',
+        smsMarketing: formData.get('smsMarketing') === 'on'
+      };
+
+      fetch('https://601e-13-93-119-81.ngrok-free.app/orders-create', {  // <-- your app proxy or backend route
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.ok) {
+          statusBox.style.color = 'green';
+          statusBox.textContent = 'Account created successfully. Please check your email to log in.';
+          // You can also redirect to new accounts login page if you want:
+          // window.location.href = "{{ routes.account_login_url }}";
+        } else {
+          statusBox.style.color = 'red';
+          statusBox.textContent = data.error || 'There was a problem creating your account.';
+        }
+      })
+      .catch(err => {
+        console.error('Registration error:', err);
+        statusBox.style.color = 'red';
+        statusBox.textContent = 'An unexpected error occurred. Please try again.';
+      });
+    });
+  });
+</script>
+
 {% else %}
   <script>
     window.location.replace("{{ routes.root_url }}");
