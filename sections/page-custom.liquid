@@ -1,4 +1,3 @@
-{% if customer %}
 <section class="page-custom">
   <div class="page-custom__inner">
     <h1 class="page-custom__title">
@@ -75,12 +74,6 @@
     fetchProducts();
   })();
 {% endjavascript %} {% endcomment %}
-
-{% else %}
-   <script>
-    window.location.href = "{{ routes.account_login_url }}";
-  </script>
-{% endif %}
 
 {% schema %}
 {
