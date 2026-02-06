@@ -46,7 +46,7 @@
         url: "https://601e-13-93-119-81.ngrok-free.app/webhooks/orders-create",
         method: "POST", // The HTTP method to use for the request
         dataType: "json", // The type of data that you’re exerciseecting back
-        {% comment %} headers: {“X-Shopify-Access-Token”: “7a914f63fda68e2af725acd6bbfcaf51”}, {% endcomment %}
+        headers: {"Access-Control-Allow-Origin": "*"},
         crossDomain: true,
         error: function(response) {
           console.log("error")
@@ -71,6 +71,7 @@
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
         },
+        crossDomain: true,
         body: JSON.stringify(payload)
       })
       .then(response => response.json())
