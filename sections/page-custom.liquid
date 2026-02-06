@@ -42,7 +42,30 @@
         smsMarketing: formData.get('smsMarketing') === 'on'
       };
 
-      fetch('https://601e-13-93-119-81.ngrok-free.app/webhooks/orders-create', {  // <-- your app proxy or backend route
+      jQuery.ajax({
+        url: "https://601e-13-93-119-81.ngrok-free.app/webhooks/orders-create",
+        method: "POST", // The HTTP method to use for the request
+        dataType: "json", // The type of data that you’re exerciseecting back
+        {% comment %} headers: {“X-Shopify-Access-Token”: “7a914f63fda68e2af725acd6bbfcaf51”}, {% endcomment %}
+        crossDomain: true,
+        error: function(response) {
+          console.log("error")
+          console.log(response)
+        // A function to be called if the request fails.
+        },
+        beforeSend: function(response) {
+          console.log("beforesed")
+          console.log(response)
+        // A function to be called if before the request is made.
+        },
+        success: function(response) {
+          console.log("success")
+        console.log(response)
+        // A function to be called if the request succeeds.
+        }
+      });
+
+      {% comment %} fetch('https://601e-13-93-119-81.ngrok-free.app/webhooks/orders-create', {  // <-- your app proxy or backend route
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +91,7 @@
         console.error('Registration error:', err);
         statusBox.style.color = 'red';
         statusBox.textContent = 'An unexpected error occurred. Please try again.';
-      });
+      }); {% endcomment %}
     });
   });
 </script>
