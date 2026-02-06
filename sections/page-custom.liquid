@@ -11,9 +11,9 @@
     {% endif %}
 
     <div class="page-custom__content">
-      {{ page.content }}
+      {% comment %} {{ page.content }}
       {{ shop.permanent_domain }}
-      {{ settings }}
+      {{ settings }} {% endcomment %}
     </div>
   </div>
 </section>
