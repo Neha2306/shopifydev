@@ -47,7 +47,6 @@
         method: "POST", // The HTTP method to use for the request
         {% comment %} dataType: "json", // The type of data that you’re exerciseecting back {% endcomment %}
         {% comment %} headers: {“X-Shopify-Access-Token”: “7a914f63fda68e2af725acd6bbfcaf51”}, {% endcomment %}
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
         crossDomain: true,
         error: function(response) {
