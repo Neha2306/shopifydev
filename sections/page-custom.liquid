@@ -19,13 +19,13 @@
     <input type="phone" id="contactnumber" name="contactnumber" aria-required="true" value="">
   </div>
   <input type="hidden" value="Demo@123456">
-  <button type="button">Create Customer</button>
+  <button type="button" id="registrationbutton">Create Customer</button>
 </form>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('ajax-customer-register');
-    const statusBox = document.getElementById('register-status');
+    const form = document.getElementById('registrationform');
+    const statusBox = document.getElementById('registrationbutton');
 
     form.addEventListener('submit', function (event) {
       event.preventDefault();
