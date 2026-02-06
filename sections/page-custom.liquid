@@ -76,7 +76,9 @@
   })();
 {% endjavascript %} {% endcomment %}
 {% else %}
-  <p>Not Loggedin</p>
+  <script>
+    window.location.replace("{{ routes.root_url }}");
+  </script>
 {% endif %}
 {% schema %}
 {
