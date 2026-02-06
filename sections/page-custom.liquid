@@ -1,3 +1,4 @@
+{% if customer %}
 <section class="page-custom">
   <div class="page-custom__inner">
     <h1 class="page-custom__title">
@@ -74,6 +75,10 @@
     fetchProducts();
   })();
 {% endjavascript %} {% endcomment %}
+
+{% else %}
+  <meta http-equiv="refresh" content="0;url={{ routes.account_login_url }}">
+{% endif %}
 
 {% schema %}
 {
