@@ -1,3 +1,4 @@
+{% if customer %}
 <section class="page-custom">
   <div class="page-custom__inner">
     <h1 class="page-custom__title">
@@ -74,7 +75,9 @@
     fetchProducts();
   })();
 {% endjavascript %} {% endcomment %}
-
+{% else %}
+  <p>Not Loggedin</p>
+{% endif %}
 {% schema %}
 {
   "name": "Custom page content",
