@@ -29,6 +29,7 @@
     },
     "main": {
       "type": "page-custom",
+      "disabled": true,
       "settings": {}
     }
   },
