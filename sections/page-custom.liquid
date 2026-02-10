@@ -42,7 +42,7 @@
         smsMarketing: formData.get('smsMarketing') === 'on'
       };
 
-      fetch('/apps/customer-dashboard/points', {
+      fetch('http://localhost:5000/apps/customer-dashboard/points', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
