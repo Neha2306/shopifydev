@@ -42,7 +42,23 @@
         smsMarketing: formData.get('smsMarketing') === 'on'
       };
 
-      jQuery.ajax({
+      fetch('/apps/customer-dashboard/points', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          action: 'add_points',
+          points: 50
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log('Response:', data);
+      })
+      .catch(err => console.error(err));
+
+      {% comment %} jQuery.ajax({
         url: "http://localhost:5000/apps/customer-dashboard/points",
         method: "POST", // The HTTP method to use for the request
         dataType: "json", // The type of data that you’re exerciseecting back
@@ -65,7 +81,7 @@
         console.log(response)
         // A function to be called if the request succeeds.
         }
-      });
+      }); {% endcomment %}
 
       {% comment %} fetch('https://601e-13-93-119-81.ngrok-free.app/webhooks/orders-create', {  // <-- your app proxy or backend route
         method: 'POST',
