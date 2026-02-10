@@ -52,9 +52,9 @@
           points: 50
         })
       })
-      .then(res => res.json())
-      .then(data => {
-        console.log('Response:', data);
+      .then(async res => {
+        const text = await res.text();   // 👈 IMPORTANT
+        console.log('RAW RESPONSE:', text);
       })
       .catch(err => console.error(err));
 
