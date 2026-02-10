@@ -116,9 +116,9 @@
 </script>
 
 {% else %}
-  <script>
+  {% comment %} <script>
     window.location.replace("{{ routes.root_url }}");
-  </script>
+  </script> {% endcomment %}
 {% endif %}
 {% schema %}
 {
