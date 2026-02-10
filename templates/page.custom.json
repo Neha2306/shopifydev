@@ -9,10 +9,6 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "page-custom",
-      "settings": {}
-    },
     "177071386164251b24": {
       "type": "apps",
       "blocks": {
@@ -30,10 +26,14 @@
       "settings": {
         "include_margins": true
       }
+    },
+    "main": {
+      "type": "page-custom",
+      "settings": {}
     }
   },
   "order": [
-    "main",
-    "177071386164251b24"
+    "177071386164251b24",
+    "main"
   ]
 }
