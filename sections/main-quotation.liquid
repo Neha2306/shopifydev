@@ -2,24 +2,11 @@
     <p>Hello, {{ customer.first_name }}!</p>
     {% assign path_parts = request.path | split: '/' %}
     {% assign quote_number = path_parts | last %}
-    <div id="prepare-quote-wrapper">
-        
+    <div class="page-width">
+        <div id="prepare-quote-wrapper">
+
+        </div>
     </div>
-    <section
-  class="quotation-section"
-  style="
-    --quotation-margin-top: {{ section.settings.margin_top }}px;
-    --quotation-margin-bottom: {{ section.settings.margin_bottom }}px;
-    --quotation-margin-left: {{ section.settings.margin_left }}px;
-    --quotation-margin-right: {{ section.settings.margin_right }}px;
-  "
-  {{ section.shopify_attributes }}
->
-  <div class="quotation-section__inner ">
-    sdfsdfsdfsf
-  </div>
-</section>
-<div class="page-width">sdfjsdfkjsdjf</div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {       
             const quoteNumber = "{{ quote_number }}"; 
@@ -43,64 +30,10 @@
         });
     </script>
 {% endif %}
-{% stylesheet %}
-  .quotation-section {
-    margin-top: var(--quotation-margin-top);
-    margin-bottom: var(--quotation-margin-bottom);
-    margin-left: var(--quotation-margin-left);
-    margin-right: var(--quotation-margin-right);
-  }
-
-  .quotation-section__inner {
-    max-width: var(--page-width);
-    margin-inline: auto;
-  }
-{% endstylesheet %}
 {% schema %}
 {
   "name": "Quotation",
-  "settings": [
-    {
-      "type": "range",
-      "id": "margin_top",
-      "label": "t:sections.quotation.settings.margin_top.label",
-      "min": 0,
-      "max": 200,
-      "step": 4,
-      "unit": "px",
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "margin_bottom",
-      "label": "t:sections.quotation.settings.margin_bottom.label",
-      "min": 0,
-      "max": 200,
-      "step": 4,
-      "unit": "px",
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "margin_left",
-      "label": "t:sections.quotation.settings.margin_left.label",
-      "min": 0,
-      "max": 200,
-      "step": 4,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "margin_right",
-      "label": "t:sections.quotation.settings.margin_right.label",
-      "min": 0,
-      "max": 200,
-      "step": 4,
-      "unit": "px",
-      "default": 0
-    }
-  ],
+  "settings": [],
   "presets": [
     {
       "name": "Quotation"
