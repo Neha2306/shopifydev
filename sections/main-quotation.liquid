@@ -43,6 +43,19 @@
         });
     </script>
 {% endif %}
+{% stylesheet %}
+  .quotation-section {
+    margin-top: var(--quotation-margin-top);
+    margin-bottom: var(--quotation-margin-bottom);
+    margin-left: var(--quotation-margin-left);
+    margin-right: var(--quotation-margin-right);
+  }
+
+  .quotation-section__inner {
+    max-width: 60rem;
+    margin-inline: auto;
+  }
+{% endstylesheet %}
 {% schema %}
 {
   "name": "Quotation",
