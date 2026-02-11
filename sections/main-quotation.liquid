@@ -98,9 +98,11 @@
                                 const set1 = document.getElementById('prepare-quote-wrapper');
                                 console.log("set");
                                 console.log(set1.innerHTML);
-                                const html = DOM.getSection('prepare-quote-wrapper');
-                                console.log("html");
-                                console.log(html);
+                                const parser = new DOMParser();
+                                const doc = parser.parseFromString(html, 'text/html');
+                                console.log("doc");
+                                console.log(doc);
+
                                 {% comment %} const url = new URL(window.location.href);
                                 const response = await fetch(url.toString(), {
                                     headers: {
