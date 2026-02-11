@@ -51,7 +51,6 @@
 
                     // Optional: do something with the new quantity for this product
                     const productId = wrapper.dataset.productId;
-                    console.log(`Product ${productId} quantity: ${input.value}`);
                 }
                 
                 if (e.target.matches(".update-quote-btn")) {
@@ -66,8 +65,7 @@
                         const quantityInput = li.querySelector(".quantity");
 
                         return {
-                            liId: li.id,
-                            productTitle,
+                            class: li.className,
                             price: priceInput ? parseFloat(priceInput.value) : 0,
                             quantity: quantityInput ? parseInt(quantityInput.value) : 0
                         };
