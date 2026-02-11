@@ -4,71 +4,18 @@
         {% assign path_parts = request.path | split: '/' %}
         {% assign quote_number = path_parts | last %}
         {% assign selected_quote = quotations | where: "quoteId", quote_number | first %}
-        {{selected_quote }}
-        <div class="page-width">
-            <div class="prepare-quotation-wrapper">
-                <p>Hello, {{ customer.first_name }}!</p>
-                <div id="prepare-quote-wrapper">
+        {% if selected_quote %}
+            <div class="page-width">
+                <div class="prepare-quotation-wrapper">
+                    <p>Hello, {{ customer.first_name }}!</p>
+                    <div id="prepare-quote-wrapper">
 
+                    </div>
                 </div>
             </div>
-        </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {       
-                const quoteNumber = "{{ quote_number }}"; 
-                fetch('/apps/customer-dashboard/customer/quote', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
-                    },
-                    body: JSON.stringify({
-                        action: 'fetch_quote',
-                        quoteNumber: quoteNumber,
-                    })
-                })
-                .then(async res => {
-                    const text = await res.json();
-                    if(text.status) {
-                        const el = document.getElementById('prepare-quote-wrapper');
-                        el.innerHTML = text.data;
-                    }
-                })
-                .catch(err => console.error(err));
-            });
-
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('qty-btn')) {
-                    const wrapper = e.target.closest('.quantity__wrapper');
-                    const input = wrapper.querySelector('input[type="number"]');
-                    let currentValue = parseInt(input.value);
-
-                    if (e.target.classList.contains('plus')) {
-                        input.value = currentValue + 1;
-                    }
-
-                    if (e.target.classList.contains('minus')) {
-                        input.value = currentValue > 1 ? currentValue - 1 : 1;
-                    }
-                }
-                
-                if (e.target.matches(".update-quote-btn")) {
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {       
                     const quoteNumber = "{{ quote_number }}"; 
-                    // Fetch All lis
-                    const allLis = document.querySelectorAll("#product-grid li");
-
-                    // Map all the details
-                    const quoteDetails = Array.from(allLis).map(li => {
-                        const priceInput = li.querySelector(".price");
-                        const quantityInput = li.querySelector(".quantity");
-
-                        return {
-                            class: li.className,
-                            price: priceInput ? parseFloat(priceInput.value) : 0,
-                            quantity: quantityInput ? parseInt(quantityInput.value) : 0
-                        };
-                    });
-
                     fetch('/apps/customer-dashboard/customer/quote', {
                         method: 'POST',
                         headers: {
@@ -76,21 +23,76 @@
                             'ngrok-skip-browser-warning': 'true'
                         },
                         body: JSON.stringify({
-                            action: 'update_quote',
+                            action: 'fetch_quote',
                             quoteNumber: quoteNumber,
-                            quoteDetails: quoteDetails
                         })
                     })
                     .then(async res => {
                         const text = await res.json();
-                        const el = document.getElementById('prepare-quote-wrapper');
-                        el.innerHTML = text.data;
+                        if(text.status) {
+                            const el = document.getElementById('prepare-quote-wrapper');
+                            el.innerHTML = text.data;
+                        }
                     })
                     .catch(err => console.error(err));
-                }
-            });
+                });
 
-        </script>
+                document.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('qty-btn')) {
+                        const wrapper = e.target.closest('.quantity__wrapper');
+                        const input = wrapper.querySelector('input[type="number"]');
+                        let currentValue = parseInt(input.value);
+
+                        if (e.target.classList.contains('plus')) {
+                            input.value = currentValue + 1;
+                        }
+
+                        if (e.target.classList.contains('minus')) {
+                            input.value = currentValue > 1 ? currentValue - 1 : 1;
+                        }
+                    }
+                    
+                    if (e.target.matches(".update-quote-btn")) {
+                        const quoteNumber = "{{ quote_number }}"; 
+                        // Fetch All lis
+                        const allLis = document.querySelectorAll("#product-grid li");
+
+                        // Map all the details
+                        const quoteDetails = Array.from(allLis).map(li => {
+                            const priceInput = li.querySelector(".price");
+                            const quantityInput = li.querySelector(".quantity");
+
+                            return {
+                                class: li.className,
+                                price: priceInput ? parseFloat(priceInput.value) : 0,
+                                quantity: quantityInput ? parseInt(quantityInput.value) : 0
+                            };
+                        });
+
+                        fetch('/apps/customer-dashboard/customer/quote', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'ngrok-skip-browser-warning': 'true'
+                            },
+                            body: JSON.stringify({
+                                action: 'update_quote',
+                                quoteNumber: quoteNumber,
+                                quoteDetails: quoteDetails
+                            })
+                        })
+                        .then(async res => {
+                            const text = await res.json();
+                            const el = document.getElementById('prepare-quote-wrapper');
+                            el.innerHTML = text.data;
+                        })
+                        .catch(err => console.error(err));
+                    }
+                });
+
+            </script>
+        {% endif %}
+        <p>sdfsdf<p>
     {% endif %}
 {% endif %}
 {% schema %}
