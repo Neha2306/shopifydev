@@ -6,8 +6,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {       
             const quoteNumber = "{{ quote_number }}"; 
-            console.log("quoteNumber");
-            console.log(quoteNumber);
             fetch('/apps/customer-dashboard/customer/fetchquote', {
                 method: 'POST',
                 headers: {
