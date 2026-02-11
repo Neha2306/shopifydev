@@ -58,6 +58,7 @@
                         if (e.target.classList.contains('minus')) {
                             input.value = currentValue > 1 ? currentValue - 1 : 1;
                         }
+                        input.setAttribute('value', input.value);
                     }
                     
                     if (e.target.matches(".update-quote-btn")) {
