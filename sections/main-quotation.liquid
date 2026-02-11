@@ -65,7 +65,6 @@
                 });
 
                 document.addEventListener('click', function(e) {
-                    
                     if (e.target.classList.contains('qty-btn')) {
                         const wrapper = e.target.closest('.quantity__wrapper');
                         const input = wrapper.querySelector('input[type="number"]');
@@ -84,9 +83,6 @@
                     }
                     
                     if (e.target.matches(".update-quote-btn")) {
-                        console.log('{{ selected_quote_json }}');
-                        console.log('{{ signature }}');
-                        console.log("step-1")
                         const quoteNumber = "{{ quote_number }}"; 
                         const quoteTitle = document.getElementById('quotation-title').value;
                         // Fetch All lis
@@ -103,7 +99,7 @@
                                 quantity: quantityInput ? parseInt(quantityInput.value) : 1
                             };
                         });
-console.log("step-2")
+
                         //Quote Update Request
                         fetch('/apps/customer-dashboard/customer/quote', {
                             method: 'POST',
@@ -120,10 +116,7 @@ console.log("step-2")
                             })
                         })
                         .then(async res => {
-                            console.log("step")
                             const text = await res.json();
-                            console.log("text");
-                            console.log(text);
                             if(text.status) {
                                 const set1 = document.getElementById('prepare-quote-wrapper');
                                 const url = new URL(window.location.href);
