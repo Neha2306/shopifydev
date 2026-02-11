@@ -5,18 +5,17 @@
         <ul>
             {% for quote in quotations %}
                 <li style="display: flex; align-items: center; margin-bottom: 10px;">
-                <!-- Download Button on Left -->
-                <a href="/quotation/{{ quote.quotationId }}/download" 
-                    style="margin-right: 10px; text-decoration: none;">
-                    <button type="button" style="padding: 5px 10px; cursor: pointer;">
-                    Download
-                    </button>
-                </a>
-
-                <!-- Quotation Name Link -->
-                <a href="/quotation/{{ quote.quotationId }}">
-                    {{ quote.quotationName }}
-                </a>
+                    <!-- Quotation Name Link -->
+                    <a href="/quotation/{{ quote.quotationId }}">
+                        {{ quote.quotationName }}
+                    </a>
+                    <!-- Download Button on Left -->
+                    <a href="/quotation/{{ quote.quotationId }}/download" 
+                        style="margin-right: 10px; text-decoration: none;">
+                        <button type="button" style="padding: 5px 10px; cursor: pointer;">
+                        Download
+                        </button>
+                    </a>
                 </li>
             {% endfor %}
         </ul>
