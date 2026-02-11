@@ -19,7 +19,7 @@
                 </div>
             </div>
             <script>
-                document.addEventListener('DOMContentLoaded', function () {       
+                function fetchQuoteDetails() {
                     const quoteNumber = "{{ quote_number }}"; 
                     fetch('/apps/customer-dashboard/customer/quote', {
                         method: 'POST',
@@ -40,6 +40,9 @@
                         }
                     })
                     .catch(err => console.error(err));
+                }
+                document.addEventListener('DOMContentLoaded', function () {  
+                    fetchQuoteDetails();     
                 });
 
                 document.addEventListener('click', function(e) {
