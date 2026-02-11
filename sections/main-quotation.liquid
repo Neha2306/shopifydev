@@ -1,0 +1,15 @@
+{% if customer %}
+    <p>Hello, {{ customer.first_name }}!</p>
+    
+{% endif %}
+{% schema %}
+{
+  "name": "Quotation",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Quotation"
+    }
+  ]
+}
+{% endschema %}
