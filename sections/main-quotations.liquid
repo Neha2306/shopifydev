@@ -4,7 +4,16 @@
         {% assign quotations = customer.metafields.custom.quotationslists.value %}
         <ul>
             {% for quote in quotations %}
-                <li>
+                <li style="display: flex; align-items: center; margin-bottom: 10px;">
+                <!-- Download Button on Left -->
+                <a href="/quotation/{{ quote.quotationId }}/download" 
+                    style="margin-right: 10px; text-decoration: none;">
+                    <button type="button" style="padding: 5px 10px; cursor: pointer;">
+                    Download
+                    </button>
+                </a>
+
+                <!-- Quotation Name Link -->
                 <a href="/quotation/{{ quote.quotationId }}">
                     {{ quote.quotationName }}
                 </a>
