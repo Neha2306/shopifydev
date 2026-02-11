@@ -16,7 +16,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {       
                 const quoteNumber = "{{ quote_number }}"; 
-                const quoteDetails = "{{ selected_quote }}"; 
+                const quoteDetails = `{{ selected_quote }}`; 
                 fetch('/apps/customer-dashboard/customer/fetchquote', {
                     method: 'POST',
                     headers: {
