@@ -84,7 +84,7 @@
                     }
                     
                     if (e.target.matches(".update-quote-btn")) {
-                        alert("dasdasd")
+                        console.log("step-1")
                         const quoteNumber = "{{ quote_number }}"; 
                         const quoteTitle = document.getElementById('quotation-title').value;
                         // Fetch All lis
@@ -118,7 +118,10 @@
                             })
                         })
                         .then(async res => {
+                            console.log("step")
                             const text = await res.json();
+                            console.log("text");
+                            console.log(text);
                             if(text.status) {
                                 const set1 = document.getElementById('prepare-quote-wrapper');
                                 const url = new URL(window.location.href);
