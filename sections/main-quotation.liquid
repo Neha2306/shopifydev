@@ -94,6 +94,9 @@
                             if(text.status) {
                                 console.log("text");
                                 console.log(text);
+                                const set11 = document.getElementById('prepare-quote-wrapper');
+                                console.log("innerHTML");
+                                console.log(set11.innerHTML);
 
                                 const url = new URL(window.location.href);
                                 const response = await fetch(url.toString(), {
@@ -115,11 +118,7 @@
                                 const el = document.getElementById('main-page-wrapper');
                                 el.innerHTML = newSection.innerHTML;
                                 const set = document.getElementById('prepare-quote-wrapper');
-                                console.log("set");
-                                console.log(set);
-                                console.log("innerHTML");
-                                console.log(set.innerHTML);
-                                set.innerHTML = set.innerHTML;
+                                set.innerHTML = set11.innerHTML;
                             }
                         })
                         .catch(err => console.error(err));
