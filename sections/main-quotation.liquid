@@ -7,7 +7,7 @@
         {% if selected_quote %}
             
             {% assign selected_quote_json = quotations | where: "quoteId", quote_number | first | json %}
-            {{selected_quote_json }}
+            {{selected_quote }}
             {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
             {% assign signature = selected_quote | hmac_sha256: secret %}
 
