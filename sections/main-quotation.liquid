@@ -2,7 +2,9 @@
     <p>Hello, {{ customer.first_name }}!</p>
     {% assign path_parts = request.path | split: '/' %}
     {% assign quote_number = path_parts | last %}
-    {{ quote_number }}
+    <div id="prepare-quote-wrapper">
+
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {       
             const quoteNumber = "{{ quote_number }}"; 
