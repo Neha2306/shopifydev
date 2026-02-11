@@ -8,15 +8,14 @@
             const quoteNumber = "{{ quote_number }}"; 
             console.log("quoteNumber");
             console.log(quoteNumber);
-            {% comment %} fetch('/apps/customer-dashboard/quotes', {
+            {% comment %} fetch('/apps/customer-dashboard/customer/quotes', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
-                    action: 'add_points',
-                    points: 50
+                    quoteNumber: quoteNumber,
                 })
             })
             .then(async res => {
