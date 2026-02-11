@@ -53,6 +53,30 @@
                     const productId = wrapper.dataset.productId;
                     console.log(`Product ${productId} quantity: ${input.value}`);
                 }
+                
+                if (e.target.matches(".update-quote-btn")) {
+    
+                    // Get all <li> items inside the product grid
+                    const allLis = document.querySelectorAll("#product-grid li");
+
+                    // Map each <li> to a structured object
+                    const allQuoteData = Array.from(allLis).map(li => {
+                        const productTitle = li.querySelector("h3")?.innerText || "";
+                        const priceInput = li.querySelector(".price-input");
+                        const quantityInput = li.querySelector(".quantity-input");
+
+                        return {
+                            liId: li.id,
+                            productTitle,
+                            price: priceInput ? parseFloat(priceInput.value) : 0,
+                            quantity: quantityInput ? parseInt(quantityInput.value) : 0
+                        };
+                    });
+
+                    console.log("All Quote Items:", allQuoteData);
+
+                    // TODO: send allQuoteData via AJAX/fetch to update the server
+                }
             });
 
         </script>
