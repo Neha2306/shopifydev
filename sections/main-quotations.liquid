@@ -1,24 +1,10 @@
-{% unless customer %}
-  <script>
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() {
-        window.location.href = '{{ routes.account_login_url }}';
-      });
-    } else {
-      window.location.href = '{{ routes.account_login_url }}';
-    }
-  </script>
-  <noscript>
-    <meta http-equiv="refresh" content="0;url={{ routes.account_login_url }}">
-  </noscript>
-{% endunless %}
 {% if customer %}
   <p>Hello, {{ customer.first_name }}!</p>
 
-{% else %}
+{% comment %} {% else %}
   <script>
     window.location.replace("{{ routes.root_url }}");
-  </script>
+  </script> {% endcomment %}
 {% endif %}
 {% schema %}
 {
