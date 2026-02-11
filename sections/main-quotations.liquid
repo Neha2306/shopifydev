@@ -1,0 +1,82 @@
+{% if customer %}
+  <p>Hello, {{ customer.first_name }}!</p>
+<form id="registrationform" class="registrationform" autocomplete="off" data-discover="true">
+  <div class="form-group">
+    <label for="firstname">First Name <span aria-hidden="true" style="color: red;">*</span></label>
+    <input type="text" id="firstname" name="firstname" aria-required="true" value="">
+  </div>
+  <div class="form-group">
+    <label for="lastname">Last Name <span aria-hidden="true" style="color: red;">*</span></label>
+    <input type="text" id="lastname" name="lastname" aria-required="true" value="">
+  </div>
+  <div class="form-group">
+    <label for="emailaddress">Email Address <span aria-hidden="true" style="color: red;">*</span></label>
+    <input type="email" id="emailaddress" name="emailaddress" aria-required="true" value="">
+  </div>
+  <div class="form-group">
+    <label for="contactnumber">Contact Number <span aria-hidden="true" style="color: red;">*</span></label>
+    <input type="phone" id="contactnumber" name="contactnumber" aria-required="true" value="">
+  </div>
+  <input type="hidden" value="Demo@123456">
+  <button type="button" id="registrationbutton">Create Customer</button>
+</form>
+<div id="dashboard-content"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    {% comment %} const form = document.getElementById('registrationform');
+    const statusBox = document.getElementById('registrationbutton');
+
+    form.addEventListener('click', function (event) {
+      event.preventDefault();
+      statusBox.textContent = 'Creating your account...';
+
+      const formData = new FormData(form);
+
+      const payload = {
+        firstName: formData.get('firstname') || '',
+        lastName: formData.get('lastname') || '',
+        email: formData.get('emailaddress') || '',
+        phone: formData.get('contactnumber') || '',
+        emailMarketing: formData.get('emailMarketing') === 'on',
+        smsMarketing: formData.get('smsMarketing') === 'on'
+      }; {% endcomment %}
+  
+      fetch('/apps/customer-dashboard/customer/wishlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+          action: 'add_points',
+          points: 50
+        })
+      })
+      .then(async res => {
+        const text = await res.json();
+        console.log('RAW RESPONSE:', text);
+        const el = document.getElementById('dashboard-content');
+        el.innerHTML = text.data; // Insert HTML snippet from your API
+        console.log('RAW RESPONSE:', text.message);
+      })
+      .catch(err => console.error(err));
+    {% comment %} }); {% endcomment %}
+  });
+</script>
+{% else %}
+  <script>
+    window.location.replace("{{ routes.root_url }}");
+  </script>
+{% endif %}
+{% schema %}
+{
+  "name": "Quotations",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Quotations"
+    }
+  ]
+}
+{% endschema %}
