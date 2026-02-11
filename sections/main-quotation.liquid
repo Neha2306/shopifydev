@@ -19,70 +19,7 @@
                 </div>
             </div>
             <script>
-                async function fetchQuoteAndRender(root = document) {
-                    const wrapper = root.getElementById
-                    ? root.getElementById('prepare-quote-wrapper')
-                    : document.getElementById('prepare-quote-wrapper');
-
-                    if (!wrapper) return;
-
-                    const quoteNumber = "{{ quote_number }}"; 
-                    if (!quoteNumber) return;
-
-                    const res = await fetch('/apps/customer-dashboard/customer/quote', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
-                    },
-                    body: JSON.stringify({
-                        action: 'fetch_quote',
-                        quoteNumber: quoteNumber
-                    })
-                    });
-
-                    const json = await res.json();
-
-                    if (json && json.status && typeof json.data === 'string') {
-                    wrapper.innerHTML = json.data;
-                    await softRefreshMainPage();
-                    }
-                }
-
-                async function softRefreshMainPage() {
-                    const url = new URL(window.location.href);
-                    const response = await fetch(url.toString(), {
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                    });
-
-                    if (!response.ok) {
-                    console.error('Failed to soft refresh', response.statusText);
-                    return;
-                    }
-
-                    const html = await response.text();
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-
-                    const newMain = doc.getElementById('main-page-wrapper');
-                    const currentMain = document.getElementById('main-page-wrapper');
-
-                    if (!newMain || !currentMain) return;
-
-                    currentMain.innerHTML = newMain.innerHTML;
-
-                    // 🔴 VERY IMPORTANT: after soft refresh, we call your fetch again
-                    await fetchQuoteAndRender(document);
-                }
-
-                document.addEventListener('DOMContentLoaded', async function () {
-                    // 1) First fetch and render from your app
-                    await fetchQuoteAndRender(document);
-
-                    // 2) Then soft-refresh the page and fetch again for the new DOM
-                    await softRefreshMainPage();
-                });
-                {% comment %} document.addEventListener('DOMContentLoaded', function () {       
+                document.addEventListener('DOMContentLoaded', function () {       
                     const quoteNumber = "{{ quote_number }}"; 
                     fetch('/apps/customer-dashboard/customer/quote', {
                         method: 'POST',
@@ -103,7 +40,7 @@
                         }
                     })
                     .catch(err => console.error(err));
-                }); {% endcomment %}
+                });
 
                 document.addEventListener('click', function(e) {
                     if (e.target.classList.contains('qty-btn')) {
