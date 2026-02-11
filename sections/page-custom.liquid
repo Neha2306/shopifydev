@@ -1,50 +1,9 @@
 {% if customer %}
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    {% comment %} const form = document.getElementById('registrationform');
-    const statusBox = document.getElementById('registrationbutton');
 
-    form.addEventListener('click', function (event) {
-      event.preventDefault();
-      statusBox.textContent = 'Creating your account...';
-
-      const formData = new FormData(form);
-
-      const payload = {
-        firstName: formData.get('firstname') || '',
-        lastName: formData.get('lastname') || '',
-        email: formData.get('emailaddress') || '',
-        phone: formData.get('contactnumber') || '',
-        emailMarketing: formData.get('emailMarketing') === 'on',
-        smsMarketing: formData.get('smsMarketing') === 'on'
-      }; {% endcomment %}
-  
-      fetch('/apps/customer-dashboard/customer/wishlist', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true'
-        },
-        body: JSON.stringify({
-          action: 'add_points',
-          points: 50
-        })
-      })
-      .then(async res => {
-        const text = await res.json();
-        console.log('RAW RESPONSE:', text);
-        const el = document.getElementById('dashboard-content');
-        el.innerHTML = text.data; // Insert HTML snippet from your API
-        console.log('RAW RESPONSE:', text.message);
-      })
-      .catch(err => console.error(err));
-    {% comment %} }); {% endcomment %}
-  });
-</script>
 {% else %}
-  {% comment %} <script>
+  <script>
     window.location.replace("{{ routes.root_url }}");
-  </script> {% endcomment %}
+  </script>
 {% endif %}
 {% schema %}
 {
