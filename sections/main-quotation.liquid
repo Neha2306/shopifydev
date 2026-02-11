@@ -5,6 +5,9 @@
         {% assign quote_number = path_parts | last %}
         {% assign selected_quote = quotations | where: "quoteId", quote_number | first %}
         {% if selected_quote %}
+            {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
+            {% assign signature = quotations | hmac_sha256: secret %}
+            {{ signature }}
             <div class="page-width">
                 <div class="prepare-quotation-wrapper">
                     <p>Hello, {{ customer.first_name }}!</p>
@@ -65,7 +68,7 @@
                             return {
                                 class: li.className,
                                 price: priceInput ? parseFloat(priceInput.value) : 0,
-                                quantity: quantityInput ? parseInt(quantityInput.value) : 0
+                                quantity: quantityInput ? parseInt(quantityInput.value) : 1
                             };
                         });
 
