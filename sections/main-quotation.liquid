@@ -34,7 +34,6 @@
                 .catch(err => console.error(err));
             });
 
-            // Delegate click events (works for dynamically added elements)
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('qty-btn')) {
                     const wrapper = e.target.closest('.quantity__wrapper');
@@ -48,17 +47,14 @@
                     if (e.target.classList.contains('minus')) {
                         input.value = currentValue > 1 ? currentValue - 1 : 1;
                     }
-
-                    // Optional: do something with the new quantity for this product
-                    const productId = wrapper.dataset.productId;
                 }
                 
                 if (e.target.matches(".update-quote-btn")) {
-    
-                    // Get all <li> items inside the product grid
+                    const quoteNumber = "{{ quote_number }}"; 
+                    // Fetch All lis
                     const allLis = document.querySelectorAll("#product-grid li");
 
-                    // Map each <li> to a structured object
+                    // Map all the details
                     const allQuoteData = Array.from(allLis).map(li => {
                         const priceInput = li.querySelector(".price");
                         const quantityInput = li.querySelector(".quantity");
