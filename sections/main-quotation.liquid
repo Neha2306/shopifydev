@@ -5,7 +5,8 @@
         {% assign quote_number = path_parts | last %}
         {% assign selected_quote = quotations | where: "quoteId", quote_number | first %}
         {% if selected_quote %}
-            {{selected_quote }}
+            {% assign selected_quote_json = selected_quote | json %}
+            {{selected_quote_json }}
             {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
             {% assign signature = selected_quote | hmac_sha256: secret %}
 
