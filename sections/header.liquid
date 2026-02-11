@@ -11,6 +11,9 @@
   <link rel="stylesheet" href="{{ 'component-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
 {%- endif -%}
 
+{% if customer == nil %}
+    <meta http-equiv="refresh" content="0; URL={{ routes.account_login_url }}?return_url={{ request.path }}">
+  {% endif %}
 
 <style>
   header-drawer {
