@@ -60,7 +60,6 @@
 
                     // Map each <li> to a structured object
                     const allQuoteData = Array.from(allLis).map(li => {
-                        const productTitle = li.querySelector("h3")?.innerText || "";
                         const priceInput = li.querySelector(".price");
                         const quantityInput = li.querySelector(".quantity");
 
