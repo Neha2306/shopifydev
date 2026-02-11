@@ -20,6 +20,8 @@
                 </div>
             </div>
             <script>
+                console.log('{{ selected_quote_json }}');
+            console.log('{{ signature }}');
                 //Quote Fetch Request
                 document.addEventListener('DOMContentLoaded', function () {  
                     const quoteNumber = "{{ quote_number }}"; 
@@ -120,8 +122,7 @@
                             const text = await res.json();
                             console.log("text");
                             console.log(text);
-                            console.log('{{ selected_quote_json }}');
-            console.log('{{ signature }}');
+                            
                             if(text.status) {
                                 const set1 = document.getElementById('prepare-quote-wrapper');
                                 const url = new URL(window.location.href);
