@@ -19,6 +19,7 @@
                 </div>
             </div>
             <script>
+                //Quote Fetch Request
                 document.addEventListener('DOMContentLoaded', function () {  
                     const quoteNumber = "{{ quote_number }}"; 
                     fetch('/apps/customer-dashboard/customer/quote', {
@@ -43,18 +44,17 @@
                 });
 
                 document.addEventListener('input', function(e) {
+                    //Update DOM Elements whilte updating the Price
                     if (e.target.matches('.price__wrapper input[type="number"]')) {
                         const input = e.target;
-                        // Clamp value ≥ 1
                         input.value = Math.max(1, parseInt(input.value) || 1);
-                        // Update the HTML attribute so outerHTML reflects it
                         input.setAttribute('value', input.value);
                     }
+
+                    //Update DOM Elements whilte updating the Quantity
                     if (e.target.matches('.quantity__wrapper input[type="number"]')) {
                         const input = e.target;
-                        // Clamp value ≥ 1
                         input.value = Math.max(1, parseInt(input.value) || 1);
-                        // Update the HTML attribute so outerHTML reflects it
                         input.setAttribute('value', input.value);
                     }
                 });
@@ -72,6 +72,8 @@
                         if (e.target.classList.contains('minus')) {
                             input.value = currentValue > 1 ? currentValue - 1 : 1;
                         }
+
+                        //Update DOM Elements whilte updating the Quantity
                         input.setAttribute('value', input.value);
                     }
                     
@@ -92,6 +94,7 @@
                             };
                         });
 
+                        //Quote Update Request
                         fetch('/apps/customer-dashboard/customer/quote', {
                             method: 'POST',
                             headers: {
@@ -117,14 +120,11 @@
                                         'X-Requested-With': 'XMLHttpRequest'
                                     }
                                 });
-
                                 if (!response.ok) {
                                     console.error('Failed to refresh section', response.statusText);
                                     return;
                                 }
-
                                 const html = await response.text();
-
                                 const parser = new DOMParser();
                                 const doc = parser.parseFromString(html, 'text/html');
                                 const newSection = doc.getElementById('main-page-wrapper');
