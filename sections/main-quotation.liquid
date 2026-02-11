@@ -111,9 +111,9 @@
                             console.log(text);
                             if(text.status) {
                                 const set1 = document.getElementById('prepare-quote-wrapper');
-                                console.log("set");
-                                console.log(set1.innerHTML);
-                                {% comment %} const url = new URL(window.location.href);
+                                {% comment %} console.log("set");
+                                console.log(set1.innerHTML); {% endcomment %}
+                                const url = new URL(window.location.href);
                                 const response = await fetch(url.toString(), {
                                     headers: {
                                         'X-Requested-With': 'XMLHttpRequest'
@@ -133,7 +133,7 @@
                                 const el = document.getElementById('main-page-wrapper');
                                 el.innerHTML = newSection.innerHTML;
                                 const set = document.getElementById('prepare-quote-wrapper');
-                                set.innerHTML = text.data; {% endcomment %}
+                                set.innerHTML = set1.innerHTML;
                             }
                         })
                         .catch(err => console.error(err));
