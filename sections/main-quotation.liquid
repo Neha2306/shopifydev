@@ -84,6 +84,7 @@
                     
                     if (e.target.matches(".update-quote-btn")) {
                         const quoteNumber = "{{ quote_number }}"; 
+                        const quoteTitle = document.getElementById('quotation-title').value;
                         // Fetch All lis
                         const allLis = document.querySelectorAll("#product-grid li");
 
@@ -110,6 +111,7 @@
                             body: JSON.stringify({
                                 action: 'update_quote',
                                 quoteNumber: quoteNumber,
+                                quoteTitle: quoteTitle,
                                 quoteDetails: quoteDetails
                             })
                         })
