@@ -16,13 +16,14 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {       
                 const quoteNumber = "{{ quote_number }}"; 
-                fetch('/apps/customer-dashboard/customer/fetchquote', {
+                fetch('/apps/customer-dashboard/customer/quote', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
+                        action: 'fetch_quote',
                         quoteNumber: quoteNumber,
                     })
                 })
@@ -66,13 +67,14 @@
                         };
                     });
 
-                    fetch('/apps/customer-dashboard/customer/updatequote', {
+                    fetch('/apps/customer-dashboard/customer/quote', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'ngrok-skip-browser-warning': 'true'
                         },
                         body: JSON.stringify({
+                            action: 'update_quote',
                             quoteNumber: quoteNumber,
                             quoteDetails: quoteDetails
                         })
