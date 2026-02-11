@@ -1,5 +1,28 @@
 {% if customer %}
     <p>Hello, {{ customer.first_name }}!</p>
+    {% comment %} <script>
+        document.addEventListener('DOMContentLoaded', function () {        
+            fetch('/apps/customer-dashboard/customer/quotes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
+                },
+                body: JSON.stringify({
+                action: 'add_points',
+                points: 50
+                })
+            })
+            .then(async res => {
+                const text = await res.json();
+                console.log('RAW RESPONSE:', text);
+                const el = document.getElementById('dashboard-content');
+                el.innerHTML = text.data; // Insert HTML snippet from your API
+                console.log('RAW RESPONSE:', text.message);
+            })
+            .catch(err => console.error(err));
+        });
+    </script> {% endcomment %}
 {% endif %}
 {% schema %}
 {
