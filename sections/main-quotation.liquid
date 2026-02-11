@@ -9,7 +9,7 @@
             {% assign selected_quote_json = selected_quote | json | replace: '\/', '/' %}
             {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
             {% assign signature = selected_quote_json | hmac_sha256: secret %}
-            {{ signature }}
+
             <div class="page-width">
                 <div class="prepare-quotation-wrapper">
                     <p>Hello, {{ customer.first_name }}!</p>
@@ -95,8 +95,6 @@
                             console.log("text");
                             console.log(text);
                             if(text.status) {
-                                console.log("text");
-                                console.log(text);
                                 const url = new URL(window.location.href);
                                 const response = await fetch(url.toString(), {
                                     headers: {
