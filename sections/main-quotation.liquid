@@ -1,10 +1,12 @@
 {% if customer %}
-    <p>Hello, {{ customer.first_name }}!</p>
     {% assign path_parts = request.path | split: '/' %}
     {% assign quote_number = path_parts | last %}
     <div class="page-width">
-        <div id="prepare-quote-wrapper">
+        <div class="prepare-quotation-wrapper">
+            <p>Hello, {{ customer.first_name }}!</p>
+            <div id="prepare-quote-wrapper">
 
+            </div>
         </div>
     </div>
     <script>
