@@ -120,8 +120,9 @@
                                 const newSection = doc.getElementById('main-page-wrapper');
                                 const el = document.getElementById('main-page-wrapper');
                                 el.innerHTML = newSection.innerHTML;
-                                const set = document.getElementById('prepare-quote-wrapper');
-                                set.innerHTML = set11.innerHTML;
+                                fetchQuoteDetails();
+                                {% comment %} const set = document.getElementById('prepare-quote-wrapper');
+                                set.innerHTML = set11.innerHTML; {% endcomment %}
                             }
                         })
                         .catch(err => console.error(err));
