@@ -1,57 +1,61 @@
 {% if customer %}
-    {% assign path_parts = request.path | split: '/' %}
-    {% assign quote_number = path_parts | last %}
-    <div class="page-width">
-        <div class="prepare-quotation-wrapper">
-            <p>Hello, {{ customer.first_name }}!</p>
-            <div id="prepare-quote-wrapper">
+    {% if customer.metafields.custom.quotationslists %}
+        {% assign quotations = customer.metafields.custom.quotationslists.value %}
+        {% assign path_parts = request.path | split: '/' %}
+        {% assign quote_number = path_parts | last %}
+        {{ quotations }}
+        <div class="page-width">
+            <div class="prepare-quotation-wrapper">
+                <p>Hello, {{ customer.first_name }}!</p>
+                <div id="prepare-quote-wrapper">
 
+                </div>
             </div>
         </div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {       
-            const quoteNumber = "{{ quote_number }}"; 
-            fetch('/apps/customer-dashboard/customer/fetchquote', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'ngrok-skip-browser-warning': 'true'
-                },
-                body: JSON.stringify({
-                    quoteNumber: quoteNumber,
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {       
+                const quoteNumber = "{{ quote_number }}"; 
+                fetch('/apps/customer-dashboard/customer/fetchquote', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    },
+                    body: JSON.stringify({
+                        quoteNumber: quoteNumber,
+                    })
                 })
-            })
-            .then(async res => {
-                const text = await res.json();
-                const el = document.getElementById('prepare-quote-wrapper');
-                el.innerHTML = text.data;
-            })
-            .catch(err => console.error(err));
-        });
+                .then(async res => {
+                    const text = await res.json();
+                    const el = document.getElementById('prepare-quote-wrapper');
+                    el.innerHTML = text.data;
+                })
+                .catch(err => console.error(err));
+            });
 
-        // Delegate click events (works for dynamically added elements)
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('qty-btn')) {
-                const wrapper = e.target.closest('.quantity__wrapper');
-                const input = wrapper.querySelector('input[type="number"]');
-                let currentValue = parseInt(input.value);
+            // Delegate click events (works for dynamically added elements)
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('qty-btn')) {
+                    const wrapper = e.target.closest('.quantity__wrapper');
+                    const input = wrapper.querySelector('input[type="number"]');
+                    let currentValue = parseInt(input.value);
 
-                if (e.target.classList.contains('plus')) {
-                    input.value = currentValue + 1;
+                    if (e.target.classList.contains('plus')) {
+                        input.value = currentValue + 1;
+                    }
+
+                    if (e.target.classList.contains('minus')) {
+                        input.value = currentValue > 1 ? currentValue - 1 : 1;
+                    }
+
+                    // Optional: do something with the new quantity for this product
+                    const productId = wrapper.dataset.productId;
+                    console.log(`Product ${productId} quantity: ${input.value}`);
                 }
+            });
 
-                if (e.target.classList.contains('minus')) {
-                    input.value = currentValue > 1 ? currentValue - 1 : 1;
-                }
-
-                // Optional: do something with the new quantity for this product
-                const productId = wrapper.dataset.productId;
-                console.log(`Product ${productId} quantity: ${input.value}`);
-            }
-        });
-
-    </script>
+        </script>
+    {% endif %}
 {% endif %}
 {% schema %}
 {
