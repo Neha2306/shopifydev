@@ -29,6 +29,8 @@
                 })
                 .then(async res => {
                     const text = await res.json();
+                    console.log("text");
+                    console.log(text);
                     const el = document.getElementById('prepare-quote-wrapper');
                     el.innerHTML = text.data;
                 })
