@@ -83,8 +83,8 @@
                         })
                         .then(async res => {
                             const text = await res.json();
-                            const el = document.getElementById('prepare-quote-wrapper');
-                            el.innerHTML = text.data;
+                            console.log("text");
+                            console.log(text);
                         })
                         .catch(err => console.error(err));
                     }
