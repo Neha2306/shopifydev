@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="{{ 'component-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
 {%- endif -%}
 
-{% if template.name == 'quotations' and page and page.handle == 'quotations' and customer == nil %}
+{% if page.handle == 'quotations' and customer == nil %}
   <meta http-equiv="refresh" content="0;url={{ routes.root_url }}">
   <script>
     window.location.replace('{{ routes.root_url }}');
