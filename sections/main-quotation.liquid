@@ -1,9 +1,9 @@
 {% if customer %}
     {% if customer.metafields.custom.quotationslists %}
-        {% assign quotations = customer.metafields.custom.quotationslists.value %}
+        {% comment %} {% assign quotations = customer.metafields.custom.quotationslists.value %} {% endcomment %}
         {% assign path_parts = request.path | split: '/' %}
         {% assign quote_number = path_parts | last %}
-        {% assign selected_quote = quotations | where: "quoteId", quote_number | first %}
+        {% comment %} {% assign selected_quote = quotes | where: "quoteId", "QTN-000000000001" | first %} {% endcomment %}
 
         <div class="page-width">
             <div class="prepare-quotation-wrapper">
@@ -16,7 +16,6 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {       
                 const quoteNumber = "{{ quote_number }}"; 
-                const quoteDetails = `{{ selected_quote }}`; 
                 fetch('/apps/customer-dashboard/customer/fetchquote', {
                     method: 'POST',
                     headers: {
@@ -25,7 +24,6 @@
                     },
                     body: JSON.stringify({
                         quoteNumber: quoteNumber,
-                        quoteDetails: quoteDetails
                     })
                 })
                 .then(async res => {
