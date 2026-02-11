@@ -7,7 +7,7 @@
         {% if selected_quote %}
             {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
             {% assign signature = quotations | hmac_sha256: secret %}
-            {{ signature }}
+
             <div class="page-width">
                 <div class="prepare-quotation-wrapper">
                     <p>Hello, {{ customer.first_name }}!</p>
@@ -76,7 +76,8 @@
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'ngrok-skip-browser-warning': 'true'
+                                'ngrok-skip-browser-warning': 'true',
+                                'X-Signature': {{ signature }}
                             },
                             body: JSON.stringify({
                                 action: 'update_quote',
