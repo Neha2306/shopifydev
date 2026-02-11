@@ -55,7 +55,7 @@
                     const allLis = document.querySelectorAll("#product-grid li");
 
                     // Map all the details
-                    const allQuoteData = Array.from(allLis).map(li => {
+                    const quoteDetails = Array.from(allLis).map(li => {
                         const priceInput = li.querySelector(".price");
                         const quantityInput = li.querySelector(".quantity");
 
@@ -66,9 +66,23 @@
                         };
                     });
 
-                    console.log("All Quote Items:", allQuoteData);
-
-                    // TODO: send allQuoteData via AJAX/fetch to update the server
+                    fetch('/apps/customer-dashboard/customer/updatequote', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'ngrok-skip-browser-warning': 'true'
+                        },
+                        body: JSON.stringify({
+                            quoteNumber: quoteNumber,
+                            quoteDetails: quoteDetails
+                        })
+                    })
+                    .then(async res => {
+                        const text = await res.json();
+                        const el = document.getElementById('prepare-quote-wrapper');
+                        el.innerHTML = text.data;
+                    })
+                    .catch(err => console.error(err));
                 }
             });
 
