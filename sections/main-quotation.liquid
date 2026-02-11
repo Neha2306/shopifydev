@@ -19,7 +19,7 @@
                 </div>
             </div>
             <script>
-                function fetchQuoteDetails() {
+                document.addEventListener('DOMContentLoaded', function () {  
                     const quoteNumber = "{{ quote_number }}"; 
                     fetch('/apps/customer-dashboard/customer/quote', {
                         method: 'POST',
@@ -39,10 +39,17 @@
                             el.innerHTML = text.data;
                         }
                     })
-                    .catch(err => console.error(err));
-                }
-                document.addEventListener('DOMContentLoaded', function () {  
-                    fetchQuoteDetails();     
+                    .catch(err => console.error(err));  
+                });
+
+                document.addEventListener('input', function(e) {
+                    if (e.target.matches('.price__wrapper input[type="number"]')) {
+                        const input = e.target;
+                        // Clamp value ≥ 1
+                        input.value = Math.max(1, parseInt(input.value) || 1);
+                        // Update the HTML attribute so outerHTML reflects it
+                        input.setAttribute('value', input.value);
+                    }
                 });
 
                 document.addEventListener('click', function(e) {
