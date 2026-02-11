@@ -3,9 +3,12 @@
     {% assign path_parts = request.path | split: '/' %}
     {% assign quote_number = path_parts | last %}
     {{ quote_number }}
-    {% comment %} <script>
-        document.addEventListener('DOMContentLoaded', function () {        
-            fetch('/apps/customer-dashboard/customer/quotes', {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {       
+            const quoteNumber = "{{ quote_number }}"; 
+            console.log("quoteNumber");
+            console.log(quoteNumber);
+            {% comment %} fetch('/apps/customer-dashboard/customer/quotes', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,9 +26,9 @@
                 el.innerHTML = text.data; // Insert HTML snippet from your API
                 console.log('RAW RESPONSE:', text.message);
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error(err)); {% endcomment %}
         });
-    </script> {% endcomment %}
+    </script>
 {% endif %}
 {% schema %}
 {
