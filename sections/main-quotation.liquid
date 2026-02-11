@@ -45,6 +45,7 @@
 
                     if (json && json.status && typeof json.data === 'string') {
                     wrapper.innerHTML = json.data;
+                    await softRefreshMainPage();
                     }
                 }
 
