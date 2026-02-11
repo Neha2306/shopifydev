@@ -5,6 +5,21 @@
     <div id="prepare-quote-wrapper">
         
     </div>
+    <section
+  class="quotation-section"
+  style="
+    --quotation-margin-top: {{ section.settings.margin_top }}px;
+    --quotation-margin-bottom: {{ section.settings.margin_bottom }}px;
+    --quotation-margin-left: {{ section.settings.margin_left }}px;
+    --quotation-margin-right: {{ section.settings.margin_right }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="quotation-section__inner">
+    {{ section.settings.content }}
+  </div>
+</section>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {       
             const quoteNumber = "{{ quote_number }}"; 
