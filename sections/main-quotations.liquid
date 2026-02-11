@@ -1,5 +1,8 @@
 {% if customer %}
     <p>Hello, {{ customer.first_name }}!</p>
+    {% if customer.metafields.custom.quotationslists %}
+        <p>Your VIP level: {{ customer.metafields.custom.quotationslists.value }}</p>
+    {% endif %}
     {% comment %} <script>
         document.addEventListener('DOMContentLoaded', function () {        
             fetch('/apps/customer-dashboard/customer/quotes', {
