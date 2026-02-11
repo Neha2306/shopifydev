@@ -1,5 +1,8 @@
 {% if customer %}
     <p>Hello, {{ customer.first_name }}!</p>
+    {% assign path_parts = request.path | split: '/' %}
+    {% assign quote_number = path_parts | last %}
+    {{ quote_number }}
     {% comment %} <script>
         document.addEventListener('DOMContentLoaded', function () {        
             fetch('/apps/customer-dashboard/customer/quotes', {
