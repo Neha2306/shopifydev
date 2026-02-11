@@ -9,31 +9,12 @@
  */
 {
   "sections": {
-    "177071386164251b24": {
-      "type": "apps",
-      "blocks": {
-        "liquidcodes_star_rating_APFkKj": {
-          "type": "shopify://apps/liquidcodes/blocks/star_rating/019c46b0-91d3-7d6a-8a7c-b962dafdfc68",
-          "settings": {
-            "product": "",
-            "colour": "#ff0000"
-          }
-        }
-      },
-      "block_order": [
-        "liquidcodes_star_rating_APFkKj"
-      ],
-      "settings": {
-        "include_margins": true
-      }
-    },
     "main": {
       "type": "page-custom",
       "settings": {}
     }
   },
   "order": [
-    "177071386164251b24",
     "main"
   ]
 }
