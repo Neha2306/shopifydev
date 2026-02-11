@@ -5,8 +5,9 @@
         {% assign quote_number = path_parts | last %}
         {% assign selected_quote = quotations | where: "quoteId", quote_number | first %}
         {% if selected_quote %}
+            {{selected_quote }}
             {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
-            {% assign signature = quotations | hmac_sha256: secret %}
+            {% assign signature = selected_quote | hmac_sha256: secret %}
 
             <div class="page-width">
                 <div class="prepare-quotation-wrapper">
