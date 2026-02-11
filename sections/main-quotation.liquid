@@ -1,3 +1,4 @@
+<div class="main-page-wrapper">
 {% if customer %}
     {% if customer.metafields.custom.quotationslists %}
         {% assign quotations = customer.metafields.custom.quotationslists.value %}
@@ -99,6 +100,7 @@
         {% endif %}
     {% endif %}
 {% endif %}
+</div>
 {% schema %}
 {
   "name": "Quotation",
