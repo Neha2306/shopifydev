@@ -35,8 +35,28 @@
                     .then(async res => {
                         const text = await res.json();
                         if(text.status) {
-                            const el = document.getElementById('prepare-quote-wrapper');
-                            el.innerHTML = text.data;
+                            const url = new URL(window.location.href);
+                            const response = await fetch(url.toString(), {
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                }
+                            });
+
+                            if (!response.ok) {
+                                console.error('Failed to refresh section', response.statusText);
+                                return;
+                            }
+
+                            const html = await response.text();
+
+                            // Create a temporary DOM to parse the response
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, 'text/html');
+                            const newSection = doc.getElementById('main-page-wrapper');
+                            const el = document.getElementById('main-page-wrapper');
+                            el.innerHTML = newSection.innerHTML;
+                            const set = el.getElementById('prepare-quote-wrapper');
+                            set.innerHTML = text.data;
                         }
                     })
                     .catch(err => console.error(err));
