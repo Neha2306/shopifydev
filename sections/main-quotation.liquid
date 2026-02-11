@@ -9,8 +9,7 @@
             {% assign selected_quote_json = selected_quote | json | replace: '\/', '/' %}
             {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
             {% assign signature = selected_quote_json | hmac_sha256: secret %}
-            {{ selected_quote_json }}
-            {{ signature }}
+
             <div class="page-width">
                 <div class="prepare-quotation-wrapper">
                     <p>Hello, {{ customer.first_name }}!</p>
@@ -85,6 +84,8 @@
                     }
                     
                     if (e.target.matches(".update-quote-btn")) {
+                        console.log({{ selected_quote_json }});
+                        console.log({{ signature }});
                         console.log("step-1")
                         const quoteNumber = "{{ quote_number }}"; 
                         const quoteTitle = document.getElementById('quotation-title').value;
