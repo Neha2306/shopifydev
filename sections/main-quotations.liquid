@@ -6,11 +6,11 @@
             {% for quote in quotations %}
                 <li style="display: flex; align-items: center; margin-bottom: 10px;">
                     <!-- Quotation Name Link -->
-                    <a href="/pages/quotation/{{ quote.quotationId }}"style="margin-right: 10px;">
-                        {{ quote.quotationName }}
+                    <a href="/pages/quotation/{{ quote.quoteId }}"style="margin-right: 10px;">
+                        {{ quote.quoteName }}
                     </a>
                     <!-- Download Button on Left -->
-                    <a href="/pages/quotation/{{ quote.quotationId }}/download" 
+                    <a href="/pages/quotation/{{ quote.quoteId }}/download" 
                         style="text-decoration: none;">
                         <button type="button" style="padding: 5px 10px; cursor: pointer;">
                         Download
