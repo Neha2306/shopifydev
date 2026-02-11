@@ -9,7 +9,8 @@
             {% assign selected_quote_json = selected_quote | json | replace: '\/', '/' %}
             {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
             {% assign signature = selected_quote_json | hmac_sha256: secret %}
-
+            {{ selected_quote_json }}
+            {{ signature }}
             <div class="page-width">
                 <div class="prepare-quotation-wrapper">
                     <p>Hello, {{ customer.first_name }}!</p>
