@@ -21,9 +21,8 @@
             .then(async res => {
                 const text = await res.json();
                 console.log('RAW RESPONSE:', text);
-                {% comment %} const el = document.getElementById('dashboard-content');
-                el.innerHTML = text.data; // Insert HTML snippet from your API
-                console.log('RAW RESPONSE:', text.message); {% endcomment %}
+                const el = document.getElementById('prepare-quote-wrapper');
+                el.innerHTML = text.data;
             })
             .catch(err => console.error(err));
         });
