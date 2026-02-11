@@ -4,7 +4,7 @@
         {% assign path_parts = request.path | split: '/' %}
         {% assign quote_number = path_parts | last %}
         {% assign selected_quote = quotations | where: "quoteId", quote_number | first %}
-        {{ selected_quote }}
+
         <div class="page-width">
             <div class="prepare-quotation-wrapper">
                 <p>Hello, {{ customer.first_name }}!</p>
@@ -16,6 +16,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {       
                 const quoteNumber = "{{ quote_number }}"; 
+                const quoteDetails = "{{ selected_quote }}"; 
                 fetch('/apps/customer-dashboard/customer/fetchquote', {
                     method: 'POST',
                     headers: {
@@ -24,6 +25,7 @@
                     },
                     body: JSON.stringify({
                         quoteNumber: quoteNumber,
+                        quoteDetails: quoteDetails
                     })
                 })
                 .then(async res => {
