@@ -3,7 +3,8 @@
         {% assign quotations = customer.metafields.custom.quotationslists.value %}
         {% assign path_parts = request.path | split: '/' %}
         {% assign quote_number = path_parts | last %}
-        {{ quotations }}
+        {% assign selected_quote = quotations | where: "quoteId", quote_number | first %}
+        {{ selected_quote }}
         <div class="page-width">
             <div class="prepare-quotation-wrapper">
                 <p>Hello, {{ customer.first_name }}!</p>
