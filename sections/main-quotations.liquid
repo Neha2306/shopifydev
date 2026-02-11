@@ -1,17 +1,9 @@
-{% unless customer %}
+{% if template.name == 'page' and page and page.handle == 'secret-page' and customer == nil %}
+  <meta http-equiv="refresh" content="0;url={{ routes.root_url }}">
   <script>
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() {
-        window.location.href = '{{ routes.account_login_url }}';
-      });
-    } else {
-      window.location.href = '{{ routes.account_login_url }}';
-    }
+    window.location.replace('{{ routes.root_url }}');
   </script>
-  <noscript>
-    <meta http-equiv="refresh" content="0;url={{ routes.account_login_url }}">
-  </noscript>
-{% endunless %}
+{% endif %}
 {% if customer %}
   <p>Hello, {{ customer.first_name }}!</p>
 
