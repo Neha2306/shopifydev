@@ -1,7 +1,17 @@
 {% if customer %}
     <p>Hello, {{ customer.first_name }}!</p>
     {% if customer.metafields.custom.quotationslists %}
-        <p>Your VIP level: {{ customer.metafields.custom.quotationslists.value }}</p>
+        {% assign quotations = customer.metafields.custom.quotationslists.value %}
+        <ul>
+            {% for quote in quotations %}
+                <li>
+                <a href="/quotations/{{ quote.quotationId }}">
+                    {{ quote.quotationName }}
+                </a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% comment %} <p>Your VIP level: {{ customer.metafields.custom.quotationslists.value }}</p> {% endcomment %}
     {% endif %}
     {% comment %} <script>
         document.addEventListener('DOMContentLoaded', function () {        
