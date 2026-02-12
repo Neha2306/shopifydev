@@ -518,7 +518,6 @@
     {% if customer %}
       {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
       {% assign signature = customer.id | hmac_sha256: secret %}
-      <input type="hidden" id="signature" value="{{ signature }}">
       <button class="request-quote-btn" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Request Quote</button>
     {% endif %}
   </div>
@@ -674,13 +673,12 @@ initCartScriptsAgain();
         if(requestedCartItems.length > 0) {
           console.log("requestedCartItems");
           console.log(requestedCartItems);
-          {% comment %} const signature = document.getElementById('signature').value; {% endcomment %}
           fetch('/apps/customer-dashboard/customer/quote', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'ngrok-skip-browser-warning': 'true',
-                'X-Signature': '{{signature}}'
+                'X-Signature': '{{ signature }}'
             },
             body: JSON.stringify({
                 action: 'create_quote',
