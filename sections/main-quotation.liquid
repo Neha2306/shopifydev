@@ -37,13 +37,11 @@
                         })
                     })
                     .then(async res => {
-                        console.log("res");
-                        console.log(res);
-                        {% comment %} const text = await res.json();
+                        const text = await res.json();
                         if(text.status) {
                             const el = document.getElementById('prepare-quote-wrapper');
                             el.innerHTML = text.data;
-                        } {% endcomment %}
+                        }
                     })
                     .catch(err => console.log(err));  
                 });
