@@ -75,8 +75,6 @@
 
 <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
 
-{% assign request_quote_array = '' %}
-
 <cart-items class="gradient color-{{ section.settings.color_scheme }} isolate{% if cart == empty %} is-empty{% else %} section-{{ section.id }}-padding{% endif %}">
   <!-- Header toggle: put this inside your header layout -->
 <div class="header-toggle">
@@ -148,28 +146,6 @@
 
               <tbody>
                 {%- for item in cart.items -%}
-
-                  {%- if request_quote_array != '' -%}
-                    {% assign request_quote_array = request_quote_array | append: ',' %}
-                  {%- endif -%}
-
-                  {%- comment -%}
-                    Build one JSON object per line item.
-                    - variationid: item.variant_id
-                    - price: item.final_price or item.price (in cents)
-                    - qty: item.quantity
-                  {%- endcomment -%}
-                  {% assign request_quote_array = request_quote_array
-                    | append: '{'
-                    | append: '"variationid":"'
-                    | append: item.variant_id
-                    | append: '","price":'
-                    | append: item.final_price
-                    | append: ',"qty":'
-                    | append: item.quantity
-                    | append: '}'
-                  %}
-
                   <tr class="cart-item" id="CartItem-{{ item.index | plus: 1 }}">
                     <td class="cart-item__media">
                       {% if item.image %}
@@ -527,6 +503,7 @@
           {%- endif -%}
         </div>
       </div>
+
       <p class="visually-hidden" id="cart-live-region-text" aria-live="polite" role="status"></p>
       <p
         class="visually-hidden"
@@ -538,11 +515,7 @@
         {{ 'accessibility.loading' | t }}
       </p>
     </form>
-    {{ request_quote_array }}
-    {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
-    {% assign signature = request_quote_array | hmac_sha256: secret %}
-    {{ signature }}
-    {{ cart.items }}
+
     <button class="request-quote-btn" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Request Quote</button>
   </div>
 </cart-items>
@@ -680,17 +653,14 @@ window.location.reload();
 
 initCartScriptsAgain();
 
-
 document.addEventListener('click', function(e) {
   if (e.target.matches(".request-quote-btn")) {
-    fetch('/cart.js')
-  .then(response => response.json())
-  .then(cart => console.log(cart));
-
-
+    fetch('/cart.js').then(response => response.json()).then(cart => {
+      console.log("cart");
+      console.log(cart);
+    });
   }
 });
-
 </script>
 
 
