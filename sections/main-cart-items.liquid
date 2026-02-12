@@ -683,18 +683,6 @@ initCartScriptsAgain();
 
 document.addEventListener('click', function(e) {
   if (e.target.matches(".request-quote-btn")) {
-    const signature = '{{ signature }}';
-    const requestDetails = '{{ request_quote_array }}';
-    console.log("signature");
-    console.log(signature);
-    console.log("requestDetails");
-    console.log(requestDetails);
-    console.log('{{ cart.items | json }}');
-
-
-    let addToCartForm = document.querySelector('form[action$="/cart/add"]');
-    let formData = new FormData(addToCartForm);
-
     fetch('/cart.js')
   .then(response => response.json())
   .then(cart => console.log(cart));
