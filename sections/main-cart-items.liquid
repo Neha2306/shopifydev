@@ -674,12 +674,13 @@ initCartScriptsAgain();
         if(requestedCartItems.length > 0) {
           console.log("requestedCartItems");
           console.log(requestedCartItems);
+          {% comment %} const signature = document.getElementById('signature').value; {% endcomment %}
           fetch('/apps/customer-dashboard/customer/quote', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'ngrok-skip-browser-warning': 'true',
-                'X-Signature': signature
+                'X-Signature': '{{signature}}'
             },
             body: JSON.stringify({
                 action: 'create_quote',
