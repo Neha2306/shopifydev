@@ -673,7 +673,7 @@ initCartScriptsAgain();
         if(requestedCartItems.length > 0) {
           console.log("requestedCartItems");
           console.log(requestedCartItems);
-          {% comment %} fetch('/apps/customer-dashboard/customer/quote', {
+          fetch('/apps/customer-dashboard/customer/quote', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -681,11 +681,8 @@ initCartScriptsAgain();
                 'X-Signature': signature
             },
             body: JSON.stringify({
-                action: 'update_quote',
-                quoteNumber: quoteNumber,
-                quoteTitle: quoteTitle,
-                quoteDetails: quoteDetails,
-                quoteNote: quoteNote
+                action: 'create_quote',
+                requestedCartItems: requestedCartItems
             })
           })
           .then(async res => {
@@ -693,7 +690,7 @@ initCartScriptsAgain();
               console.log("text");
               console.log(text);
           })
-          .catch(err => console.error(err)); {% endcomment %}
+          .catch(err => console.error(err));
         }
       });
     }
