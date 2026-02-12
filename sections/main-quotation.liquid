@@ -151,9 +151,19 @@
                                 el.innerHTML = newSection.innerHTML;
                                 const set = document.getElementById('prepare-quote-wrapper');
                                 set.innerHTML = set1.innerHTML;
+
+                                button.disabled = false;
+                                button.textContent = originalText;
+                            } else {
+                                button.disabled = false;
+                                button.textContent = originalText;
                             }
                         })
-                        .catch(err => console.error(err));
+                        .catch(err => {
+                            button.disabled = false;
+                            button.textContent = originalText;
+                            console.error(err);
+                        });
                     }
                 });
 
