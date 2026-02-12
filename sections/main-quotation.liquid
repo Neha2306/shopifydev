@@ -152,8 +152,23 @@
                     }
 
                     if (e.target.matches(".download-quote-btn")) {
-                        console.log("quotationHtml");
-                        console.log(quotationHtml);
+                        const parser = new DOMParser();
+                        const quotationHtmlParse = parser.parseFromString(quotationHtml, "text/html");
+                        const allLis = quotationHtmlParse.querySelectorAll("#product-grid li");
+                        // Map all the details
+                        const quoteDetails = Array.from(allLis).map(li => {
+                            const priceInput = li.querySelector(".price");
+                            const quantityInput = li.querySelector(".quantity");
+
+                            return {
+                                class: li.className,
+                                price: priceInput ? parseFloat(priceInput.value) : 0,
+                                quantity: quantityInput ? parseInt(quantityInput.value) : 1
+                            };
+                        });
+                        console.log("quoteDetails");
+                        console.log(quoteDetails);
+
                         {% comment %} const quoteNumber = document.getElementById('quoteNumber').value; 
                         const signature = document.getElementById('signature').value;
 
