@@ -150,6 +150,7 @@
                     }
 
                     if (e.target.matches(".download-quote-btn")) {
+                        const quoteNumber = document.getElementById('quoteNumber').value; 
                         fetch('/apps/customer-dashboard/customer/quote', {
                             method: 'POST',
                             headers: {
