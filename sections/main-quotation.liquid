@@ -88,6 +88,7 @@
                     if (e.target.matches(".update-quote-btn")) {
                         const quoteNumber = document.getElementById('quoteNumber').value; 
                         const quoteTitle = document.getElementById('quotation-title').value;
+                        const quoteNote = document.getElementById('quote-note').value ?? '';
                         const signature = document.getElementById('signature').value;
                         // Fetch All lis
                         const allLis = document.querySelectorAll("#product-grid li");
@@ -118,7 +119,8 @@
                                 action: 'update_quote',
                                 quoteNumber: quoteNumber,
                                 quoteTitle: quoteTitle,
-                                quoteDetails: quoteDetails
+                                quoteDetails: quoteDetails,
+                                quoteNote: quoteNote
                             })
                         })
                         .then(async res => {
