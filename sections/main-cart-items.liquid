@@ -515,7 +515,9 @@
         {{ 'accessibility.loading' | t }}
       </p>
     </form>
-
+    {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
+    {% assign signature = customer.id | hmac_sha256: secret %}
+    {{ signature }}
     <button class="request-quote-btn" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Request Quote</button>
   </div>
 </cart-items>
