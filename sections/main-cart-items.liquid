@@ -658,8 +658,14 @@ document.addEventListener('click', function(e) {
     fetch('/cart.js').then(response => response.json()).then(cart => {
       const cartItems = cart.items ?? [];
       cartItems.map(item => {
-      console.log("item");
-      console.log(item);
+        console.log("item");
+        console.log(item);
+        const variant_id = item.variant_id;
+        const quantity = item.quantity;
+        console.log("variant_id");
+        console.log(variant_id);
+        console.log("quantity");
+        console.log(quantity);
       });
     });
   }
