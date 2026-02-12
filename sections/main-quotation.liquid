@@ -167,10 +167,8 @@
                                 quantity: quantityInput ? parseInt(quantityInput.value) : 1
                             };
                         });
-                        console.log("quoteDetails");
-                        console.log(quoteDetails);
 
-                        {% comment %} const quoteNumber = document.getElementById('quoteNumber').value; 
+                        const quoteNumber = document.getElementById('quoteNumber').value; 
                         const signature = document.getElementById('signature').value;
 
                         fetch('/apps/customer-dashboard/customer/quote', {
@@ -183,6 +181,7 @@
                             body: JSON.stringify({
                                 action: 'download_quote',
                                 quoteNumber: quoteNumber,
+                                quoteDetails: quoteDetails
                             })
                         })
                         .then(res => res.blob()) // convert response to a Blob
@@ -197,7 +196,7 @@
                             a.remove(); // remove the temporary element
                             window.URL.revokeObjectURL(url); // free memory
                         })
-                        .catch(err => console.error(err)); {% endcomment %}
+                        .catch(err => console.error(err));
                     }
                 });
 
