@@ -66,10 +66,9 @@
                         e.target.setAttribute('value', e.target.value);
                     }
 
+                    //Update DOM Elements whilte updating the Quote Note
                     if (e.target.id === 'quote-note') {
-                        // e.target.value already reflects the current value
-                        // if you want to set inner content in DOM:
-                        e.target.textContent = e.target.value; // optional, usually not needed
+                        e.target.textContent = e.target.value;
                     }
                 });
 
