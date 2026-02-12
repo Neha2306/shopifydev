@@ -527,10 +527,6 @@
           {%- endif -%}
         </div>
       </div>
-      {{ request_quote_array }}
-      {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
-      {% assign signature = request_quote_array | hmac_sha256: secret %}
-      {{ signature }}
       <p class="visually-hidden" id="cart-live-region-text" aria-live="polite" role="status"></p>
       <p
         class="visually-hidden"
@@ -542,6 +538,11 @@
         {{ 'accessibility.loading' | t }}
       </p>
     </form>
+    {{ request_quote_array }}
+    {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
+    {% assign signature = request_quote_array | hmac_sha256: secret %}
+    {{ signature }}
+    <button class="request-quote-btn" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Request Quote</button>
   </div>
 </cart-items>
 
@@ -677,6 +678,18 @@ window.location.reload();
 }
 
 initCartScriptsAgain();
+
+
+document.addEventListener('click', function(e) {
+  if (e.target.matches(".request-quote-btn")) {
+    const signature = "{{ signature }}";
+    const requestDetails = "{{ request_quote_array }}";
+    console.log("signature");
+    console.log(signature);
+    console.log("requestDetails");
+    console.log(requestDetails);
+  }
+});
 
 </script>
 
