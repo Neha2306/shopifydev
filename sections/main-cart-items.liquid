@@ -656,11 +656,11 @@ initCartScriptsAgain();
 document.addEventListener('click', function(e) {
   if (e.target.matches(".request-quote-btn")) {
     fetch('/cart.js').then(response => response.json()).then(cart => {
-      console.log("cart");
-      console.log(cart);
-      const cartItems = cart.items;
-      console.log("cartItems");
-      console.log(cartItems);
+      const cartItems = cart.items ?? [];
+      cartItems.map(item => {
+      console.log("item");
+      console.log(item);
+      });
     });
   }
 });
