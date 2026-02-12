@@ -86,12 +86,12 @@
                     }
                     
                     if (e.target.matches(".update-quote-btn")) {
-                        const button = e.target;
+                        const updateQuoteButton = e.target;
                         // Store original text
-                        const originalText = button.textContent;
+                        const originalText = updateQuoteButton.textContent;
                         // Disable button + change text
-                        button.disabled = true;
-                        button.textContent = "Updating...";
+                        updateQuoteButton.disabled = true;
+                        updateQuoteButton.textContent = "Updating...";
 
                         const quoteNumber = document.getElementById('quoteNumber').value; 
                         const quoteTitle = document.getElementById('quotation-title').value;
