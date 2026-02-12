@@ -161,6 +161,19 @@
                                 quoteNumber: quoteNumber,
                             })
                         })
+                        .then(res => res.blob()) // convert response to a Blob
+                        .then(blob => {
+                            // Create a temporary URL for the blob
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = `quote-${quoteNumber}.pdf`; // filename
+                            document.body.appendChild(a);
+                            a.click(); // trigger download
+                            a.remove(); // remove the temporary element
+                            window.URL.revokeObjectURL(url); // free memory
+                        })
+                        .catch(err => console.error(err));
                     }
                 });
 
