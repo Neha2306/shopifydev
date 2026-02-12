@@ -21,7 +21,7 @@
                 </div>
             </div>
             <script>
-                
+                let quotationHtml = "";
                 //Quote Fetch Request
                 document.addEventListener('DOMContentLoaded', function () {  
                     const quoteNumber = document.getElementById('quoteNumber').value; 
@@ -41,6 +41,7 @@
                         if(text.status) {
                             const el = document.getElementById('prepare-quote-wrapper');
                             el.innerHTML = text.data;
+                            quotationHtml = text.data;
                         }
                     })
                     .catch(err => console.error(err));  
@@ -144,12 +145,15 @@
                                 el.innerHTML = newSection.innerHTML;
                                 const set = document.getElementById('prepare-quote-wrapper');
                                 set.innerHTML = set1.innerHTML;
+                                quotationHtml = set1.innerHTML;
                             }
                         })
                         .catch(err => console.error(err));
                     }
 
                     if (e.target.matches(".download-quote-btn")) {
+                        console.log("quotationHtml");
+                        console.log(quotationHtml);
                         const quoteNumber = document.getElementById('quoteNumber').value; 
                         const signature = document.getElementById('signature').value;
 
