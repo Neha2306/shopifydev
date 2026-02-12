@@ -9,7 +9,7 @@
             {% assign selected_quote_json = selected_quote | json | replace: '\/', '/' %}
             {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
             {% assign signature = selected_quote_json | hmac_sha256: secret %}
-            
+            {{ shop.currency_symbol }}
             <div class="page-width">
                 <input type="hidden" value="{{ signature }}" id="signature">
                 <input type="hidden" value="{{ quote_number }}" id="quoteNumber">
