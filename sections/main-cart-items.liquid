@@ -658,6 +658,9 @@ document.addEventListener('click', function(e) {
     fetch('/cart.js').then(response => response.json()).then(cart => {
       console.log("cart");
       console.log(cart);
+      const cartItems = cart.items;
+      console.log("cartItems");
+      console.log(cartItems);
     });
   }
 });
