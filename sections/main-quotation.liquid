@@ -154,7 +154,7 @@
                     if (e.target.matches(".download-quote-btn")) {
                         console.log("quotationHtml");
                         console.log(quotationHtml);
-                        const quoteNumber = document.getElementById('quoteNumber').value; 
+                        {% comment %} const quoteNumber = document.getElementById('quoteNumber').value; 
                         const signature = document.getElementById('signature').value;
 
                         fetch('/apps/customer-dashboard/customer/quote', {
@@ -181,7 +181,7 @@
                             a.remove(); // remove the temporary element
                             window.URL.revokeObjectURL(url); // free memory
                         })
-                        .catch(err => console.error(err));
+                        .catch(err => console.error(err)); {% endcomment %}
                     }
                 });
 
