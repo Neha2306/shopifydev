@@ -663,10 +663,12 @@ initCartScriptsAgain();
         const cartItems = cart.items ?? [];
         const requestedCartItems = [];
         cartItems.map(item => {
-          const variant_id = item.variant_id;
+          console.log("item");
+          console.log(item);
+          const id = item.variant_id;
           const quantity = item.quantity;
           requestedCartItems.push({
-            variant_id:variant_id,
+            id:id,
             quantity:quantity
           })
         });
