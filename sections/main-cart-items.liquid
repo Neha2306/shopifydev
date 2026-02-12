@@ -671,8 +671,6 @@ initCartScriptsAgain();
           })
         });
         if(requestedCartItems.length > 0) {
-          console.log("requestedCartItems");
-          console.log(requestedCartItems);
           fetch('/apps/customer-dashboard/customer/quote', {
             method: 'POST',
             headers: {
