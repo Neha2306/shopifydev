@@ -65,6 +65,12 @@
                     if (e.target.id === 'quotation-title') {
                         e.target.setAttribute('value', e.target.value);
                     }
+
+                    if (e.target.id === 'quote-note') {
+                        // e.target.value already reflects the current value
+                        // if you want to set inner content in DOM:
+                        e.target.textContent = e.target.value; // optional, usually not needed
+                    }
                 });
 
                 document.addEventListener('click', function(e) {
