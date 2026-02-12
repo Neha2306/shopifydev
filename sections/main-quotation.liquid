@@ -151,11 +151,14 @@
 
                     if (e.target.matches(".download-quote-btn")) {
                         const quoteNumber = document.getElementById('quoteNumber').value; 
+                        const signature = document.getElementById('signature').value;
+
                         fetch('/apps/customer-dashboard/customer/quote', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'ngrok-skip-browser-warning': 'true'
+                                'ngrok-skip-browser-warning': 'true',
+                                'X-Signature': signature
                             },
                             body: JSON.stringify({
                                 action: 'download_quote',
