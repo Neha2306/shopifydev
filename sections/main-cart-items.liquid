@@ -75,7 +75,7 @@
 
 <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
 
-{% assign items_json = '' %}
+{% assign request_quote_array = '' %}
 
 <cart-items class="gradient color-{{ section.settings.color_scheme }} isolate{% if cart == empty %} is-empty{% else %} section-{{ section.id }}-padding{% endif %}">
   <!-- Header toggle: put this inside your header layout -->
@@ -149,8 +149,8 @@
               <tbody>
                 {%- for item in cart.items -%}
 
-                  {%- if items_json != '' -%}
-                    {% assign items_json = items_json | append: ',' %}
+                  {%- if request_quote_array != '' -%}
+                    {% assign request_quote_array = request_quote_array | append: ',' %}
                   {%- endif -%}
 
                   {%- comment -%}
@@ -159,7 +159,7 @@
                     - price: item.final_price or item.price (in cents)
                     - qty: item.quantity
                   {%- endcomment -%}
-                  {% assign items_json = items_json
+                  {% assign request_quote_array = request_quote_array
                     | append: '{'
                     | append: '"variationid":"'
                     | append: item.variant_id
@@ -527,7 +527,7 @@
           {%- endif -%}
         </div>
       </div>
-      {{ items_json }}
+      {{ request_quote_array }}
       <p class="visually-hidden" id="cart-live-region-text" aria-live="polite" role="status"></p>
       <p
         class="visually-hidden"
