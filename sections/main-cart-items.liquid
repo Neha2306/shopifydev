@@ -515,6 +515,7 @@
         {{ 'accessibility.loading' | t }}
       </p>
     </form>
+    {% assign signature = '' %} 
     {% if customer %}
       {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
       {% assign signature = customer.id | hmac_sha256: secret %}
