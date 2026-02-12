@@ -148,6 +148,20 @@
                         })
                         .catch(err => console.error(err));
                     }
+
+                    if (e.target.matches(".download-quote-btn")) {
+                        fetch('/apps/customer-dashboard/customer/quote', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'ngrok-skip-browser-warning': 'true'
+                            },
+                            body: JSON.stringify({
+                                action: 'download_quote',
+                                quoteNumber: quoteNumber,
+                            })
+                        })
+                    }
                 });
 
             </script>
