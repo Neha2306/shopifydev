@@ -518,10 +518,8 @@
     {% if customer %}
       {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
       {% assign signature = customer.id | hmac_sha256: secret %}
-      {{ signature }}
       <button class="request-quote-btn" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Request Quote</button>
     {% endif %}
-    {{ signature }}
   </div>
 </cart-items>
 
@@ -663,16 +661,40 @@ initCartScriptsAgain();
     if (e.target.matches(".request-quote-btn")) {
       fetch('/cart.js').then(response => response.json()).then(cart => {
         const cartItems = cart.items ?? [];
+        const requestedCartItems = [];
         cartItems.map(item => {
-          console.log("item");
-          console.log(item);
           const variant_id = item.variant_id;
           const quantity = item.quantity;
-          console.log("variant_id");
-          console.log(variant_id);
-          console.log("quantity");
-          console.log(quantity);
+          requestedCartItems.push({
+            variant_id:variant_id,
+            quantity:quantity
+          })
         });
+        if(requestedCartItems.length > 0) {
+          console.log("requestedCartItems");
+          console.log(requestedCartItems);
+          {% comment %} fetch('/apps/customer-dashboard/customer/quote', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true',
+                'X-Signature': signature
+            },
+            body: JSON.stringify({
+                action: 'update_quote',
+                quoteNumber: quoteNumber,
+                quoteTitle: quoteTitle,
+                quoteDetails: quoteDetails,
+                quoteNote: quoteNote
+            })
+          })
+          .then(async res => {
+              const text = await res.json();
+              console.log("text");
+              console.log(text);
+          })
+          .catch(err => console.error(err)); {% endcomment %}
+        }
       });
     }
   });
