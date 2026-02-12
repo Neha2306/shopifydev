@@ -663,13 +663,9 @@ initCartScriptsAgain();
         const cartItems = cart.items ?? [];
         const requestedCartItems = [];
         cartItems.map(item => {
-          console.log("item");
-          console.log(item);
-          const id = item.id;
-          const quantity = item.quantity;
           requestedCartItems.push({
-            id:id,
-            quantity:quantity
+            id: item.id,
+            quantity: item.quantity
           })
         });
         if(requestedCartItems.length > 0) {
