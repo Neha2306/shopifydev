@@ -157,11 +157,12 @@
                         const allLis = quotationHtmlParse.querySelectorAll("#product-grid li");
                         // Map all the details
                         const quoteDetails = Array.from(allLis).map(li => {
+                            const productTitle = li.querySelector(".product-title");
                             const priceInput = li.querySelector(".price");
                             const quantityInput = li.querySelector(".quantity");
 
                             return {
-                                class: li.className,
+                                productTitle: productTitle ? productTitle.text : '',
                                 price: priceInput ? parseFloat(priceInput.value) : 0,
                                 quantity: quantityInput ? parseInt(quantityInput.value) : 1
                             };
