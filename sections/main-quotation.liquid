@@ -86,13 +86,6 @@
                     }
                     
                     if (e.target.matches(".update-quote-btn")) {
-                        const updateQuoteButton = e.target;
-                        // Store original text
-                        const originalText = updateQuoteButton.textContent;
-                        // Disable button + change text
-                        updateQuoteButton.disabled = true;
-                        updateQuoteButton.textContent = "Updating...";
-
                         const quoteNumber = document.getElementById('quoteNumber').value; 
                         const quoteTitle = document.getElementById('quotation-title').value;
                         const signature = document.getElementById('signature').value;
@@ -151,19 +144,9 @@
                                 el.innerHTML = newSection.innerHTML;
                                 const set = document.getElementById('prepare-quote-wrapper');
                                 set.innerHTML = set1.innerHTML;
-
-                                button.disabled = false;
-                                button.textContent = originalText;
-                            } else {
-                                button.disabled = false;
-                                button.textContent = originalText;
                             }
                         })
-                        .catch(err => {
-                            button.disabled = false;
-                            button.textContent = originalText;
-                            console.error(err);
-                        });
+                        .catch(err => console.error(err));
                     }
                 });
 
