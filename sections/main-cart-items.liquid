@@ -528,6 +528,9 @@
         </div>
       </div>
       {{ request_quote_array }}
+      {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
+      {% assign signature = request_quote_array | hmac_sha256: secret %}
+      {{ signature }}
       <p class="visually-hidden" id="cart-live-region-text" aria-live="polite" role="status"></p>
       <p
         class="visually-hidden"
