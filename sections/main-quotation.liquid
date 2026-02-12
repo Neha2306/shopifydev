@@ -95,11 +95,13 @@
 
                         // Map all the details
                         const quoteDetails = Array.from(allLis).map(li => {
+                            const productSku = li.querySelector(".product-sku");
                             const priceInput = li.querySelector(".price");
                             const quantityInput = li.querySelector(".quantity");
 
                             return {
                                 class: li.className,
+                                productSku: productSku ? productSku.innerText : '',
                                 price: priceInput ? parseFloat(priceInput.value) : 0,
                                 quantity: quantityInput ? parseInt(quantityInput.value) : 1
                             };
@@ -169,8 +171,7 @@
                                 quantity: quantityInput ? parseInt(quantityInput.value) : 1
                             };
                         });
-                        console.log("quoteDetails");
-                        console.log(quoteDetails);
+                       
                         const quoteNumber = document.getElementById('quoteNumber').value; 
                         const signature = document.getElementById('signature').value;
 
