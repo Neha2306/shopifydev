@@ -210,6 +210,8 @@
                     });
 
                     const data = await res.json();
+                    console.log("data");
+                    console.log(data);
                     if (data.success) {
                         document.getElementById('upload-result').innerText = 'Uploaded: ' + data.file.url;
                     } else {
