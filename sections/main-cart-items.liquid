@@ -515,11 +515,11 @@
         {{ 'accessibility.loading' | t }}
       </p>
     </form>
-    {% if customer %}
+    {% comment %} {% if customer %} {% endcomment %}
       {% assign secret = 'GBIOTFfgTECxHULMbbWSSZYUQAzxuGWaztyWPOL' %}
       {% assign signature = customer.id | hmac_sha256: secret %}
       <button class="request-quote-btn" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Request Quote</button>
-    {% endif %}
+    {% comment %} {% endif %} {% endcomment %}
   </div>
 </cart-items>
 
@@ -656,7 +656,7 @@ window.location.reload();
 
 initCartScriptsAgain();
 
-{% if customer %}
+
   document.addEventListener('click', function(e) {
     if (e.target.matches(".request-quote-btn")) {
       fetch('/cart.js').then(response => response.json()).then(cart => {
@@ -691,7 +691,7 @@ initCartScriptsAgain();
       });
     }
   });
-{% endif %}
+
 </script>
 
 
