@@ -196,6 +196,26 @@
                     }
                 });
 
+                document.getElementById('media-upload-form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const fileInput = document.getElementById('file-input');
+                    if (!fileInput.files.length) return alert('Choose a file');
+
+                    const formData = new FormData();
+                    formData.append('file', fileInput.files[0]);
+
+                    const res = await fetch('/apps/customer-dashboard/customer/upload-media', {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    const data = await res.json();
+                    if (data.success) {
+                        document.getElementById('upload-result').innerText = 'Uploaded: ' + data.file.url;
+                    } else {
+                        document.getElementById('upload-result').innerText = 'Error: ' + (data.error || 'Unknown');
+                    }
+                });
             </script>
         {% endif %}
     {% endif %}
