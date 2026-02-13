@@ -13,6 +13,12 @@
             <div class="page-width">
                 <input type="hidden" value="{{ signature }}" id="signature">
                 <input type="hidden" value="{{ quote_number }}" id="quoteNumber">
+                <form id="media-upload-form">
+                <input type="file" name="file" id="file-input" accept="image/*" />
+                <button type="submit">Upload to Shopify</button>
+                </form>
+
+                <div id="upload-result"></div>
                 <div class="prepare-quotation-wrapper">
                     <p>Hello, {{ customer.first_name }}!</p>
                     <div id="prepare-quote-wrapper">
