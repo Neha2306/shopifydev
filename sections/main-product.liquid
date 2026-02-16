@@ -741,8 +741,9 @@
               })
           })
           .then(async res => {
-             console.log("res");
-             console.log(res);
+            const text = await res.json();
+             console.log("text");
+             console.log(text);
           })
           .catch(err => console.error(err));  
       });
