@@ -741,13 +741,15 @@
               })
           })
           .then(async res => {
+            console.log("res");
+            console.log(res);
             const text = await res.json();
             console.log("text");
             console.log(text);
-            if(text.status) {
+            {% comment %} if(text.status) {
               console.log("text.message");
               console.log(text.message);
-            }
+            } {% endcomment %}
           })
           .catch(err => console.error(err));  
       });
