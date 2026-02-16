@@ -724,6 +724,32 @@
     <script type="application/ld+json">
       {{ product | structured_data }}
     </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+          const storeID = 38;
+          const asposProductID = 198224; 
+          fetch('/apps/customer-dashboard/product/fetch_shelf_location', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'ngrok-skip-browser-warning': 'true'
+              },
+              body: JSON.stringify({
+                  storeID: storeID,
+                  asposProductID: asposProductID,
+              })
+          })
+          .then(async res => {
+              const text = await res.json();
+              if(text.status) {
+                  const el = document.getElementById('prepare-quote-wrapper');
+                  el.innerHTML = text.data;
+              }
+          })
+          .catch(err => console.error(err));  
+      });
+    </script>
   </div>
 </product-info>
 
