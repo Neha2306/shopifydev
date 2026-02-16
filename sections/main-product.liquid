@@ -741,8 +741,8 @@
               })
           })
           .then(async res => {
-            console.log("res");
-            console.log(res);
+            {% comment %} console.log("res");
+            console.log(res); {% endcomment %}
             const text = await res.json();
             console.log("text");
             console.log(text);
