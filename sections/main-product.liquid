@@ -743,11 +743,8 @@
               })
           })
           .then(async res => {
-              const text = await res.json();
-              if(text.status) {
-                  const el = document.getElementById('prepare-quote-wrapper');
-                  el.innerHTML = text.data;
-              }
+             console.log("res");
+             console.log(res);
           })
           .catch(err => console.error(err));  
       });
