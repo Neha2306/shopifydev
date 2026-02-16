@@ -742,10 +742,12 @@
           })
           .then(async res => {
             const text = await res.json();
-             console.log("text");
-             console.log(text);
-             console.log("text.location");
-             console.log(text.location);
+            console.log("text");
+            console.log(text);
+            if(text.status) {
+              console.log("text.message");
+              console.log(text.message);
+            }
           })
           .catch(err => console.error(err));  
       });
