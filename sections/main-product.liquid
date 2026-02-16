@@ -741,9 +741,11 @@
               })
           })
           .then(async res => {
-            const text = await res.json();
-            console.log("text");
-            console.log(text);
+            const response = await res.json();
+            console.log("response");
+            console.log(response);
+            console.log(response.message);
+            console.log(response['message']);
             {% comment %} if(text.status) {
               console.log("text.message");
               console.log(text.message);
