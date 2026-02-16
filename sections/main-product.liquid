@@ -746,10 +746,10 @@
             console.log(response);
             console.log(response.message);
             console.log(response['message']);
-            {% comment %} if(text.status) {
-              console.log("text.message");
-              console.log(text.message);
-            } {% endcomment %}
+            if(response.status) {
+              console.log("response.message");
+              console.log(response.message);
+            }
           })
           .catch(err => console.error(err));  
       });
