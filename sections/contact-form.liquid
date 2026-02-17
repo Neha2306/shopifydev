@@ -202,6 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //Create New Empty Wishlist & Add this newly create list into the already present list
   const btn = document.getElementById('create-new-list');
   btn.addEventListener('click', async () => {
+    alert("adasdasda");
     fetch('/apps/customer-dashboard/api/customer/create-empty-wishlist', {
               method: 'POST',
               headers: {
