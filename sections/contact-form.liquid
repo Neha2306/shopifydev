@@ -153,6 +153,80 @@
   {% endfor %}
 </ul>
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const selectedIds = new Set(); // hidden array
+  const container = document.getElementById('wishlistContainer');
+  const selectAll = document.getElementById('selectAll');
+
+  // Event delegation: handle all checkboxes dynamically
+  container.addEventListener('change', (e) => {
+    if(e.target.classList.contains('itemCheckbox')){
+      const checkbox = e.target;
+      if(checkbox.checked){
+        selectedIds.add(checkbox.value);
+      } else {
+        selectedIds.delete(checkbox.value);
+        selectAll.checked = false; // uncheck "Select All" if any unchecked
+      }
+
+      // If all checkboxes are checked, check "Select All"
+      const allCheckboxes = container.querySelectorAll('.itemCheckbox');
+      if([...allCheckboxes].every(cb => cb.checked)){
+        selectAll.checked = true;
+      }
+
+      console.log([...selectedIds]); // debug, remove in production
+    }
+  });
+
+  // Select All toggle
+  selectAll.addEventListener('change', () => {
+    const allCheckboxes = container.querySelectorAll('.itemCheckbox');
+    if(selectAll.checked){
+      allCheckboxes.forEach(cb => {
+        cb.checked = true;
+        selectedIds.add(cb.value);
+      });
+    } else {
+      allCheckboxes.forEach(cb => cb.checked = false);
+      selectedIds.clear();
+    }
+    console.log([...selectedIds]); // debug
+  });
+{% comment %} 
+  // Function to dynamically add new wishlist
+  window.addNewWishlist = function(response){
+    if(!response.status) return;
+
+    const li = document.createElement('li');
+    const label = document.createElement('label');
+    const checkbox = document.createElement('input');
+
+    checkbox.type = 'checkbox';
+    checkbox.className = 'itemCheckbox';
+    checkbox.value = response.value;
+
+    label.appendChild(checkbox);
+    label.appendChild(document.createTextNode(' ' + response.title));
+    li.appendChild(label);
+    container.appendChild(li);
+
+    // Pre-check the new checkbox
+    checkbox.checked = true;
+    selectedIds.add(checkbox.value);
+
+    // Update Select All if now all are checked
+    const allCheckboxes = container.querySelectorAll('.itemCheckbox');
+    if([...allCheckboxes].every(cb => cb.checked)){
+      selectAll.checked = true;
+    }
+
+    console.log([...selectedIds]); // debug
+  }
+}); {% endcomment %}
+</script>
+
 
 {% schema %}
 {
