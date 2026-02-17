@@ -331,6 +331,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  {% comment %} //Fetch The wishlist
+  fetch('/apps/customer-dashboard/api/customer/fetch-wishlists?page=1', {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      }
+  })
+  .then(async res => {
+    const response = await res.json();
+    console.log("response");
+    console.log(response);
+  })
+  .catch(err => console.error(err));  {% endcomment %}
+
 });
 </script>
 
