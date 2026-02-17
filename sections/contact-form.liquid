@@ -194,36 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     console.log([...selectedIds]); // debug
   });
-
-  // Function to dynamically add new wishlist
-  window.addNewWishlist = function(response){
-    if(!response.status) return;
-
-    const li = document.createElement('li');
-    const label = document.createElement('label');
-    const checkbox = document.createElement('input');
-
-    checkbox.type = 'checkbox';
-    checkbox.className = 'itemCheckbox';
-    checkbox.value = response.value;
-
-    label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(' ' + response.title));
-    li.appendChild(label);
-    container.appendChild(li);
-
-    // Pre-check the new checkbox
-    checkbox.checked = true;
-    selectedIds.add(checkbox.value);
-
-    // Update Select All if now all are checked
-    const allCheckboxes = container.querySelectorAll('.itemCheckbox');
-    if([...allCheckboxes].every(cb => cb.checked)){
-      selectAll.checked = true;
-    }
-
-    console.log([...selectedIds]); // debug
-  }
 });
 </script>
 
