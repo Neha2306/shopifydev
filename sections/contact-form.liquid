@@ -137,6 +137,7 @@
 
 <button id="create-new-list" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Create New List</button>
 <button id="add-wishlist-product" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Add Product</button>
+<button id="delete-wishlist-product" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Delete Wishlist Product</button>
 
 <!-- Select All Checkbox -->
 <label>
@@ -293,14 +294,38 @@ document.addEventListener('DOMContentLoaded', () => {
             variationId: "gid://shopify/ProductVariant/1234567891",
             idsArray: Array.from(selectedIds)
         })
-    })
-    .then(async res => {
-      const response = await res.json();
-      console.log("response");
-      console.log(response);
+      })
+      .then(async res => {
+        const response = await res.json();
+        console.log("response");
+        console.log(response);
 
-    })
-    .catch(err => console.error(err)); 
+      })
+      .catch(err => console.error(err)); 
+    });
+  }
+
+  const btn3 = document.getElementById('delete-wishlist-product');
+  if(btn3) {
+    btn3.addEventListener('click', async () => {
+      fetch('/apps/customer-dashboard/api/customer/delete-wishlist-item', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'ngrok-skip-browser-warning': 'true'
+          },
+          body: JSON.stringify({
+              wishlistId: "699484cfef94ceb0767c29b8",
+              wishlisItemtId: "6994850def94ceb0767c29bd"
+          })
+      })
+      .then(async res => {
+        const response = await res.json();
+        console.log("response");
+        console.log(response);
+    
+      })
+      .catch(err => console.error(err));
     });
   }
 
