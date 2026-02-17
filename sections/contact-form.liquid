@@ -136,6 +136,7 @@
 </div>
 
 <button id="create-new-list" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Create New List</button>
+<button id="add-wishlist-product" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Add Product</button>
 
 <!-- Select All Checkbox -->
 <label>
@@ -274,6 +275,33 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch(err => console.error(err)); 
     });
   }
+
+  //Add New Wishlist Product
+  const btn1 = document.getElementById('delete-wishlistlist');
+  if(btn1) {
+    btn1.addEventListener('click', async () => {
+      fetch('/apps/customer-dashboard/api/customer/delete-wishlist', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+            productId: "gid://shopify/Product/1234567890",
+            variationId: "gid://shopify/ProductVariant/1234567890"
+            idsArray: selectedIds
+        })
+    })
+    .then(async res => {
+      const response = await res.json();
+      console.log("response");
+      console.log(response);
+
+    })
+    .catch(err => console.error(err)); 
+    });
+  }
+
 });
 </script>
 
