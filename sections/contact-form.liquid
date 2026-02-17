@@ -142,7 +142,7 @@
 </label>
 
 <!-- List of checkboxes -->
-<ul>
+<ul class="wishlists">
   {% assign options = "option1,option2,option3,option4" | split: "," %}
   {% for option in options %}
     <li>
@@ -198,16 +198,39 @@
       // For debugging: remove in production
       console.log([...selectedIds]);
 
-      const ul = document.querySelector('ul'); // your checkbox list container
+      const ul = document.querySelector('ul.wishlists'); // your checkbox list container
 
-  // create new list item
-  const li = document.createElement('li');
-  const label = document.createElement('label');
-  const checkbox = document.createElement('input');
+      // create new list item
+      const li = document.createElement('li');
+      const label = document.createElement('label');
+      const checkbox = document.createElement('input');
 
-  checkbox.type = 'checkbox';
-  checkbox.className = 'itemCheckbox';
-  checkbox.value = "Itemlist";
+      checkbox.type = 'checkbox';
+      checkbox.className = 'itemCheckbox';
+      checkbox.value = "Itemlist";
+
+      checkbox.addEventListener('change', () => {
+        if (checkbox.checked) {
+          selectedIds.add(checkbox.value);
+        } else {
+          selectedIds.delete(checkbox.value);
+          document.getElementById('selectAll').checked = false;
+        }
+        // check if all checkboxes are selected
+        if ([...document.querySelectorAll('.itemCheckbox')].every(cb => cb.checked)) {
+          document.getElementById('selectAll').checked = true;
+        }
+      });
+
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(' ' + response.title));
+      li.appendChild(label);
+      ul.appendChild(li);
+
+      // Optionally: select it by default
+      checkbox.checked = true;
+      selectedIds.add(checkbox.value);
+
     });
   });
 </script>
