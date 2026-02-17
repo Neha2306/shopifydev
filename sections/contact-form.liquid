@@ -310,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btn3 = document.getElementById('delete-wishlist-product');
   if(btn3) {
     btn3.addEventListener('click', async () => {
-      fetch('/apps/customer-dashboard/api/customer/delete-wishlist-item', {
+      fetch('/apps/customer-dashboard/api/customer/delete-wishlist-product', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
