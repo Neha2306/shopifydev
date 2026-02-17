@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if(btn2) {
     btn2.addEventListener('click', async () => {
       console.log("selectedIds");
-      console.log(selectedIds);
+      console.log(Array.from(selectedIds));
       fetch('/apps/customer-dashboard/api/customer/add-wishlist-product', {
         method: 'POST',
         headers: {
