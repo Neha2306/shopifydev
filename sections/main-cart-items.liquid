@@ -659,7 +659,7 @@ initCartScriptsAgain();
 
   document.addEventListener('click', function(e) {
     if (e.target.matches(".request-quote-btn")) {
-      fetch('/cart.js').then(response => response.json()).then(cart => {
+      {% comment %} fetch('/cart.js').then(response => response.json()).then(cart => {
         const cartItems = cart.items ?? [];
         const requestedCartItems = [];
         cartItems.map(item => {
@@ -688,7 +688,24 @@ initCartScriptsAgain();
           })
           .catch(err => console.error(err));
         }
-      });
+      }); {% endcomment %}
+       fetch('/apps/customer-dashboard/api/customer/create-empty-wishlist', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'ngrok-skip-browser-warning': 'true'
+              },
+							body: JSON.stringify({
+                  wishlistName: "Wishlist 1"
+              })
+          })
+          .then(async res => {
+            const response = await res.json();
+            console.log("response");
+            console.log(response);
+        
+          })
+          .catch(err => console.error(err)); 
     }
   });
 
