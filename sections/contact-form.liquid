@@ -154,6 +154,53 @@
   {% endfor %}
 </ul>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const selectedIds = new Set(); // hidden array to track selections
+    const checkboxes = document.querySelectorAll('.itemCheckbox');
+    const selectAll = document.getElementById('selectAll');
+
+    // Function to update selectedIds
+    function updateSelected(checkbox) {
+      if (checkbox.checked) {
+        selectedIds.add(checkbox.value);
+      } else {
+        selectedIds.delete(checkbox.value);
+        selectAll.checked = false; // uncheck "Select All" if any unchecked
+      }
+
+      // if all checkboxes are checked, select "Select All"
+      if ([...checkboxes].every(cb => cb.checked)) {
+        selectAll.checked = true;
+      }
+
+      // For debugging: remove in production
+      console.log([...selectedIds]);
+    }
+
+    // Add event listener to each checkbox
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', () => updateSelected(cb));
+    });
+
+    // Add event listener to Select All checkbox
+    selectAll.addEventListener('change', () => {
+      if (selectAll.checked) {
+        checkboxes.forEach(cb => {
+          cb.checked = true;
+          selectedIds.add(cb.value);
+        });
+      } else {
+        checkboxes.forEach(cb => cb.checked = false);
+        selectedIds.clear();
+      }
+
+      // For debugging: remove in production
+      console.log([...selectedIds]);
+    });
+  });
+</script>
+
 {% schema %}
 {
   "name": "t:sections.contact-form.name",
