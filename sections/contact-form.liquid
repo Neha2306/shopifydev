@@ -197,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log([...selectedIds]); // debug
   });
 
+  //Create New Empty Wishlist & Add this newly create list into the already present list
   const btn = document.getElementById('create-new-list');
   btn.addEventListener('click', async () => {
     fetch('/apps/customer-dashboard/api/customer/create-empty-wishlist', {
@@ -248,6 +249,28 @@ document.addEventListener('DOMContentLoaded', () => {
         
           })
           .catch(err => console.error(err)); 
+  });
+
+  //Delete Wishlist
+  const btn1 = document.getElementById('delete-wishlistlist');
+  btn1.addEventListener('click', async () => {
+    fetch('/apps/customer-dashboard/api/customer/delete-wishlist', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+          wishlistId: "69946bc36a6fcccaf2ac14c5"
+      })
+  })
+  .then(async res => {
+    const response = await res.json();
+    console.log("response");
+    console.log(response);
+
+  })
+  .catch(err => console.error(err)); 
   });
 });
 </script>
