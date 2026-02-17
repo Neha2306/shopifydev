@@ -277,10 +277,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   //Add New Wishlist Product
-  const btn1 = document.getElementById('delete-wishlistlist');
-  if(btn1) {
-    btn1.addEventListener('click', async () => {
-      fetch('/apps/customer-dashboard/api/customer/delete-wishlist', {
+  const btn2 = document.getElementById('add-wishlist-product');
+  if(btn2) {
+    btn2.addEventListener('click', async () => {
+      fetch('/apps/customer-dashboard/api/customer/add-wishlist-product', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
