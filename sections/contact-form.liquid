@@ -197,6 +197,17 @@
 
       // For debugging: remove in production
       console.log([...selectedIds]);
+
+      const ul = document.querySelector('ul'); // your checkbox list container
+
+  // create new list item
+  const li = document.createElement('li');
+  const label = document.createElement('label');
+  const checkbox = document.createElement('input');
+
+  checkbox.type = 'checkbox';
+  checkbox.className = 'itemCheckbox';
+  checkbox.value = "Itemlist";
     });
   });
 </script>
