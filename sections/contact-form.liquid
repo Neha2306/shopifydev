@@ -135,6 +135,25 @@
   </div>
 </div>
 
+<!-- Select All Checkbox -->
+<label>
+  <input type="checkbox" id="selectAll" />
+  Select All
+</label>
+
+<ul id="wishlistContainer">
+  {% assign options = "option1,option2,option3" | split: "," %}
+  {% for option in options %}
+    <li>
+      <label>
+        <input type="checkbox" class="itemCheckbox" value="{{ option }}" />
+        {{ option }}
+      </label>
+    </li>
+  {% endfor %}
+</ul>
+
+
 {% schema %}
 {
   "name": "t:sections.contact-form.name",
