@@ -331,8 +331,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  {% comment %} //Fetch The wishlist
-  fetch('/apps/customer-dashboard/api/customer/fetch-wishlists?page=1', {
+  //Fetch The wishlist
+  {% comment %} fetch('/apps/customer-dashboard/api/customer/fetch-wishlists?page=1', {
       method: 'GET',
       headers: {
           'Content-Type': 'application/json',
@@ -345,6 +345,25 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(response);
   })
   .catch(err => console.error(err));  {% endcomment %}
+
+
+  //Fetch Wishlis Products
+  {% comment %} fetch('/apps/customer-dashboard/api/customer/fetch-wishlist-products?page=1', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+          wishlistId: "6994b5c7cb9e9ae094f84299"
+      })
+  })
+  .then(async res => {
+    const response = await res.json();
+    console.log("response");
+    console.log(response);
+  })
+  .catch(err => console.error(err)); {% endcomment %}
 
 });
 </script>
