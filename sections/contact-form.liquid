@@ -202,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
   //Create New Empty Wishlist & Add this newly create list into the already present list
   const btn = document.getElementById('create-new-list');
   btn.addEventListener('click', async () => {
-    alert("adasdasda");
     fetch('/apps/customer-dashboard/api/customer/create-empty-wishlist', {
               method: 'POST',
               headers: {
@@ -215,6 +214,8 @@ document.addEventListener('DOMContentLoaded', () => {
           })
           .then(async res => {
             const response = await res.json();
+            console.log("response");
+            console.log(response);
             if(response.status) {
                 const value = response.wishlistId;
                 const title = response.wishlistTitle;
@@ -272,7 +273,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const response = await res.json();
       console.log("response");
       console.log(response);
-
     })
     .catch(err => console.error(err)); 
     });
@@ -300,7 +300,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const response = await res.json();
         console.log("response");
         console.log(response);
-
       })
       .catch(err => console.error(err)); 
     });
@@ -325,7 +324,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const response = await res.json();
         console.log("response");
         console.log(response);
-    
       })
       .catch(err => console.error(err));
     });
