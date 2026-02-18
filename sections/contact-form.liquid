@@ -365,6 +365,24 @@ document.addEventListener('DOMContentLoaded', () => {
   })
   .catch(err => console.error(err)); {% endcomment %}
 
+  //Edit Wishlist Title
+  {% comment %} fetch('/apps/customer-dashboard/api/customer/edit-wishlist-title', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+          wishlistId: "6994a8baa0ecd9ac013465de",
+          wishlistName: 'Changed Title'
+      })
+  })
+  .then(async res => {
+    const response = await res.json();
+    console.log("response");
+    console.log(response);
+  })
+  .catch(err => console.error(err));  {% endcomment %}
 });
 </script>
 
