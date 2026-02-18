@@ -1,7 +1,7 @@
 {% layout none %}
 
 {% assign handles_list = request.params.handles | split: ',' %}
-
+{{ handles_list }}
 <div id="product-grid">
     <p>asdadfsdfs</p>
   {% for handle in handles_list %}
