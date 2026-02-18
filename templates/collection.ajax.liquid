@@ -3,6 +3,7 @@
 {% assign handles_list = request.params.handles | split: ',' %}
 
 <div id="product-grid">
+    <p>asdadfsdfs</p>
   {% for handle in handles_list %}
     {% assign product = all_products[handle] %}
     {% if product %}
