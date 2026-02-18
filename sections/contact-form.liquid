@@ -332,6 +332,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   //Fetch The wishlist
+  {% comment %} A-Z : ?page=1&sortBy=title&order=asc
+  Z-A : ?page=1&sortBy=title&order=desc
+  Oldest First : ?page=1&sortBy=createdDate&order=asc
+  Newest First : ?page=1 {% endcomment %}
   {% comment %} fetch('/apps/customer-dashboard/api/customer/fetch-wishlists?page=1', {
       method: 'GET',
       headers: {
