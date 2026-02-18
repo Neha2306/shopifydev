@@ -1,0 +1,23 @@
+{% layout none %}
+
+{% assign handles_list = request.params.handles | split: ',' %}
+
+<div id="product-grid">
+  {% for handle in handles_list %}
+    {% assign product = all_products[handle] %}
+    {% if product %}
+      {% render 'card-product',
+        card_product: product,
+        media_aspect_ratio: section.settings.image_ratio,
+        image_shape: section.settings.image_shape,
+        show_secondary_image: section.settings.show_secondary_image,
+        show_vendor: section.settings.show_vendor,
+        show_rating: section.settings.show_rating,
+        lazy_load: false,
+        skip_styles: false,
+        quick_add: section.settings.quick_add,
+        section_id: section.id
+      %}
+    {% endif %}
+  {% endfor %}
+</div>
