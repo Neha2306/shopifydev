@@ -6,7 +6,8 @@
   {% for handle in handles_list %}
     {% assign product = all_products[handle] %}
     {% if product %}
-      {% render 'card-product',
+        {{ product.id }}
+      {% comment %} {% render 'card-product',
         card_product: product,
         media_aspect_ratio: section.settings.image_ratio,
         image_shape: section.settings.image_shape,
@@ -17,7 +18,7 @@
         skip_styles: false,
         quick_add: section.settings.quick_add,
         section_id: section.id
-      %}
+      %} {% endcomment %}
     {% endif %}
   {% endfor %}
 </div>
