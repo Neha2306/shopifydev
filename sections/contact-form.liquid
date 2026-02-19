@@ -408,6 +408,24 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(response);
     })
     .catch(err => console.error(err));  {% endcomment %}
+
+    //Fetch Shared Wishlist
+         {% comment %} fetch('/apps/customer-dashboard/api/customer/wishlist/fetch-shared-wishlist', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+            id: "pN8RxChEJgpf7CfF2YAvn8QurZL2HjSDowgDprsiDukFr3GTY2e22vG"
+        })
+    })
+    .then(async res => {
+      const response = await res.json();
+      console.log("response");
+      console.log(response);
+    })
+    .catch(err => console.error(err));  {% endcomment %}
 });
 </script>
 
