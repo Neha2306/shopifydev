@@ -1,0 +1,23 @@
+{% comment %}
+Single Liquid file to render a product tile.
+Pass the product handle as a query parameter: ?handle=product-handle
+{% endcomment %}
+
+{% assign product_handle = request.params.handle %}
+{% assign product = all_products[product_handle] %}
+
+{% if product %}
+<div class="product-grid-item" data-product-id="{{ product.id }}">
+  {% comment %} <a href="{{ product.url }}">
+    <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+  </a> {% endcomment %}
+  <h2 class="product-title">{{ product.title }}</h2>
+  <span class="product-price">{{ product.price | money }}</span>
+  <form action="/cart/add" method="post" class="add-to-cart-form">
+    <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+    <button type="submit" class="add-to-cart-button">Add to cart</button>
+  </form>
+</div>
+{% else %}
+<p>Product not found</p>
+{% endif %}
