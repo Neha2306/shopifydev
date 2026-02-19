@@ -163,6 +163,13 @@
 </ul>
 
 <script>
+  window.ShopifyContext = {
+    currency: "{{ cart.currency.iso_code }}",
+    symbol: "{{ cart.currency.symbol }}",
+    locale: "{{ request.locale.iso_code }}", // e.g., "es-MX"
+    country: "{{ localization.country.iso_code }}"
+  };
+  
 document.addEventListener('DOMContentLoaded', () => {
   const selectedIds = new Set(); // hidden array
   const container = document.getElementById('wishlistContainer');
