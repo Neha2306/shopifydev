@@ -289,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btn2.addEventListener('click', async () => {
       console.log("selectedIds");
       console.log(Array.from(selectedIds));
-      fetch('/apps/customer-dashboard/api/customer/add-wishlist-product', {
+      fetch('/apps/customer-dashboard/api/customer/wishlist/add-product', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -297,7 +297,6 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         body: JSON.stringify({
             productId: "gid://shopify/Product/1234567891",
-            variationId: "gid://shopify/ProductVariant/1234567891",
             quantity: 1,
             idsArray: Array.from(selectedIds)
         })
