@@ -13,7 +13,7 @@
     }
   }
 {%- endstyle -%}
-{{ shop.money_format | json }}{{ shop.currency | json }}{{ shop.money_with_currency_format | json }}
+{{ shop.money_format | json }}{{ shop.locale | json }}{{ shop.money_with_currency_format | json }}
 <div class="color-{{ section.settings.color_scheme }} gradient">
   <div class="contact page-width page-width--narrow section-{{ section.id }}-padding">
     {%- if section.settings.heading != blank -%}
