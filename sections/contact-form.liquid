@@ -390,6 +390,24 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(response);
   })
   .catch(err => console.error(err));  {% endcomment %}
+
+  //Create wishlist sharing link
+   {% comment %} fetch('/apps/customer-dashboard/api/customer/wishlist/create-sharing-link', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+            wishlistId: "6996ec94815d019d1f6d46c8"
+        })
+    })
+    .then(async res => {
+      const response = await res.json();
+      console.log("response");
+      console.log(response);
+    })
+    .catch(err => console.error(err));  {% endcomment %}
 });
 </script>
 
