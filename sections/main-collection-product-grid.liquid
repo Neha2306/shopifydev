@@ -194,6 +194,19 @@
   {% if section.settings.image_shape == 'arch' %}
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
+  {%- layout none -%}
+
+{%- capture context_json -%}
+{
+  "country": {{ localization.country.iso_code | json }},
+  "locale": {{ request.locale.iso_code | json }},
+  "money_with_currency_format": {{ shop.money_with_currency_format | json }},
+  "money_format": {{ shop.money_format | json }},
+  "shop_name": {{ shop.name | json }}
+}
+{%- endcapture -%}
+
+{{ context_json | strip }}
 </div>
 <script>
 const btn = document.getElementById('load-product');
