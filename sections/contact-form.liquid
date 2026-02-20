@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(response);
       })
       .catch(err => console.error(err)); {% endcomment %}
-  });
+  {% comment %} }); {% endcomment %}
 
   // Trigger submit when button clicked
   const button = form.querySelector("button");
