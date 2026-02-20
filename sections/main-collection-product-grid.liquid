@@ -206,7 +206,7 @@
 }
 {%- endcapture -%}
 
-{% assign encoded_context = context_json | strip | base64_encode | json %}
+{% assign encoded_context = context_json | strip | base64_encode %}
 
 </div>
 <script>
