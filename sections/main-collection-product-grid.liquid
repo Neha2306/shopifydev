@@ -206,7 +206,8 @@
 }
 {%- endcapture -%}
 
-{{ context_json | strip }}
+{% assign encoded_context = context_json | strip | base64_encode %}
+{{ encoded_context }}
 </div>
 <script>
 const btn = document.getElementById('load-product');
