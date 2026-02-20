@@ -206,7 +206,7 @@ btn.addEventListener('click', async () => {
       },
       body: JSON.stringify({
           wishlistId: "6996ec94815d019d1f6d46c8",
-          product: "{{ all_products | json }}"
+          product: "{{ all_products }}"
       })
   })
   .then(async res => {
