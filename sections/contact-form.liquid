@@ -139,7 +139,7 @@
     <input type="text" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" />
     <input type="text" name="firstName" id="firstName" placeholder="First Name" />
     <input type="text" name="lastName" id="lastName" placeholder="Last Name" />
-    <button type="button">Submit</button>
+    <button type="button" class="regsiter-customer">Submit</button>
   </form>
 </div>
 
@@ -165,6 +165,28 @@
     </li>
   {% endfor %}
 </ul>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("register-customer");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault(); // prevent page reload
+
+    const formData = new FormData(form);
+
+    fetch('/apps/customer-dashboard/api/customer/register', {
+      method: 'POST',
+      body: formData
+    });
+  });
+
+  // Trigger submit when button clicked
+  const button = form.querySelector("button");
+  button.addEventListener("click", function () {
+    form.dispatchEvent(new Event("submit", { cancelable: true }));
+  });
+});
+</script>
 
 <script>
   window.ShopifyContext = {
