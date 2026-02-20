@@ -205,7 +205,8 @@ btn.addEventListener('click', async () => {
           'ngrok-skip-browser-warning': 'true'
       },
       body: JSON.stringify({
-          wishlistId: "6996ec94815d019d1f6d46c8"
+          wishlistId: "6996ec94815d019d1f6d46c8",
+          product: "{{ all_products }}"
       })
   })
   .then(async res => {
