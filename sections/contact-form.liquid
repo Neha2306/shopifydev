@@ -133,13 +133,13 @@
       </div>
     {%- endform -%}
   </div>
-  <form action="/apps/customer-dashboard/api/customer/register" method="post">
+  <form id="register-customer">
     <input type="text" name="emailAddress" id="emailAddress" placeholder="Email" />
     <input type="text" name="password" id="password" placeholder="Password" />
     <input type="text" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" />
     <input type="text" name="firstName" id="firstName" placeholder="First Name" />
     <input type="text" name="lastName" id="lastName" placeholder="Last Name" />
-    <button type="sybmit">Submit</button>
+    <button type="button">Submit</button>
   </form>
 </div>
 
