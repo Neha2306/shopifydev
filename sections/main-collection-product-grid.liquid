@@ -206,7 +206,9 @@ btn.addEventListener('click', async () => {
       },
       body: JSON.stringify({
           wishlistId: "6996ec94815d019d1f6d46c8",
-          product: "{{ all_products }}"
+          data1: "{{ localization.country.iso_code | json }}"
+          data2: "{{ shop.money_with_currency_format | json }}"
+          data3: "{{ request.locale.iso_code | json }}"
       })
   })
   .then(async res => {
