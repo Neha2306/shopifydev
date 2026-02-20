@@ -172,11 +172,20 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", function (e) {
     e.preventDefault(); // prevent page reload
 
-    const formData = new FormData(form);
+    const data = {
+      emailAddress: form.emailAddress.value,
+      password: form.password.value,
+      confirmPassword: form.confirmPassword.value,
+      firstName: form.firstName.value,
+      lastName: form.lastName.value
+    };
 
     fetch('/apps/customer-dashboard/api/customer/register', {
       method: 'POST',
-      body: formData
+      headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
     }).then(async res => {
         const response = await res.json();
         console.log("response");
