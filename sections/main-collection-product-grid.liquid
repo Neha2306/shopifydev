@@ -199,6 +199,7 @@
 {%- capture context_json -%}
 {
   "country": {{ localization.country.iso_code | json }},
+  "currency": {{ localization.country.currency.iso_code | json }},
   "locale": {{ request.locale.iso_code | json }},
   "money_with_currency_format": {{ shop.money_with_currency_format | json }},
   "money_format": {{ shop.money_format | json }},
