@@ -433,6 +433,44 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(response);
     })
     .catch(err => console.error(err));  {% endcomment %}
+{% comment %} 
+    fetch('/apps/customer-dashboard/api/customer/wishlist/fetch-products?page=1', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+          wishlistId: "6996ec94815d019d1f6d46c8"
+      })
+  })
+  .then(async res => {
+    const response = await res.json();
+    const data = response.data;
+    console.log("data");
+    console.log(data);
+    function insertIntoContainer() {
+        const container = document.querySelector('#product-grid'); // change this to your div selector
+        if (!container) return;
+
+        // const wrapper = document.createElement('div');
+        // wrapper.innerHTML = data;
+        // const element = wrapper.firstElementChild;
+        // container.appendChild(element);
+
+        container.insertAdjacentHTML('beforeend', data);
+
+        document.dispatchEvent(new CustomEvent('shopify:section:load'));
+        document.dispatchEvent(new Event('theme:load'));
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', insertIntoContainer);
+    } else {
+        insertIntoContainer();
+    }
+  })
+  .catch(err => console.error(err)); {% endcomment %}
 });
 </script>
 
