@@ -206,7 +206,7 @@
 }
 {%- endcapture -%}
 
-{% assign encoded_context = context_json | strip | base64_encode %}
+{% assign encoded_context = context_json | strip | base64_encode | json %}
 
 </div>
 <script>
@@ -220,7 +220,7 @@ btn.addEventListener('click', async () => {
       },
       body: JSON.stringify({
           wishlistId: "6996ec94815d019d1f6d46c8",
-          data1: JSON.stringify({"{{ encoded_context | json}}"})
+          data1: "{{ encoded_context }}"
       })
   })
   .then(async res => {
