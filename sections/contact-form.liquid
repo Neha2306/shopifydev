@@ -168,22 +168,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  jQuery.ajax({
-  url: '/apps/customer-dashboard/api/customer/register',
-  type: 'POST',
-  contentType: 'application/json',
-  data: JSON.stringify({
-    title: 'New Product',
-    price: 100
-  }),
-  success: function(response) {
-    console.log(response);
-  },
-  error: function(response) {
-    console.log(response);
-  }
-});
-  {% comment %} const form = document.getElementById("register-customer");
+  const form = document.getElementById("register-customer");
   form.addEventListener("submit", function (e) {
     e.preventDefault(); // prevent page reload
 
@@ -206,8 +191,8 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("response");
         console.log(response);
       })
-      .catch(err => console.error(err)); {% endcomment %}
-  {% comment %} }); {% endcomment %}
+      .catch(err => console.error(err));
+  });
 
   // Trigger submit when button clicked
   const button = form.querySelector("button");
