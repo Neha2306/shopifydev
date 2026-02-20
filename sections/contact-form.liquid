@@ -177,7 +177,12 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch('/apps/customer-dashboard/api/customer/register', {
       method: 'POST',
       body: formData
-    });
+    }).then(async res => {
+        const response = await res.json();
+        console.log("response");
+        console.log(response);
+      })
+      .catch(err => console.error(err));
   });
 
   // Trigger submit when button clicked
