@@ -134,7 +134,11 @@
     {%- endform -%}
   </div>
   <form action="/apps/customer-dashboard/api/customer/register" method="post">
-    <input type="text" value="" />
+    <input type="text" name="emailAddress" id="emailAddress" />
+    <input type="text" name="password" id="password" />
+    <input type="text" name="confirmPassword" id="confirmPassword" />
+    <input type="text" name="firstName" id="firstName" />
+    <input type="text" name="lastName" id="lastName" />
     <button type="sybmit">Submit</button>
   </form>
 </div>
