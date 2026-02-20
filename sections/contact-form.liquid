@@ -141,28 +141,6 @@
     <input type="text" name="lastName" id="lastName" placeholder="Last Name" />
     <button type="button" class="regsiter-customer">Submit</button>
   </form>
-
-  {% form 'customerrn' %}
-
-  <div>
-    <label for="customerEmail">Email Address</label>
-    <input type="email"
-      name="customerrn[email]"
-      id="customerEmail"
-      autocorrect="off"
-      autocapitalize="off"
-      autocomplete="email">
-  </div>
-  <div>
-    <label for="customerPassword">Password</label>
-    <input type="password"
-      name="customerrn[password]"
-      id="customerPassword">
-  </div>
-
-  <input type="submit" value="Sign In" />
-
-{% endform %}
 </div>
 
 <button id="create-new-list" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Create New List</button>
