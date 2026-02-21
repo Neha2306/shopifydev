@@ -133,7 +133,9 @@
       </div>
     {%- endform -%}
   </div>
+  {% assign form_nonce = 'nonce-' | append: 'now' | append: 'GYHDJKADHvbnvdsIUOIUv@jsdj89GFGgfdah' %}
   <form id="register-customer">
+    <input type="hidden" name="form_nonce" value="{{ form_nonce }}">
     <input type="text" name="emailAddress" id="emailAddress" placeholder="Email" />
     <input type="text" name="password" id="password" placeholder="Password" />
     <input type="text" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" />
@@ -153,7 +155,6 @@
   <input type="checkbox" id="selectAll" />
   Select All
 </label>
-
 <ul id="wishlistContainer">
   {% assign options = "option1,option2,option3" | split: "," %}
   {% for option in options %}
