@@ -15,7 +15,7 @@
     "heading_scale": 100,
     "type_body_font": "assistant_n4",
     "body_scale": 100,
-    "page_width": 1200,
+    "page_width": 1300,
     "spacing_sections": 0,
     "spacing_grid_horizontal": 8,
     "spacing_grid_vertical": 8,
@@ -142,90 +142,6 @@
       }
     },
     "content_for_index": [],
-    "blocks": {
-      "14832512241302024094": {
-        "type": "shopify://apps/pluralcart/blocks/list-carts/6d5574dc-9fb8-484c-96e4-d6123e2934d8",
-        "disabled": false,
-        "settings": {
-          "target": "",
-          "table_class": "",
-          "items_per_page": 20,
-          "section_title_text": "Saved Collections",
-          "empty_text": "You haven't saved any collections yet.",
-          "table_head_id_text": "ID",
-          "table_head_date_text": "Date",
-          "table_head_title_text": "Title",
-          "table_head_count_text": "Item Count"
-        }
-      },
-      "5073133894706448843": {
-        "type": "shopify://apps/pluralcart/blocks/save-cart-embed/6d5574dc-9fb8-484c-96e4-d6123e2934d8",
-        "disabled": false,
-        "settings": {
-          "target": "",
-          "embed_parent_container": "cart-drawer",
-          "button_class": "button btn btn-primary",
-          "allow_outside_cart_page": false,
-          "show_view_carts": true,
-          "show_save_cart": true,
-          "show_send_to_sales": false,
-          "customer_tags": "",
-          "show_modal": false,
-          "show_id": true,
-          "view_carts_button": "View Carts",
-          "save_cart_button": "Save Cart",
-          "send_to_sales_button": "Send to Sales",
-          "empty_cart_text": "You must have items in your cart",
-          "modal_title_text": "Save Cart",
-          "create_new_section_text": "Create new",
-          "create_new_placeholder_text": "My new collection",
-          "existing_section_text": "Save to existing",
-          "create_new_text": "Save",
-          "view_all_text": "View all",
-          "load_more_text": "Load More",
-          "success_text": "Cart saved to",
-          "error_text": "An error occurred",
-          "login_text": "Log in to save",
-          "login_create_text": "Log in to create a new collection"
-        }
-      },
-      "406024653658000078": {
-        "type": "shopify://apps/pluralcart/blocks/add-product-embed/6d5574dc-9fb8-484c-96e4-d6123e2934d8",
-        "disabled": false,
-        "settings": {
-          "use_default_carts": false,
-          "embed_button": true,
-          "customer_tags": "",
-          "button_class": "aasaved-cart-trigger",
-          "button_color": "",
-          "button_text_color": "",
-          "button_full_width": true,
-          "button_vertical_padding": 10,
-          "button_horizontal_padding": 10,
-          "button_border_radius": 0,
-          "button_icon": true,
-          "button_icon_html": "<svg width=\"24\" height=\"24\" viewbox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M23 17V22.5C23 22.7761 22.7761 23 22.5 23H1.5C1.22386 23 1 22.7761 1 22.5V17\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"></path><path d=\"M12 1V16M12 16L6 10M12 16L18 10\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg>",
-          "show_id": true,
-          "trigger_button_text": "Save Product",
-          "modal_title_text": "Save Product",
-          "create_new_section_text": "Create new",
-          "create_new_placeholder_text": "My new collection",
-          "existing_section_text": "Save to existing",
-          "create_new_text": "Save",
-          "view_all_text": "View all",
-          "load_more_text": "Load More",
-          "success_text": "Item saved to",
-          "error_text": "An error occurred",
-          "login_text": "Log in to save",
-          "login_create_text": "Log in to create a new collection"
-        }
-      },
-      "11391643856454973168": {
-        "type": "shopify://apps/pluralcart/blocks/tools/6d5574dc-9fb8-484c-96e4-d6123e2934d8",
-        "disabled": false,
-        "settings": {}
-      }
-    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
