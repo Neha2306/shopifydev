@@ -232,14 +232,14 @@ btn.addEventListener('click', async () => {
           context: "{{ encoded_context }}"
       })
   }) {% endcomment %}
-  fetch('/apps/customer-dashboard/api/customer/wishlist/fetch-products?page=4', {
+  fetch('/apps/customer-dashboard/api/customer/wishlist/fetch-products?page=1', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
           'ngrok-skip-browser-warning': 'true'
       },
       body: JSON.stringify({
-          wishlistId: "6996ec94815d019d1f6d46c8",
+          wishlistId: "6996ec94815d019d1f6d46c1",
           context: "{{ encoded_context }}"
       })
   })
