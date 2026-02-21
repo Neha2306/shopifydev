@@ -220,7 +220,7 @@
 <script>
 const btn = document.getElementById('load-product');
 btn.addEventListener('click', async () => {
-  fetch('/apps/customer-dashboard/api/customer/wishlist/fetch-shared-wishlist?page=1', {
+  {% comment %} fetch('/apps/customer-dashboard/api/customer/wishlist/fetch-shared-wishlist?page=1', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
@@ -232,7 +232,7 @@ btn.addEventListener('click', async () => {
           context: "{{ encoded_context }}"
       })
   })
-  {% comment %} fetch('/apps/customer-dashboard/api/customer/wishlist/fetch-products?page=1', {
+  fetch('/apps/customer-dashboard/api/customer/wishlist/fetch-products?page=1', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
@@ -242,7 +242,7 @@ btn.addEventListener('click', async () => {
           wishlistId: "6996ec94815d019d1f6d46c8",
           context: "{{ encoded_context }}"
       })
-  }) {% endcomment %}
+  })
   .then(async res => {
     const response = await res.json();
     console.log("response");
@@ -264,7 +264,7 @@ btn.addEventListener('click', async () => {
         insertIntoContainer();
     }
   })
-  .catch(err => console.error(err));
+  .catch(err => console.error(err)); {% endcomment %}
 });
 </script>
 {% schema %}
