@@ -179,7 +179,12 @@ document.addEventListener("DOMContentLoaded", function () {
       confirmPassword: form.confirmPassword.value,
       firstName: form.firstName.value,
       lastName: form.lastName.value,
-      contactNumber: '+918989675450'
+      contactNumber: '+918989675450',
+      streetName: "Damrak",
+      houseNumber: "1A",
+      additional: "",
+      placeName: "Amsterdam",
+      postalCode: "1012LG"
     };
 
     fetch('/apps/customer-dashboard/api/customer/register', {
