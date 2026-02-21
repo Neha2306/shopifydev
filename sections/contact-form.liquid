@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btn1 = document.getElementById('delete-wishlistlist');
   if(btn1) {
     btn1.addEventListener('click', async () => {
-      fetch('/apps/customer-dashboard/api/customer/delete-wishlist', {
+      fetch('/apps/customer-dashboard/api/customer/wishlist/delete', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -362,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btn3 = document.getElementById('delete-wishlist-product');
   if(btn3) {
     btn3.addEventListener('click', async () => {
-      fetch('/apps/customer-dashboard/api/customer/delete-wishlist-product', {
+      fetch('/apps/customer-dashboard/api/customer/wishlist/delete-product', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
