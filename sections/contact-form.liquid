@@ -192,12 +192,17 @@ document.addEventListener("DOMContentLoaded", function () {
       branchName: "data"
     };
 
-    fetch('/apps/customer-dashboard/api/customer/register', {
+    const data1 = {
+      requestType: "resourcekvk",
+      cocNumber: "69599084"
+    }
+
+    fetch('/apps/customer-dashboard/api/customer/register/kvk', {
       method: 'POST',
       headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data1)
     }).then(async res => {
         const response = await res.json();
         console.log("response");
