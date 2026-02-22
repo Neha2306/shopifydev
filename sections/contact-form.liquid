@@ -211,12 +211,12 @@ document.addEventListener("DOMContentLoaded", function () {
     body: btoa(JSON.stringify(data2))
     }).then(async res => {
         const response = await res.json();
-        const message = response?.message;
+        {% comment %} const message = response?.message; {% endcomment %}
         console.log("response");
         console.log(response);
-        console.log("message");
+        {% comment %} console.log("message");
         console.log(message);
-        console.log(atob(message));
+        console.log(atob(message)); {% endcomment %}
       })
       .catch(err => console.error(err));
   });
