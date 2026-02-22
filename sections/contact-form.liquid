@@ -203,20 +203,20 @@ document.addEventListener("DOMContentLoaded", function () {
       postalCode: "7921 WH"
     }
 
-    fetch('/apps/customer-dashboard/api/customer/register/fetch-coc-details', {
+    fetch('/apps/customer-dashboard/api/customer/register', {
       method: 'POST',
       headers: {
       'Content-Type': 'application/json'
     },
-    body: btoa(JSON.stringify(data2))
+    body: btoa(JSON.stringify(data))
     }).then(async res => {
         const response = await res.json();
-        const decodedString = atob(response.data);
-const result = JSON.parse(decodedString);
-console.log(result.message);
-        {% comment %} const message = response?.message; {% endcomment %}
         console.log("response");
         console.log(response);
+        const decodedString = atob(response.result);
+        const result = JSON.parse(decodedString);
+        console.log(result.message);
+        {% comment %} const message = response?.message; {% endcomment %}
         {% comment %} console.log("message");
         console.log(message);
         console.log(atob(message)); {% endcomment %}
