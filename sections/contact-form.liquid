@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
     body: btoa(JSON.stringify(data2))
     }).then(async res => {
         const response = await res.json();
-        const decodedString = atob(response);
+        const decodedString = atob(response.data);
 const result = JSON.parse(decodedString);
 console.log(result.message);
         {% comment %} const message = response?.message; {% endcomment %}
