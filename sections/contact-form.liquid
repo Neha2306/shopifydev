@@ -205,7 +205,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     fetch('/apps/customer-dashboard/api/customer/register/fetch-coc-details', {
       method: 'POST',
-      body: btoa(JSON.stringify(data2))
+      headers: {
+      'Content-Type': 'application/json'
+    },
+    body: btoa(JSON.stringify(data2))
     }).then(async res => {
         const response = await res.json();
         console.log("response");
