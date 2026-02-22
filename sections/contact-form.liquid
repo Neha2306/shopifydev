@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
       headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(atob(data2))
+    body: btoa(JSON.stringify(data2))
     }).then(async res => {
         const response = await res.json();
         console.log("response");
