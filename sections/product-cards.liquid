@@ -1,0 +1,7 @@
+{% assign product = product %}
+
+<div class="product-card">
+  <h3>{{ product.title }}</h3>
+  {% comment %} <img src="{{ product.featured_image | image_url: width: 400 }}"> {% endcomment %}
+  <p>{{ product.price | money }}</p>
+</div>
