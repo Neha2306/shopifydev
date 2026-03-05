@@ -1,7 +1,628 @@
-{% comment %} {% assign product = product %} {% endcomment %}
+{{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
 
-<div class="product-card">
-  <h3>{{ product.title }}</h3>
-  {% comment %} <img src="{{ product.featured_image | image_url: width: 400 }}"> {% endcomment %}
-  <p>{{ product.price | money }}</p>
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+{{ localization.country.iso_code | json }}{{ request.locale.iso_code | json }}{{ shop.money_with_currency_format | json }}
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="contact page-width page-width--narrow section-{{ section.id }}-padding">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="title title-wrapper--no-top-margin inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {{ section.settings.heading }}
+      </h2>
+    {%- else -%}
+      <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
+    {%- endif -%}
+    {%- liquid
+      assign contact_form_class = 'isolate'
+      if settings.animations_reveal_on_scroll
+        assign contact_form_class = 'isolate scroll-trigger animate--slide-in'
+      endif
+    -%}
+    {%- form 'contact', id: 'ContactForm', class: contact_form_class -%}
+      {%- if form.posted_successfully? -%}
+        <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
+          {{- 'icon-success.svg' | inline_asset_content -}}
+          {{ 'templates.contact.form.post_success' | t }}
+        </h2>
+      {%- elsif form.errors -%}
+        <div class="form__message">
+          <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
+            {{- 'icon-error.svg' | inline_asset_content -}}
+            {{ 'templates.contact.form.error_heading' | t }}
+          </h2>
+        </div>
+        <ul class="form-status-list caption-large" role="list">
+          <li>
+            <a href="#ContactForm-email" class="link">
+              {{ form.errors.translated_fields.email | capitalize }}
+              {{ form.errors.messages.email }}
+            </a>
+          </li>
+        </ul>
+      {%- endif -%}
+      <div class="contact__fields">
+        <div class="field">
+          <input
+            class="field__input"
+            autocomplete="name"
+            type="text"
+            id="ContactForm-name"
+            name="contact[{{ 'templates.contact.form.name' | t }}]"
+            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            placeholder="{{ 'templates.contact.form.name' | t }}"
+          >
+          <label class="field__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
+        </div>
+        <div class="field field--with-error">
+          <input
+            autocomplete="email"
+            type="email"
+            id="ContactForm-email"
+            class="field__input"
+            name="contact[email]"
+            spellcheck="false"
+            autocapitalize="off"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            aria-required="true"
+            {% if form.errors contains 'email' %}
+              aria-invalid="true"
+              aria-describedby="ContactForm-email-error"
+            {% endif %}
+            placeholder="{{ 'templates.contact.form.email' | t }}"
+          >
+          <label class="field__label" for="ContactForm-email">
+            {{- 'templates.contact.form.email' | t }}
+            <span aria-hidden="true">*</span></label
+          >
+          {%- if form.errors contains 'email' -%}
+            <small class="contact__field-error" id="ContactForm-email-error">
+              <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+              <span class="form__message">
+                <span class="svg-wrapper">
+                  {{- 'icon-error.svg' | inline_asset_content -}}
+                </span>
+                {{- form.errors.translated_fields.email | capitalize }}
+                {{ form.errors.messages.email -}}
+              </span>
+            </small>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="field">
+        <input
+          type="tel"
+          id="ContactForm-phone"
+          class="field__input"
+          autocomplete="tel"
+          name="contact[{{ 'templates.contact.form.phone' | t }}]"
+          pattern="[0-9\-]*"
+          value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+          placeholder="{{ 'templates.contact.form.phone' | t }}"
+        >
+        <label class="field__label" for="ContactForm-phone">{{ 'templates.contact.form.phone' | t }}</label>
+      </div>
+      <div class="field">
+        <textarea
+          rows="10"
+          id="ContactForm-body"
+          class="text-area field__input"
+          name="contact[{{ 'templates.contact.form.comment' | t }}]"
+          placeholder="{{ 'templates.contact.form.comment' | t }}"
+        >
+          {{- form.body -}}
+        </textarea>
+        <label class="form__label field__label" for="ContactForm-body">
+          {{- 'templates.contact.form.comment' | t -}}
+        </label>
+      </div>
+      <div class="contact__button">
+        <button type="submit" class="button">
+          {{ 'templates.contact.form.send' | t }}
+        </button>
+      </div>
+    {%- endform -%}
+  </div>
+  {% assign form_nonce = 'nonce-' | append: 'now' | append: 'GYHDJKADHvbnvdsIUOIUv@jsdj89GFGgfdah' %}
+  <form id="register-customer">
+    <input type="hidden" name="form_nonce" value="{{ form_nonce }}">
+    <input type="text" name="emailAddress" id="emailAddress" placeholder="Email" />
+    <input type="text" name="password" id="password" placeholder="Password" />
+    <input type="text" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" />
+    <input type="text" name="firstName" id="firstName" placeholder="First Name" />
+    <input type="text" name="lastName" id="lastName" placeholder="Last Name" />
+    <button type="button" class="regsiter-customer">Submit</button>
+  </form>
 </div>
+
+<button id="create-new-list" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Create New List</button>
+<button id="add-wishlist-product" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Add Product</button>
+<button id="delete-wishlist-product" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Delete Wishlist Product</button>
+<button id="delete-wishlistlist" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Delete Wishlist</button>
+
+<!-- Select All Checkbox -->
+<label>
+  <input type="checkbox" id="selectAll" />
+  Select All
+</label>
+<ul id="wishlistContainer">
+  {% assign options = "option1,option2,option3" | split: "," %}
+  {% for option in options %}
+    <li>
+      <label>
+        <input type="checkbox" class="itemCheckbox" value="{{ option }}" />
+        {{ option }}
+      </label>
+    </li>
+  {% endfor %}
+</ul>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("register-customer");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault(); // prevent page reload
+
+    const data = {
+      emailAddress: form.emailAddress.value,
+      password: form.password.value,
+      confirmPassword: form.confirmPassword.value,
+      firstName: form.firstName.value,
+      lastName: form.lastName.value,
+      contactNumber: '+918989675451',
+      streetName: "Damrak",
+      houseNumber: "1A",
+      additional: "Damrak Villa",
+      placeName: "Amsterdam",
+      postalCode: "1012LG",
+      initial: "Ms.",
+      infix: "da",
+      gender: "Male",
+      branchID: "2",
+      branchName: "data"
+    };
+
+    const data1 = {
+      requestType: "resourcekvk",
+      cocNumber: "90004973"
+    }
+
+    const data2 = {
+      requestType: "resourcehousenpostal",
+      houseNumber: "12",
+      postalCode: "7921 WH"
+    }
+
+    fetch('/apps/api/api/customer/register', {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json'
+    },
+    body: btoa(JSON.stringify(data))
+    }).then(async res => {
+        const response = await res.json();
+        console.log("response");
+        console.log(response);
+        const decodedString = atob(response.result);
+        const result = JSON.parse(decodedString);
+        console.log(result.message);
+        {% comment %} const message = response?.message; {% endcomment %}
+        {% comment %} console.log("message");
+        console.log(message);
+        console.log(atob(message)); {% endcomment %}
+      })
+      .catch(err => console.error(err));
+  });
+
+  // Trigger submit when button clicked
+  const button = form.querySelector("button");
+  button.addEventListener("click", function () {
+    form.dispatchEvent(new Event("submit", { cancelable: true }));
+  });
+});
+</script>
+
+<script>
+  window.ShopifyContext = {
+    currency: "{{ cart.currency.iso_code }}",
+    symbol: "{{ cart.currency.symbol }}",
+    locale: "{{ request.locale.iso_code }}", // e.g., "es-MX"
+    country: "{{ localization.country.iso_code }}"
+  };
+  
+document.addEventListener('DOMContentLoaded', () => {
+  const selectedIds = new Set(); // hidden array
+  const container = document.getElementById('wishlistContainer');
+  const selectAll = document.getElementById('selectAll');
+
+  // Event delegation: handle all checkboxes dynamically
+  container.addEventListener('change', (e) => {
+    if(e.target.classList.contains('itemCheckbox')){
+      const checkbox = e.target;
+      if(checkbox.checked){
+        selectedIds.add(checkbox.value);
+      } else {
+        selectedIds.delete(checkbox.value);
+        selectAll.checked = false; // uncheck "Select All" if any unchecked
+      }
+
+      // If all checkboxes are checked, check "Select All"
+      const allCheckboxes = container.querySelectorAll('.itemCheckbox');
+      if([...allCheckboxes].every(cb => cb.checked)){
+        selectAll.checked = true;
+      }
+
+      console.log([...selectedIds]); // debug, remove in production
+    }
+  });
+
+  // Select All toggle
+  selectAll.addEventListener('change', () => {
+    const allCheckboxes = container.querySelectorAll('.itemCheckbox');
+    if(selectAll.checked){
+      allCheckboxes.forEach(cb => {
+        cb.checked = true;
+        selectedIds.add(cb.value);
+      });
+    } else {
+      allCheckboxes.forEach(cb => cb.checked = false);
+      selectedIds.clear();
+    }
+    console.log([...selectedIds]); // debug
+  });
+
+  //Create New Empty Wishlist & Add this newly create list into the already present list
+  const btn = document.getElementById('create-new-list');
+  btn.addEventListener('click', async () => {
+    fetch('/apps/customer-dashboard/api/customer/wishlist/create', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'ngrok-skip-browser-warning': 'true'
+              },
+							body: JSON.stringify({
+                  wishlistName: "Wishlist 12"
+              })
+          })
+          .then(async res => {
+            const response = await res.json();
+            console.log("response");
+            console.log(response);
+            if(response.status) {
+                const value = response.wishlistId;
+                const title = response.wishlistTitle;
+                console.log("value");
+                console.log(value);
+                console.log("wishlistTitle");
+                console.log(title);
+
+
+                const li = document.createElement('li');
+                const label = document.createElement('label');
+                const checkbox = document.createElement('input');
+
+                checkbox.type = 'checkbox';
+                checkbox.className = 'itemCheckbox';
+                checkbox.value = value;
+
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(' ' + title));
+                li.appendChild(label);
+                container.appendChild(li);
+
+                // Pre-check the new checkbox
+                checkbox.checked = true;
+                selectedIds.add(checkbox.value);
+
+                // Update Select All if now all are checked
+                const allCheckboxes = container.querySelectorAll('.itemCheckbox');
+                if([...allCheckboxes].every(cb => cb.checked)){
+                    selectAll.checked = true;
+                }
+
+                console.log([...selectedIds]); // debug
+            }
+        
+          })
+          .catch(err => console.error(err)); 
+  });
+
+  //Delete Wishlist
+  const btn1 = document.getElementById('delete-wishlistlist');
+  if(btn1) {
+    btn1.addEventListener('click', async () => {
+      fetch('/apps/customer-dashboard/api/customer/wishlist/delete', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+            wishlistId: "6999ce5fde29dde1d95b614e"
+        })
+    })
+    .then(async res => {
+      const response = await res.json();
+      console.log("response");
+      console.log(response);
+    })
+    .catch(err => console.error(err)); 
+    });
+  }
+
+  //Add New Wishlist Product
+  const btn2 = document.getElementById('add-wishlist-product');
+  if(btn2) {
+    btn2.addEventListener('click', async () => {
+      console.log("selectedIds");
+      console.log(Array.from(selectedIds));
+      fetch('/apps/customer-dashboard/api/customer/wishlist/add-product', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+            productId: "gid://shopify/Product/1234567891",
+            quantity: 1,
+            idsArray: Array.from(selectedIds)
+        })
+      })
+      .then(async res => {
+        const response = await res.json();
+        console.log("response");
+        console.log(response);
+      })
+      .catch(err => console.error(err)); 
+    });
+  }
+
+  //Delete Product Item
+  const btn3 = document.getElementById('delete-wishlist-product');
+  if(btn3) {
+    btn3.addEventListener('click', async () => {
+      fetch('/apps/customer-dashboard/api/customer/wishlist/delete-product', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'ngrok-skip-browser-warning': 'true'
+          },
+          body: JSON.stringify({
+              wishlistId: "6999ce5fde29dde1d95b614e",
+              wishlistProductId: "6999ce69de29dde1d95b6152"
+          })
+      })
+      .then(async res => {
+        const response = await res.json();
+        console.log("response");
+        console.log(response);
+      })
+      .catch(err => console.error(err));
+    });
+  }
+
+  //Fetch The wishlist
+  {% comment %} A-Z : ?page=1&sortBy=title&order=asc
+  Z-A : ?page=1&sortBy=title&order=desc
+  Oldest First : ?page=1&sortBy=createdDate&order=asc
+  Newest First : ?page=1 {% endcomment %}
+  {% comment %} fetch('/apps/customer-dashboard/api/customer/fetch-wishlists?page=1', {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      }
+  })
+  .then(async res => {
+    const response = await res.json();
+    console.log("response");
+    console.log(response);
+  })
+  .catch(err => console.error(err));  {% endcomment %}
+
+
+  //Fetch Wishlis Products
+  {% comment %} fetch('/apps/customer-dashboard/api/customer/fetch-wishlist-products?page=1', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+          wishlistId: "6994b5c7cb9e9ae094f84299"
+      })
+  })
+  .then(async res => {
+    const response = await res.json();
+    console.log("response");
+    console.log(response);
+  })
+  .catch(err => console.error(err)); {% endcomment %}
+
+  //Edit Wishlist Title
+  {% comment %} fetch('/apps/customer-dashboard/api/customer/edit-wishlist-title', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+          wishlistId: "6994a8baa0ecd9ac013465de",
+          wishlistName: 'Changed Title'
+      })
+  })
+  .then(async res => {
+    const response = await res.json();
+    console.log("response");
+    console.log(response);
+  })
+  .catch(err => console.error(err));  {% endcomment %}
+
+  //Create wishlist sharing link
+   {% comment %} fetch('/apps/customer-dashboard/api/customer/wishlist/create-sharing-link', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+            wishlistId: "6996ec94815d019d1f6d46c8"
+        })
+    })
+    .then(async res => {
+      const response = await res.json();
+      console.log("response");
+      console.log(response);
+    })
+    .catch(err => console.error(err));  {% endcomment %}
+
+    //Fetch Shared Wishlist
+         {% comment %} fetch('/apps/customer-dashboard/api/customer/wishlist/fetch-shared-wishlist', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+            id: "pN8RxChEJgpf7CfF2YAvn8QurZL2HjSDowgDprsiDukFr3GTY2e22vG"
+        })
+    })
+    .then(async res => {
+      const response = await res.json();
+      console.log("response");
+      console.log(response);
+    })
+    .catch(err => console.error(err));  {% endcomment %}
+{% comment %} 
+    fetch('/apps/customer-dashboard/api/customer/wishlist/fetch-products?page=1', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+          wishlistId: "6996ec94815d019d1f6d46c8"
+      })
+  })
+  .then(async res => {
+    const response = await res.json();
+    const data = response.data;
+    console.log("data");
+    console.log(data);
+    function insertIntoContainer() {
+        const container = document.querySelector('#product-grid'); // change this to your div selector
+        if (!container) return;
+
+        // const wrapper = document.createElement('div');
+        // wrapper.innerHTML = data;
+        // const element = wrapper.firstElementChild;
+        // container.appendChild(element);
+
+        container.insertAdjacentHTML('beforeend', data);
+
+        document.dispatchEvent(new CustomEvent('shopify:section:load'));
+        document.dispatchEvent(new Event('theme:load'));
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', insertIntoContainer);
+    } else {
+        insertIntoContainer();
+    }
+  })
+  .catch(err => console.error(err)); {% endcomment %}
+});
+</script>
+
+
+{% schema %}
+{
+  "name": "t:sections.contact-form.name",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "t:sections.contact-form.settings.title.default",
+      "label": "t:sections.contact-form.settings.title.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "hxl",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "hxxl",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.contact-form.presets.name"
+    }
+  ]
+}
+{% endschema %}
