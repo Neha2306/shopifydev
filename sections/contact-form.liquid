@@ -185,15 +185,15 @@ document.addEventListener("DOMContentLoaded", function () {
   .then(async res => {
     {% comment %} console.log("res");
     console.log(res); {% endcomment %}
-   const response = await res.text();
+   {% comment %} const response = await res.text();
     console.log("response");
-    console.log(response);
-    {% comment %} const response = await res.json();
+    console.log(response); {% endcomment %}
+    const response = await res.json();
         console.log("response");
         console.log(response);
         const decodedString = atob(response.result);
         const result = JSON.parse(decodedString);
-        console.log(result.message); {% endcomment %}
+        console.log(result.message);
   })
   .catch(err => console.error(err));
 
