@@ -169,6 +169,26 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+
+  fetch('/apps/apis/api/product/product_shelf', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+          storeID: "6999ce5fde29dde1d95b614e",
+          asposProductID: "",
+          asposScancodeID: ""
+      })
+  })
+  .then(async res => {
+    const response = await res.json();
+    console.log("response");
+    console.log(response);
+  })
+  .catch(err => console.error(err));
+
   const form = document.getElementById("register-customer");
   form.addEventListener("submit", function (e) {
     e.preventDefault(); // prevent page reload
