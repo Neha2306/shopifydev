@@ -185,6 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
   .then(async res => {
     console.log("res");
     console.log(res);
+    console.log(res.statusText);
     if(res.ok){
       const response = await res.json();
       const decodedString = atob(response.result);
@@ -198,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(reponseData.message);
       }
     } else {
-      console.log("404 Not found");
+      console.log(res.statusText);
     }
   })
   .catch(err => console.error(err));
