@@ -187,7 +187,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const decodedString = atob(response.result);
     console.log("decodedString");
     console.log(decodedString);
-    {% comment %} const reponseData = JSON.parse(decodedString); {% endcomment %}
+    const reponseData = JSON.parse(decodedString);
+    console.log("reponseData");
+    console.log(reponseData);
   })
   .catch(err => console.error(err));
 
