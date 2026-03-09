@@ -170,7 +170,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-  fetch(' https://9ad1-13-93-119-81.ngrok-free.app/api/product/product_shelf', {
+  {% comment %} fetch(' https://9ad1-13-93-119-81.ngrok-free.app/api/product/product_shelf', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("response");
     console.log(response);
   })
-  .catch(err => console.error(err));
+  .catch(err => console.error(err)); {% endcomment %}
 
   const form = document.getElementById("register-customer");
   form.addEventListener("submit", function (e) {
