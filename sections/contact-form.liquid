@@ -186,14 +186,20 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("res");
     console.log(res);
     const response = await res.json();
-    console.log("response");
-    console.log(response);
-    const decodedString = atob(response.result);
-    console.log("decodedString");
-    console.log(decodedString);
-    const reponseData = JSON.parse(decodedString);
-    console.log("reponseData");
-    console.log(reponseData);
+    if(response.ok){
+      const decodedString = atob(response.result);
+      const reponseData = JSON.parse(decodedString);
+      if(reponseData.status) {
+        console.log("reponseData");
+        console.log(reponseData.locationCode);
+        console.log(reponseData.locationText);
+      } else {
+        console.log("reponseDataError");
+        console.log(reponseData.message);
+      }
+    } else {
+      console.log("404 Not found");
+    }
   })
   .catch(err => console.error(err));
 
