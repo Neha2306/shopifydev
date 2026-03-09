@@ -185,7 +185,9 @@ document.addEventListener("DOMContentLoaded", function () {
   .then(async res => {
     const response = await res.json();
     const decodedString = atob(response.result);
-    const reponseData = JSON.parse(decodedString);
+    console.log("decodedString");
+    console.log(decodedString);
+    {% comment %} const reponseData = JSON.parse(decodedString); {% endcomment %}
   })
   .catch(err => console.error(err));
 
