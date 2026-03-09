@@ -183,23 +183,9 @@ document.addEventListener("DOMContentLoaded", function () {
       })
   })
   .then(async res => {
-    console.log("res");
-    console.log(res);
     const response = await res.json();
-        console.log("response");
-        console.log(response);
-        const decodedString = atob(response.result);
-        console.log("decodedString");
-        console.log(decodedString);
-        const result = JSON.parse(decodedString);
-        console.log(result);
-        console.log(result);
-        {% comment %} if(result.status) {
-          console.log(result);
-          console.log(result);
-        }else {
-          console.log(result.message);
-        } {% endcomment %}
+    const decodedString = atob(response.result);
+    const reponseData = JSON.parse(decodedString);
   })
   .catch(err => console.error(err));
 
