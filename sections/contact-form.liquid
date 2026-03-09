@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const decodedString = atob(response.result);
         console.log("decodedString");
         console.log(decodedString);
-        console.log(decodedString.status);
+        {% comment %} console.log(decodedString.status); {% endcomment %}
         {% comment %} const result = JSON.parse(decodedString);
         console.log(result);
         console.log(result);
