@@ -170,37 +170,6 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-  fetch(' https://9ad1-13-93-119-81.ngrok-free.app/api/product/product_shelf', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true'
-      },
-      body: JSON.stringify({
-          storeID: "24",
-          asposProductID: "37666",
-          asposScancodeID: "0000602199"
-      })
-  })
-  .then(async res => {
-    if(res.ok){
-      const response = await res.json();
-      const decodedString = atob(response.result);
-      const reponseData = JSON.parse(decodedString);
-      if(reponseData.status) {
-        console.log("reponseData");
-        console.log(reponseData.locationCode);
-        console.log(reponseData.locationText);
-      } else {
-        console.log("reponseDataError");
-        console.log(reponseData.message);
-      }
-    } else {
-      console.log(res.statusText);
-    }
-  })
-  .catch(err => console.error(err));
-
   const form = document.getElementById("register-customer");
   form.addEventListener("submit", function (e) {
     e.preventDefault(); // prevent page reload
@@ -316,7 +285,37 @@ document.addEventListener('DOMContentLoaded', () => {
   //Create New Empty Wishlist & Add this newly create list into the already present list
   const btn = document.getElementById('create-new-list');
   btn.addEventListener('click', async () => {
-    fetch('/apps/customer-dashboard/api/customer/wishlist/create', {
+    fetch(' https://9ad1-13-93-119-81.ngrok-free.app/api/product/product_shelf', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+          storeID: "24",
+          asposProductID: "37666",
+          asposScancodeID: "0000602199"
+      })
+  })
+  .then(async res => {
+    if(res.ok){
+      const response = await res.json();
+      const decodedString = atob(response.result);
+      const reponseData = JSON.parse(decodedString);
+      if(reponseData.status) {
+        console.log("reponseData");
+        console.log(reponseData.locationCode);
+        console.log(reponseData.locationText);
+      } else {
+        console.log("reponseDataError");
+        console.log(reponseData.message);
+      }
+    } else {
+      console.log(res.statusText);
+    }
+  })
+  .catch(err => console.error(err));
+    {% comment %} fetch('/apps/customer-dashboard/api/customer/wishlist/create', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -366,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         
           })
-          .catch(err => console.error(err)); 
+          .catch(err => console.error(err));  {% endcomment %}
   });
 
   //Delete Wishlist
