@@ -185,9 +185,9 @@ document.addEventListener("DOMContentLoaded", function () {
   .then(async res => {
     {% comment %} console.log("res");
     console.log(res); {% endcomment %}
-   const response = await res.text();
+   {% comment %} const response = await res.text();
     console.log("response");
-    console.log(response);
+    console.log(response); {% endcomment %}
     const response = await res.json();
         console.log("response");
         console.log(response);
