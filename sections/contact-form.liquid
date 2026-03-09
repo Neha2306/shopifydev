@@ -183,9 +183,11 @@ document.addEventListener("DOMContentLoaded", function () {
       })
   })
   .then(async res => {
-    const response = await res.json();
+    console.log("res");
+    console.log(res);
+    {% comment %} const response = await res.json();
     console.log("response");
-    console.log(response);
+    console.log(response); {% endcomment %}
   })
   .catch(err => console.error(err));
 
