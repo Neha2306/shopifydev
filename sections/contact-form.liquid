@@ -189,8 +189,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const decodedString = atob(response.result);
         const result = JSON.parse(decodedString);
         if(result.status) {
-          console.log(result.locationCode);
-          console.log(result.locationText);
+          console.log(result);
+          console.log(result);
         }else {
           console.log(result.message);
         }
