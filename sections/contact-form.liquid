@@ -188,6 +188,12 @@ document.addEventListener("DOMContentLoaded", function () {
    const response = await res.text();
     console.log("response");
     console.log(response);
+    const response = await res.json();
+        console.log("response");
+        console.log(response);
+        const decodedString = atob(response.result);
+        const result = JSON.parse(decodedString);
+        console.log(result.message);
   })
   .catch(err => console.error(err));
 
