@@ -189,10 +189,12 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("response");
         console.log(response);
         const decodedString = atob(response.result);
-        const result = JSON.parse(decodedString);
+        console.log("decodedString");
+        console.log(decodedString);
+        {% comment %} const result = JSON.parse(decodedString);
         console.log(result);
         console.log(result);
-        {% comment %} if(result.status) {
+        if(result.status) {
           console.log(result);
           console.log(result);
         }else {
