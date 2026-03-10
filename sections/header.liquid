@@ -18,6 +18,13 @@
   </script>
 {% endif %}
 
+{% if request.path contains '/account' %}
+  <script>
+    // Redirect all /account pages to homepage
+    window.location.href = '/';
+  </script>
+{% endif %}
+
 <style>
   header-drawer {
     justify-self: start;
