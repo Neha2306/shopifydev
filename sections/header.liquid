@@ -10,19 +10,17 @@
 {%- if section.settings.menu_type_desktop == 'mega' -%}
   <link rel="stylesheet" href="{{ 'component-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
 {%- endif -%}
-
-{% if page.handle == 'quotations' and customer == nil %}
-  <meta http-equiv="refresh" content="0;url={{ routes.root_url }}">
-  <script>
-    window.location.replace('{{ routes.root_url }}');
-  </script>
-{% endif %}
-
 {% if request.path contains '/account' %}
   <script>
     alert("sdfsdfsd");
     // Redirect all /account pages to homepage
     window.location.href = '/';
+  </script>
+{% endif %}
+{% if page.handle == 'quotations' and customer == nil %}
+  <meta http-equiv="refresh" content="0;url={{ routes.root_url }}">
+  <script>
+    window.location.replace('{{ routes.root_url }}');
   </script>
 {% endif %}
 
