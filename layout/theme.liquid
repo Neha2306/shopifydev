@@ -14,14 +14,6 @@
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
-    <script>alert("request.path")</script>
-    {% if request.path contains '/account' %}
-  <script>
-    alert("sdfsdfsd");
-    // Redirect all /account pages to homepage
-    window.location.href = '/';
-  </script>
-{% endif %}
 
     <title>
       {{ page_title }}
