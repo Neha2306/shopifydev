@@ -109,6 +109,7 @@
     className="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"
     rel="nofollow">mnmnmnmn
   </a>
+  <a href="{{ routes.storefront_login_url | append: '&login_hint=' | append: customer.email | url_param_escape }}">Sign in</a>
 {%- endif -%}
 
 {%- liquid
