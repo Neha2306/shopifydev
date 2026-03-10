@@ -1,949 +1,656 @@
-<style>
-    .toggle {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    gap: 15px;
-    font-size: 14px;
-}
+{{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
 
-.toggle input {
-    display: none;
-}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
 
-.slider {
-    position: relative;
-    width: 45px;
-    height: 22px;
-    background: #ccc;
-    border-radius: 50px;
-    transition: 0.3s;
-}
-
-.slider::before {
-    content: "";
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    left: 2px;
-    top: 2px;
-    background: white;
-    border-radius: 50%;
-    transition: 0.3s;
-}
-
-.toggle input:checked + .slider {
-    background: #000;
-}
-
-.toggle input:checked + .slider::before {
-    transform: translateX(23px);
-}
-.error-message {
-    color: red;
-}
-.coc-popup-overlay {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    background: white;
-    z-index: 999;
-}
-</style>
-<div class="container">
-    <div class="flow-wrapper">
-        <div id="flow-container">
-
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+{{ localization.country.iso_code | json }}{{ request.locale.iso_code | json }}{{ shop.money_with_currency_format | json }}
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="contact page-width page-width--narrow section-{{ section.id }}-padding">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="title title-wrapper--no-top-margin inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {{ section.settings.heading }}
+      </h2>
+    {%- else -%}
+      <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
+    {%- endif -%}
+    {%- liquid
+      assign contact_form_class = 'isolate'
+      if settings.animations_reveal_on_scroll
+        assign contact_form_class = 'isolate scroll-trigger animate--slide-in'
+      endif
+    -%}
+    {%- form 'contact', id: 'ContactForm', class: contact_form_class -%}
+      {%- if form.posted_successfully? -%}
+        <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
+          {{- 'icon-success.svg' | inline_asset_content -}}
+          {{ 'templates.contact.form.post_success' | t }}
+        </h2>
+      {%- elsif form.errors -%}
+        <div class="form__message">
+          <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
+            {{- 'icon-error.svg' | inline_asset_content -}}
+            {{ 'templates.contact.form.error_heading' | t }}
+          </h2>
         </div>
-    </div>
+        <ul class="form-status-list caption-large" role="list">
+          <li>
+            <a href="#ContactForm-email" class="link">
+              {{ form.errors.translated_fields.email | capitalize }}
+              {{ form.errors.messages.email }}
+            </a>
+          </li>
+        </ul>
+      {%- endif -%}
+      <div class="contact__fields">
+        <div class="field">
+          <input
+            class="field__input"
+            autocomplete="name"
+            type="text"
+            id="ContactForm-name"
+            name="contact[{{ 'templates.contact.form.name' | t }}]"
+            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            placeholder="{{ 'templates.contact.form.name' | t }}"
+          >
+          <label class="field__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
+        </div>
+        <div class="field field--with-error">
+          <input
+            autocomplete="email"
+            type="email"
+            id="ContactForm-email"
+            class="field__input"
+            name="contact[email]"
+            spellcheck="false"
+            autocapitalize="off"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            aria-required="true"
+            {% if form.errors contains 'email' %}
+              aria-invalid="true"
+              aria-describedby="ContactForm-email-error"
+            {% endif %}
+            placeholder="{{ 'templates.contact.form.email' | t }}"
+          >
+          <label class="field__label" for="ContactForm-email">
+            {{- 'templates.contact.form.email' | t }}
+            <span aria-hidden="true">*</span></label
+          >
+          {%- if form.errors contains 'email' -%}
+            <small class="contact__field-error" id="ContactForm-email-error">
+              <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+              <span class="form__message">
+                <span class="svg-wrapper">
+                  {{- 'icon-error.svg' | inline_asset_content -}}
+                </span>
+                {{- form.errors.translated_fields.email | capitalize }}
+                {{ form.errors.messages.email -}}
+              </span>
+            </small>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="field">
+        <input
+          type="tel"
+          id="ContactForm-phone"
+          class="field__input"
+          autocomplete="tel"
+          name="contact[{{ 'templates.contact.form.phone' | t }}]"
+          pattern="[0-9\-]*"
+          value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+          placeholder="{{ 'templates.contact.form.phone' | t }}"
+        >
+        <label class="field__label" for="ContactForm-phone">{{ 'templates.contact.form.phone' | t }}</label>
+      </div>
+      <div class="field">
+        <textarea
+          rows="10"
+          id="ContactForm-body"
+          class="text-area field__input"
+          name="contact[{{ 'templates.contact.form.comment' | t }}]"
+          placeholder="{{ 'templates.contact.form.comment' | t }}"
+        >
+          {{- form.body -}}
+        </textarea>
+        <label class="form__label field__label" for="ContactForm-body">
+          {{- 'templates.contact.form.comment' | t -}}
+        </label>
+      </div>
+      <div class="contact__button">
+        <button type="submit" class="button">
+          {{ 'templates.contact.form.send' | t }}
+        </button>
+      </div>
+    {%- endform -%}
+  </div>
+  {% assign form_nonce = 'nonce-' | append: 'now' | append: 'GYHDJKADHvbnvdsIUOIUv@jsdj89GFGgfdah' %}
+  <form id="register-customer">
+    <input type="hidden" name="form_nonce" value="{{ form_nonce }}">
+    <input type="text" name="emailAddress" id="emailAddress" placeholder="Email" />
+    <input type="text" name="password" id="password" placeholder="Password" />
+    <input type="text" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" />
+    <input type="text" name="firstName" id="firstName" placeholder="First Name" />
+    <input type="text" name="lastName" id="lastName" placeholder="Last Name" />
+    <button type="button" class="regsiter-customer">Submit</button>
+  </form>
 </div>
 
+<button id="create-new-list" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Create New List</button>
+<button id="add-wishlist-product" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Add Product</button>
+<button id="delete-wishlist-product" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Delete Wishlist Product</button>
+<button id="delete-wishlistlist" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Delete Wishlist</button>
+
+<!-- Select All Checkbox -->
+<label>
+  <input type="checkbox" id="selectAll" />
+  Select All
+</label>
+<ul id="wishlistContainer">
+  {% assign options = "option1,option2,option3" | split: "," %}
+  {% for option in options %}
+    <li>
+      <label>
+        <input type="checkbox" class="itemCheckbox" value="{{ option }}" />
+        {{ option }}
+      </label>
+    </li>
+  {% endfor %}
+</ul>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const container = document.getElementById("flow-container");
-
-        //Regular Expressions for validations
-        const cardNumberRegex = /[^0-9]/;
-        const cocNumberRegex = /[^0-9]/;
-        const zipCodeRegex = /^[1-9][0-9]{3}\s?[A-Za-z]{2}$/;
-
-        // Current step key
-        let currentStep = "start";
-        const formData = {};
-
-        let requestResource = "registration";
-
-        //Setup For Bouwmaat Pass
-        let isCardNumberFormSubmitted = false;
-        let cardNumberResult = null;
-        let cardNumberInputs = getInitialCardNumberInputs();
-
-        //setup for COC Numner
-        let isCocFormSubmitted = false;
-        let cocNumberResult = null;
-        let cocNumberInputs = getInitialCocNumberInputs();
-        let dunNumber = "";
-
-        //Store Serached COC Results
-        let cocSearchResults = [];
-        let selectedCocIndex = null;
-
-        let dynamicDetails = getInitialDynamicDetails();
-
-        // Metadata / transformation for fields
-        const dynamicDetailsTransformation = {
-            postalCode: { placeholder: "Postal Code", type: "text" },
-            houseNumber: { placeholder: "House Number", type: "text" },
-            additional: { placeholder: "Addition", type: "text" },
-            streetName: { placeholder: "Street Name", type: "text" },
-            placeName: { placeholder: "City / Place", type: "text" },
-        };
-
-        // Step definitions
-        const steps = {
-            start: {
-                render: () => `
-                    <section>
-                        <p>Do you have a Bouwmaat pass number?</p>
-                        <button data-next="cardNumber">Yes</button>
-                        <button data-next="cocNumberQuestion" data-proceed="registration">No</button>
-                    </section>
-                `,
-                onMount: () => {
-                    const proceedButton = document.querySelector('[data-proceed="registration"]');
-                    if(proceedButton && cocNumberResult) {
-                        proceedButton.onclick = () => {
-                            resetAssignments();
-                        }
-                    }
-                }
-            },
-
-            cardNumber: {
-                render: () => {
-                    let responseHTML = "";
-                    let errorsHTML = "";
-                    let buttonHTML = `<button id="bmSubmit">Check data</button>`;
-
-                    if(cardNumberResult) {
-                        if(!cardNumberResult.status && cardNumberResult.iserror){
-                            errorsHTML = `
-                                <p class="error-message">${cardNumberResult.message}</p>
-                            `;
-                        } else if(cardNumberResult.isExists && cardNumberResult.status) {
-                            responseHTML = `
-                                <p>Do you have access to the email address below?</p>
-                                <p>${cardNumberResult.message}</p>
-                            `;
-                            buttonHTML = `<button data-reset="cardNumber">Trying with a different pass number?</button>`;
-                        } else if(!cardNumberResult.isExists && cardNumberResult.status) {
-                            responseHTML = `
-                                <div>
-                                    <button data-reset="cardNumber">X</button>
-                                    <p><b>${cardNumberResult?.message?.companyName}</b></p>
-                                    <p><b>${cardNumberResult?.message?.houseNumber} ${cardNumberResult?.message?.street}</b></p>
-                                    <p><b>${cardNumberResult?.message?.zipCode} ${cardNumberResult?.message?.city}</b></p>
-                                </div>
-                            `;
-                            buttonHTML = `<button data-next="registration" data-proceed="registration">Next</button>`;
-                        }
-                    }
-
-                    return `
-                            <section>
-                                ${errorsHTML}
-                                <div class="input-field">
-                                    <input type="text" id="cardNumber" placeholder="Bouwmaat Pass Number" value="${cardNumberInputs.cardNumber.value}" ${cardNumberInputs.cardNumber.disable ? "disabled" : ""} class="${cardNumberInputs.cardNumber.error ? 'input-error' : ''}" />
-                                    ${cardNumberInputs.cardNumber.error ? `<span class="error-message">${cardNumberInputs.cardNumber.error}</span>` : ''}
-                                </div>
-                                <div class="input-field">
-                                    <input type="text" id="zipCode" placeholder="Post Code" value="${cardNumberInputs.zipCode.value}" ${cardNumberInputs.zipCode.disable ? "disabled" : ""} class="${cardNumberInputs.zipCode.error ? 'input-error' : ''}" />
-                                    ${cardNumberInputs.zipCode.error ? `<span class="error-message">${cardNumberInputs.zipCode.error}</span>` : ''}
-                                </div>
-                                ${responseHTML}
-                                <button data-next="start" data-reset="cardNumber">Back</button>
-                                ${buttonHTML}
-                            </section>
-                        `;
-                },
-                onMount: () => {
-                    let hasError = false;
-
-                    const bmSubmitButton = document.getElementById("bmSubmit");
-                    if(bmSubmitButton) {
-                        bmSubmitButton.onclick = () => {
-                            const errorBlock  = document.querySelector("p.error-message");
-                            if(errorBlock) {
-                                errorBlock.remove();
-                            }
-                            const cardNumber = document.getElementById("cardNumber").value.trim() ?? "";
-                            const zipCode = document.getElementById("zipCode").value.trim() ?? "";
-
-                            cardNumberInputs.cardNumber.value = cardNumber;
-                            cardNumberInputs.zipCode.value = zipCode;
-                            cardNumberInputs.cardNumber.error = "";
-                            cardNumberInputs.zipCode.error = "";
-
-                            dynamicDetails = getInitialDynamicDetails();
-
-                            hasError = false; 
-                            isCardNumberFormSubmitted = true;
-
-                            if (!cardNumber) {
-                                cardNumberInputs.cardNumber.error = "The Construction size pass number field is required.";
-                                hasError = true;
-                            } else if (cardNumberRegex.test(cardNumber)) {
-                                cardNumberInputs.cardNumber.error = "Construction size pass number consists only of numbers.";
-                                hasError = true;
-                            } else if (cardNumber.length < 9) {
-                                cardNumberInputs.cardNumber.error = "The construction size pass number must consist of at least 9 characters.";
-                                hasError = true;
-                            } else if (cardNumber.length > 10) {
-                                cardNumberInputs.cardNumber.error = "Construction size pass number may consist of a maximum of 10 characters.";
-                                hasError = true;
-                            }
-                            
-                            if (!zipCode) {
-                                cardNumberInputs.zipCode.error = "The Postcode field is required.";
-                                hasError = true;
-                            } else if (!zipCodeRegex.test(zipCode)) {
-                                cardNumberInputs.zipCode.error = "Postcode is not valid.";
-                                hasError = true;
-                            }
-
-                            if (hasError) {
-                                render();
-                                return;
-                            }
-
-                            fetch('https://9ad1-13-93-119-81.ngrok-free.app/api/customer/register/fetch-bouwmaat-card-details', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'ngrok-skip-browser-warning': 'true'
-                                },
-                                body: btoa(JSON.stringify({cardNumber: cardNumber, zipCode: zipCode}))
-                            }).then(async res => {
-                                const response = await res.json();
-                                const decodedString = atob(response.result);
-                                cardNumberResult = JSON.parse(decodedString);
-                                isCardNumberFormSubmitted = false;
-                                if((cardNumberResult.isExists && cardNumberResult.status) || (!cardNumberResult.isExists && cardNumberResult.status)) {
-                                    cardNumberInputs.cardNumber.disable = true;
-                                    cardNumberInputs.zipCode.disable = true;
-                                } else {
-                                    isCardNumberFormSubmitted = true;
-                                }
-                                render();
-                            }).catch(err => console.error(err));
-                            {% comment %} currentStep = "start";
-                            render(); {% endcomment %}
-                        }
-                    }
-
-                    const cardNumberInput = document.getElementById("cardNumber");
-                    if (cardNumberInput && isCardNumberFormSubmitted) {
-                        let cardErrorSpan = cardNumberInput.parentNode.querySelector(".error-message");
-                        
-                        if (!cardErrorSpan) {
-                            cardErrorSpan = document.createElement("span");
-                            cardErrorSpan.className = "error-message";
-                            cardNumberInput.parentNode.appendChild(cardErrorSpan);
-                        }
-
-                        cardNumberInput.oninput = () => {
-                            dynamicDetails = getInitialDynamicDetails();
-
-                            const errorBlock  = document.querySelector("p.error-message");
-                            if(errorBlock) {
-                                errorBlock.remove();
-                            }
-
-                            const value = cardNumberInput.value.trim();
-                            cardNumberInputs.cardNumber.value = value;
-
-                            let errorMessage = "";
-
-                            if(!value) {
-                                errorMessage = "The Construction size pass number field is required.";
-                            } else if (cardNumberRegex.test(value)) {
-                                errorMessage = "Construction size pass number consists only of numbers.";
-                            } else if (value.length < 9) {
-                                errorMessage = "The construction size pass number must consist of at least 9 characters.";
-                            } else if (value.length > 10) {
-                                errorMessage = "Construction size pass number may consist of a maximum of 10 characters.";
-                            }
-
-                            cardNumberInputs.cardNumber.error = errorMessage;
-                            cardErrorSpan.textContent = errorMessage;
-                            if(errorMessage) {
-                                cardNumberInput.classList.add("input-error");
-                            } else {
-                                cardNumberInput.classList.remove("input-error");
-                            }
-                        }
-                    }
-
-                    const zipCodeInput = document.getElementById("zipCode");
-                    if (zipCodeInput && isCardNumberFormSubmitted) {
-                        let cardErrorSpan = zipCodeInput.parentNode.querySelector(".error-message");
-                        
-                        if (!cardErrorSpan) {
-                            cardErrorSpan = document.createElement("span");
-                            cardErrorSpan.className = "error-message";
-                            zipCodeInput.parentNode.appendChild(cardErrorSpan);
-                        }
-
-                        zipCodeInput.oninput = () => {
-                            dynamicDetails = getInitialDynamicDetails();
-
-                            const errorBlock  = document.querySelector("p.error-message");
-                            if(errorBlock) {
-                                errorBlock.remove();
-                            }
-                            
-                            const value = zipCodeInput.value.trim();
-                            cardNumberInputs.zipCode.value = value;
-
-                            let errorMessage = "";
-
-                            if(!value) {
-                                errorMessage = "The Postcode field is required.";
-                            } else if (!zipCodeRegex.test(value)) {
-                                errorMessage = "Postcode is not valid.";
-                            }
-
-                            cardNumberInputs.zipCode.error = errorMessage;
-                            cardErrorSpan.textContent = errorMessage;
-                            if(errorMessage) {
-                                zipCodeInput.classList.add("input-error");
-                            } else {
-                                zipCodeInput.classList.remove("input-error");
-                            }
-                        }
-                    }
-
-                    const proceedButton = document.querySelector('[data-proceed="registration"]');
-                    if(proceedButton && cardNumberResult) {
-                        proceedButton.onclick = () => {
-                            requestResource = "usingCardNumber";
-                            dynamicDetails = {
-                                postalCode: cardNumberResult?.message?.zipCode ?? "",
-                                houseNumber: cardNumberResult?.message?.houseNumber ?? "",
-                                additional: "",
-                                streetName: cardNumberResult?.message?.street ?? "",
-                                placeName: cardNumberResult?.message?.city ?? "",
-                            };
-                            resetBouwmaatPass();
-                        }
-                    }
-                    
-                    //Reset All Fields
-                    function resetBouwmaatPass() {
-                        cardNumberResult = null;
-                        dunNumber = "";
-                        cardNumberInputs = getInitialCardNumberInputs();
-                        cocNumberInputs = getInitialCocNumberInputs();
-                        isCardNumberFormSubmitted = false;
-                        render();
-                    }
-                    document.querySelectorAll('[data-reset="cardNumber"]').forEach(btn => {
-                        btn.onclick = resetBouwmaatPass;
-                    });
-                }
-            },
-
-            cocNumberQuestion: {
-                render: () => `
-                    <section>
-                        <p>Do you have a Chamber of Commerce number?</p>
-                        <button data-next="cocNumber">Yes</button>
-                        <button data-next="registration" data-proceed="registration">No</button>
-                        <button data-next="start">Back</button>
-                    </section>
-                `,
-                onMount: () => {
-                    const proceedButton = document.querySelector('[data-proceed="registration"]');
-                    if(proceedButton && cocNumberResult) {
-                        proceedButton.onclick = () => {
-                            resetAssignments();
-                        }
-                    }
-                }
-            },
-
-            cocNumber: {
-                render: () => {
-                    let searchMoreCocButton = '<button id="serachMoreCoc">Help me find my Chamber of Commerce number</button>';
-                    let responseHTML = "";
-                    let errorsHTML = "";
-                    let buttonHTML = `<button id="cocNumberSubmit">Check Chamber of Commerce number</button>`;
-
-                    if(cocNumberResult){
-                        if(!cocNumberResult.status && cocNumberResult.iserror){
-                            errorsHTML = `
-                                <p class="error-message">${cocNumberResult.message}</p>
-                            `;
-                        } else if(cocNumberResult.status && !cocNumberResult.iserror) {
-                            const results = cocNumberResult?.result ?? [];
-                            if(results.length > 0) {
-                                results.forEach((result, index) => {
-                                    responseHTML += `
-                                        <div>
-                                            <button data-reset="resetCocNumber">X</button>
-                                            <p><b>${result?.companyName}</b></p>
-                                            <p><b>${result?.streetAddress}</b></p>
-                                            <p><b>${result?.postalCode} ${result?.addressLocality}</b></p>
-                                        </div>
-                                    `;
-                                });
-                                buttonHTML = `<button data-next="registration" data-proceed="registration">Next</button>`;
-                                searchMoreCocButton = '';
-                            }
-                        }
-                    }
-
-                    if (selectedCocIndex !== null && cocSearchResults[selectedCocIndex]) {
-                        const selectedItem = cocSearchResults[selectedCocIndex];
-                        responseHTML += `
-                            <div>
-                                <button data-reset="resetCocNumber">X</button>
-                                <p><b>${selectedItem.companyName}</b></p>
-                                <p><b>${selectedItem.streetAddress}</b></p>
-                                <p><b>${selectedItem.postalCode} ${selectedItem.addressLocality}</b></p>
-                            </div>
-                        `;
-                        searchMoreCocButton = ''; // hide search button once a selection is made
-                        buttonHTML = `<button data-next="registration" data-proceed="registration">Next</button>`;
-                    }
-
-                    return `
-                        <section>
-                            ${errorsHTML}
-                            <div class="input-field">
-                                <input type="text" id="cocNumber" placeholder="Chamber of Commerce number" value="${cocNumberInputs.cocNumber.value}" ${cocNumberInputs.cocNumber.disable ? "disabled" : ""} class="${cocNumberInputs.cocNumber.error ? 'input-error' : ''}" />
-                                ${cocNumberInputs.cocNumber.error ? `<span class="error-message">${cocNumberInputs.cocNumber.error}</span>` : ''}
-                            </div>
-                            ${searchMoreCocButton}
-                            ${responseHTML}
-                            <button data-next="cocNumberQuestion" data-reset="resetCocNumber">Back</button>
-                            ${buttonHTML}
-                        </section>
-                    `;
-                },
-                onMount: () => {
-                    let hasError = false;
-
-                    const cocNumberSubmitButton = document.getElementById("cocNumberSubmit");
-                    if(cocNumberSubmitButton) {
-                        cocNumberSubmitButton.onclick = () => {
-                            const errorBlock  = document.querySelector("p.error-message");
-                            if(errorBlock) {
-                                errorBlock.remove();
-                            }
-
-                            const cocNumber = document.getElementById("cocNumber").value.trim();
-
-                            cocNumberInputs.cocNumber.value = cocNumber;
-                            cocNumberInputs.cocNumber.error = "";
-                            dunNumber = "";
-
-                            hasError = false; 
-                            isCocFormSubmitted = true;
-
-                            if (!cocNumber) {
-                                cocNumberInputs.cocNumber.error = "The Chamber of Commerce number field is required.";
-                                hasError = true;
-                            } else if (cocNumberRegex.test(cocNumber)) {
-                                cocNumberInputs.cocNumber.error = "Chamber of Commerce number consists only of numbers.";
-                                hasError = true;
-                            } else if (cocNumber.length !== 8) {
-                                cocNumberInputs.cocNumber.error = "Chamber of Commerce number consists of 8 characters.";
-                                hasError = true;
-                            }
-
-                            if (hasError) {
-                                render();
-                                return;
-                            }
-
-                            fetch('/apps/apis/api/customer/register/fetch-coc-details', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'ngrok-skip-browser-warning': 'true'
-                                },
-                                body: btoa(JSON.stringify({cocNumber: cocNumber, requestType: "resourcekvk"}))
-                            }).then(async res => {
-                                const response = await res.json();
-                                const decodedString = atob(response.result);
-                                cocNumberResult = JSON.parse(decodedString);
-                                isCocFormSubmitted = false;
-                                if(!cocNumberResult.status && cocNumberResult.iserror){
-                                    isCocFormSubmitted = true;
-                                } else {
-                                    cocNumberInputs.cocNumber.disable = true;
-                                }
-                                render();
-                            }).catch(err => console.error(err));
-                        }
-                    }
-
-                    const cocNumberInput = document.getElementById("cocNumber");
-                    if(cocNumberInput && isCocFormSubmitted) {
-                        let cardErrorSpan = cocNumberInput.parentNode.querySelector(".error-message");
-                        
-                        if (!cardErrorSpan) {
-                            cardErrorSpan = document.createElement("span");
-                            cardErrorSpan.className = "error-message";
-                            cocNumberInput.parentNode.appendChild(cardErrorSpan);
-                        }
-
-                        cocNumberInput.oninput = () => {
-                            const errorBlock  = document.querySelector("p.error-message");
-                            if(errorBlock) {
-                                errorBlock.remove();
-                            }
-                            
-                            const value = cocNumberInput.value.trim();
-                            cocNumberInputs.cocNumber.value = value;
-
-                            let errorMessage = "";
-
-                            if(!value) {
-                                errorMessage = "The Chamber of Commerce number field is required.";
-                            } else if (cocNumberRegex.test(value)) {
-                                errorMessage = "Chamber of Commerce number consists only of numbers.";
-                            } else if (value.length !== 8) {
-                                errorMessage = "Chamber of Commerce number consists of 8 characters.";
-                            }
-
-                            cocNumberInputs.cocNumber.error = errorMessage;
-                            cardErrorSpan.textContent = errorMessage;
-                            if(errorMessage) {
-                                cocNumberInput.classList.add("input-error");
-                            } else {
-                                cocNumberInput.classList.remove("input-error");
-                            }
-                        }
-                    }
-
-                    const serachMoreCocButton = document.getElementById("serachMoreCoc");
-                    if(serachMoreCocButton) {
-                        serachMoreCocButton.onclick = () => {
-                            resetCocNumber();
-                            openCocPopup();
-                        }
-                    }
-
-                    function openCocPopup() {
-                        const overlay = document.createElement("div");
-                        overlay.className = "coc-popup-overlay";
-
-                        const popup = document.createElement("div");
-                        popup.className = "coc-popup";
-
-                        popup.innerHTML = `
-                            <div>
-                                <button class="close-popup">X</button>
-                                <h6>Find your Chamber of Commerce number</h6>
-                                <div class="input-field">
-                                    <input type="text" id="zipCode" placeholder="Postal Code" />
-                                </div>
-                                <div class="input-field">
-                                    <input type="text" id="houseNumber" placeholder="House Number" />
-                                </div>
-                                <button class="close-popup">Close</button>
-                                <button id="searchMoreBtn">To Search</button>
-                                <div class="search_result_section_wrapper"></div>
-                            </div>
-                        `;
-
-                        overlay.appendChild(popup);
-                        document.body.appendChild(overlay);
-
-                        const zipInput = popup.querySelector("#zipCode");
-                        const houseInput = popup.querySelector("#houseNumber");
-                        const searchMoreSubmitButton = popup.querySelector("#searchMoreBtn");
-
-                        let hasClickedSubmit = false; // track if user clicked search at least once
-
-                        function showError(inputElement, message) {
-                            inputElement.classList.add("input-error");
-                            let errorSpan = inputElement.parentNode.querySelector(".error-message");
-                            if (!errorSpan) {
-                                errorSpan = document.createElement("span");
-                                errorSpan.className = "error-message";
-                                inputElement.parentNode.appendChild(errorSpan);
-                            }
-                            errorSpan.textContent = message;
-                        }
-
-                        function clearError(inputElement) {
-                            inputElement.classList.remove("input-error");
-                            const errorSpan = inputElement.parentNode.querySelector(".error-message");
-                            if (errorSpan) errorSpan.remove();
-                        }
-
-                        // Live validation after first click
-                        zipInput.oninput = () => {
-                            if (!hasClickedSubmit) return; // do nothing until first click
-
-                            const value = zipInput.value.trim();
-                            if (!value) {
-                                showError(zipInput, "The Postcode field is required.");
-                            } else if (!zipCodeRegex.test(value)) {
-                                showError(zipInput, "Postcode is not valid.");
-                            } else {
-                                clearError(zipInput);
-                            }
-                        };
-
-                        houseInput.oninput = () => {
-                            if (!hasClickedSubmit) return; // do nothing until first click
-
-                            const value = houseInput.value.trim();
-                            if (!value) {
-                                showError(houseInput, "The House number field is required.");
-                            } else {
-                                clearError(houseInput);
-                            }
-                        };
-
-                        searchMoreSubmitButton.onclick = () => {
-                            hasClickedSubmit = true; // user clicked search at least once
-
-                            const zipCode = zipInput.value.trim();
-                            const houseNumber = houseInput.value.trim();
-
-                            let hasError = false;
-
-                            // Trigger validation manually
-                            if (!zipCode) {
-                                showError(zipInput, "The Postcode field is required.");
-                                hasError = true;
-                            } else if (!zipCodeRegex.test(zipCode)) {
-                                showError(zipInput, "Postcode is not valid.");
-                                hasError = true;
-                            } else {
-                                clearError(zipInput);
-                            }
-
-                            if (!houseNumber) {
-                                showError(houseInput, "The House number field is required.");
-                                hasError = true;
-                            } else {
-                                clearError(houseInput);
-                            }
-
-                            if (hasError) return;
-
-                            // Get the results container
-                            const resultsWrapper = popup.querySelector(".search_result_section_wrapper");
-                            resultsWrapper.innerHTML = ""; // clear previous results
-
-                            fetch('/apps/apis/api/customer/register/fetch-coc-details', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'ngrok-skip-browser-warning': 'true'
-                                },
-                                body: btoa(JSON.stringify({houseNumber: houseNumber, postalCode: zipCode, requestType: "resourcehousenpostal"}))
-                            }).then(async res => {
-                                const response = await res.json();
-                                const decodedString = atob(response.result);
-                                const results = JSON.parse(decodedString);
-                                if(results.status && !results.iserror){
-                                    const cocNumbersDetails = results?.result ?? [];
-                                    if(cocNumbersDetails.length <= 0){
-                                        resultsWrapper.innerHTML = `<p>No Chamber of Commerce numbers found for this address.</p>`;
-                                    } else {
-                                        cocSearchResults = cocNumbersDetails;
-                                        cocNumbersDetails.forEach((item, index) => {
-                                            const div = document.createElement("div");
-                                            div.className = "search-result-item";
-                                            div.innerHTML = `
-                                                <button type="button">
-                                                    <p><b>${item.companyName}</b></p>
-                                                    <p><b>${item.chamberOfCommerceNumber}</b></p>
-                                                </button>
-                                            `;
-                                            resultsWrapper.appendChild(div);
-
-                                            div.querySelector("button").onclick = () => {
-                                                selectedCocIndex = index; // remember selected
-                                                cocNumberInputs.cocNumber.value = item.chamberOfCommerceNumber; 
-                                                cocNumberInputs.cocNumber.disable = true; // optional
-                                                closePopup();
-                                                render(); // re-render main cocNumber section
-                                            };
-                                        });
-                                    }
-                                } else {
-                                    resultsWrapper.innerHTML = `<p>Chamber of Commerce number not found for this address.</p>`;
-                                }
-                            }).catch(err => console.error(err));
-                            
-                        };
-
-                        function closePopup() {
-                            overlay.remove();
-                        }
-
-                        popup.querySelectorAll(".close-popup").forEach(btn => btn.onclick = closePopup);
-                        overlay.onclick = (e) => {
-                            if (e.target === overlay) closePopup();
-                        };
-                    }
-
-                    const proceedButton = document.querySelector('[data-proceed="registration"]');
-                    if(proceedButton && cocNumberResult && cocNumberResult !== null) {
-                        proceedButton.onclick = () => {
-                            requestResource = "usingcocNumber";
-                            dunNumber = cocNumberResult?.result[0]?.dunsNumber;
-                            resetCocNumber();
-                        }
-                    } else if(proceedButton && cocSearchResults.length > 0 && selectedCocIndex !== null && cocSearchResults[selectedCocIndex]) {
-                        proceedButton.onclick = () => {
-                            requestResource = "resourcehousenpostal";
-                            dunNumber = cocSearchResults[selectedCocIndex].dunsNumber;
-                            resetCocNumber();
-                        }
-                    } else {
-                        return;
-                    }
-
-                    //Reset All Fields
-                    function resetCocNumber() {
-                        cocNumberResult = null;
-                        dynamicDetails = getInitialDynamicDetails();
-                        cardNumberInputs = getInitialCardNumberInputs();
-                        cocNumberInputs = getInitialCocNumberInputs();
-                        isCocFormSubmitted = false;
-                        cocSearchResults = [];
-                        selectedCocIndex = null;
-                        render();
-                    }
-                    document.querySelectorAll('[data-reset="resetCocNumber"]').forEach(btn => {
-                        btn.onclick = resetCocNumber;
-                    });
-                }
-            },
-
-            registration: {
-                render: () => `
-                    <section>
-                        <p>Proceed to Registration</p>
-                        <section class="form-grid">
-                            <div>
-                                <label>Gender:</label>
-                                <label>
-                                    <input type="radio" name="gender" value="Man" /> Man
-                                </label>
-                                <label>
-                                    <input type="radio" name="gender" value="Woman" /> Woman
-                                </label>
-                            </div>
-                            <input type="email" id="emailAddress" placeholder="Email" required />
-
-                            <input type="text" id="initial" placeholder="Initial" />
-                            <input type="text" id="firstName" placeholder="First Name" />
-                            <input type="text" id="infix" placeholder="Infix (optional)" />
-                            <input type="text" id="lastName" placeholder="Last Name" />
-
-                            <input type="tel" id="mobileNumber" placeholder="Mobile Number" />
-
-                            ${(requestResource !== "usingcocNumber" && requestResource !== "resourcehousenpostal")
-                                ? renderDynamicFields(dynamicDetails, dynamicDetailsTransformation)
-                                : ''
-                            }
-                            <button id="registrationSubmit">Submit</button>
-
-                            <div class="toggle-group">
-                                <label class="toggle">
-                                    <span>Email Marketing</span>
-                                    <input type="checkbox" id="emailMarketing" />
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-
-                            <div class="toggle-group">
-                                <label class="toggle">
-                                    <span>SMS Marketing</span>
-                                    <input type="checkbox" id="smsMarketing" />
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-
-                        </section>
-                        <button data-next="start">Start Again</button>
-                        <button data-next="cocNumberQuestion">Back</button>
-                    </section>
-                `,
-                onMount: () => {
-                    const registrationButton = document.getElementById("registrationSubmit");
-                    if(registrationButton) {
-                        registrationButton.onclick = () => {
-                            const genderInput = document.querySelector('input[name="gender"]:checked');
-                            const registrationData = {
-                                initial: document.getElementById("initial").value.trim(),
-                                emailAddress: document.getElementById("emailAddress").value.trim(),
-                                firstName: document.getElementById("firstName").value.trim(),
-                                infix: document.getElementById("infix").value.trim(),
-                                lastName: document.getElementById("lastName").value.trim(),
-                                gender: genderInput ? genderInput.value : null,
-                                contactNumber: document.getElementById("mobileNumber").value.trim(),
-                                emailPreference: document.getElementById("emailMarketing").checked,
-                                smsPreference: document.getElementById("smsMarketing").checked,
-                                dunNumber: ''
-                            };
-
-                            if(requestResource !=="") {
-                                if(requestResource === "usingCardNumber") {
-                                    for (const key in dynamicDetails) {
-                                        registrationData[key] = dynamicDetails[key];
-                                    }
-                                }
-                                if(requestResource === "usingcocNumber") {
-                                    registrationData['dunNumber'] = dunNumber;
-                                }
-                                if(requestResource === "resourcehousenpostal") {
-                                    registrationData['dunNumber'] = dunNumber;
-                                }
-                            } else {
-                                for (const key in dynamicDetails) { 
-                                    if (document.getElementById(key)) { 
-                                        registrationData[key] = document.getElementById(key).value.trim(); 
-                                    } 
-                                }
-                            }
-
-                            registrationData['requestResource'] = requestResource;
-
-                            console.log("registrationData");
-                            console.log(registrationData);
-
-                            fetch('/apps/apis/api/customer/register', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'ngrok-skip-browser-warning': 'true'
-                                },
-                                body: btoa(JSON.stringify(registrationData))
-                            }).then(async res => {
-                                const response = await res.json();
-                                const decodedString = atob(response.result);
-                                const result = JSON.parse(decodedString);
-                                console.log("result");
-                                console.log(result);
-                            }).catch(err => console.error(err));
-                        }
-                    }
-
-                    const resetStart = document.querySelector('[data-next="start"]');
-                    if(resetStart) {
-                        resetStart.onclick = () => {
-                            resetAssignments();
-                        }
-                    }
-
-                    const resetBack = document.querySelector('[data-next="cocNumberQuestion"]');
-                    if(resetBack) {
-                        resetBack.onclick = () => {
-                            resetAssignments();
-                        }
-                    }
-                }
-            }
-        };
-
-        function resetAssignments() {
-            requestResource = "registration";
-            dunNumber = "";
-            dynamicDetails = getInitialDynamicDetails();
-            cardNumberInputs = getInitialCardNumberInputs();
-            cocNumberInputs = getInitialCocNumberInputs();
-            isCardNumberFormSubmitted = false;
-            cardNumberResult = null;
-            isCocFormSubmitted = false;
-            cocNumberResult = null;
-            cocSearchResults = [];
-            selectedCocIndex = null;
-        }
-
-        // Render function
-        function render() {
-            const step = steps[currentStep];
-            container.innerHTML = step.render();
-            if (step.onMount) step.onMount(); // attach any event listeners
-        }
-
-        // Event delegation for navigation buttons
-        container.addEventListener("click", function(e) {
-            if (e.target.dataset.next) {
-                currentStep = e.target.dataset.next;
-                render();
-            }
-        });
-
-        // Initial render
-        render();
-    });
-
-    function renderDynamicFields(fields, transformation) {
-        let html = "";
-
-        const requiredKeys = ["postalCode", "houseNumber", "streetName", "placeName"];
-        const allRequiredPresent = requiredKeys.every(key => fields[key] && fields[key].trim() !== "");
-
-        for (const key in fields) {
-            if (fields[key] === "") { // only render empty fields
-
-                // If all required fields are present, skip rendering 'additional'
-                if (allRequiredPresent && key === "additional") {
-                    continue;
-                }
-
-                const meta = transformation[key] || {};
-                const type = meta.type || "text";
-                const placeholder = meta.placeholder || key.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase());
-
-                html += `<input type="${type}" id="${key}" name="${key}" placeholder="${placeholder}" />\n`;
-            }
-        }
-        return html;
+document.addEventListener("DOMContentLoaded", function () {
+
+  fetch(' https://9ad1-13-93-119-81.ngrok-free.app/api/product/product_shelf', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      },
+      body: btoa(JSON.stringify({storeID: "24", asposProductID: "37666", asposScancodeID: "0000602199"}))
+  })
+  .then(async res => {
+    if(res.ok){
+      const response = await res.json();
+      const decodedString = atob(response.result);
+      const reponseData = JSON.parse(decodedString);
+      if(reponseData.status) {
+        console.log("reponseData");
+        console.log(reponseData.locationCode);
+        console.log(reponseData.locationText);
+      } else {
+        console.log("reponseDataError");
+        console.log(reponseData.message);
+      }
+    } else {
+      console.log(res.statusText);
+    }
+  })
+  .catch(err => console.error(err));
+
+  const form = document.getElementById("register-customer");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault(); // prevent page reload
+
+    const data = {
+      emailAddress: form.emailAddress.value,
+      password: form.password.value,
+      confirmPassword: form.confirmPassword.value,
+      firstName: form.firstName.value,
+      lastName: form.lastName.value,
+      contactNumber: '+918989675451',
+      streetName: "Damrak",
+      houseNumber: "1A",
+      additional: "Damrak Villa",
+      placeName: "Amsterdam",
+      postalCode: "1012LG",
+      initial: "Ms.",
+      infix: "da",
+      gender: "Male",
+      branchID: "2",
+      branchName: "data"
+    };
+
+    const data1 = {
+      requestType: "resourcekvk",
+      cocNumber: "90004973"
     }
 
-    // Factory function to generate initial state
-    const getInitialCardNumberInputs = () => ({
-        cardNumber: {
-            value: "",
-            disable: false,
-            error: ""
-        },
-        zipCode: {
-            value: "",
-            disable: false,
-            error: ""
-        }
-    });
+    const data2 = {
+      requestType: "resourcehousenpostal",
+      houseNumber: "12",
+      postalCode: "7921 WH"
+    }
 
-    const getInitialCocNumberInputs = () => ({
-        cocNumber: {
-            value: "",
-            disable: false,
-            error: ""
-        }
-    });
+    fetch('/apps/api/api/customer/register', {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json'
+    },
+    body: btoa(JSON.stringify(data))
+    }).then(async res => {
+        const response = await res.json();
+        console.log("response");
+        console.log(response);
+        const decodedString = atob(response.result);
+        const result = JSON.parse(decodedString);
+        console.log(result.message);
+        {% comment %} const message = response?.message; {% endcomment %}
+        {% comment %} console.log("message");
+        console.log(message);
+        console.log(atob(message)); {% endcomment %}
+      })
+      .catch(err => console.error(err));
+  });
 
-    const getInitialDynamicDetails = () => ({
-        postalCode: "",
-        houseNumber: "",
-        additional: "",
-        streetName: "",
-        placeName: "",
-    });
+  // Trigger submit when button clicked
+  const button = form.querySelector("button");
+  button.addEventListener("click", function () {
+    form.dispatchEvent(new Event("submit", { cancelable: true }));
+  });
+});
 </script>
+
+<script>
+  window.ShopifyContext = {
+    currency: "{{ cart.currency.iso_code }}",
+    symbol: "{{ cart.currency.symbol }}",
+    locale: "{{ request.locale.iso_code }}", // e.g., "es-MX"
+    country: "{{ localization.country.iso_code }}"
+  };
+  
+document.addEventListener('DOMContentLoaded', () => {
+  const selectedIds = new Set(); // hidden array
+  const container = document.getElementById('wishlistContainer');
+  const selectAll = document.getElementById('selectAll');
+
+  // Event delegation: handle all checkboxes dynamically
+  container.addEventListener('change', (e) => {
+    if(e.target.classList.contains('itemCheckbox')){
+      const checkbox = e.target;
+      if(checkbox.checked){
+        selectedIds.add(checkbox.value);
+      } else {
+        selectedIds.delete(checkbox.value);
+        selectAll.checked = false; // uncheck "Select All" if any unchecked
+      }
+
+      // If all checkboxes are checked, check "Select All"
+      const allCheckboxes = container.querySelectorAll('.itemCheckbox');
+      if([...allCheckboxes].every(cb => cb.checked)){
+        selectAll.checked = true;
+      }
+
+      console.log([...selectedIds]); // debug, remove in production
+    }
+  });
+
+  // Select All toggle
+  selectAll.addEventListener('change', () => {
+    const allCheckboxes = container.querySelectorAll('.itemCheckbox');
+    if(selectAll.checked){
+      allCheckboxes.forEach(cb => {
+        cb.checked = true;
+        selectedIds.add(cb.value);
+      });
+    } else {
+      allCheckboxes.forEach(cb => cb.checked = false);
+      selectedIds.clear();
+    }
+    console.log([...selectedIds]); // debug
+  });
+
+  //Create New Empty Wishlist & Add this newly create list into the already present list
+  const btn = document.getElementById('create-new-list');
+  btn.addEventListener('click', async () => {
+    fetch('/apps/customer-dashboard/api/customer/wishlist/create', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'ngrok-skip-browser-warning': 'true'
+              },
+							body: JSON.stringify({
+                  wishlistName: "Wishlist 12"
+              })
+          })
+          .then(async res => {
+            const response = await res.json();
+            console.log("response");
+            console.log(response);
+            if(response.status) {
+                const value = response.wishlistId;
+                const title = response.wishlistTitle;
+                console.log("value");
+                console.log(value);
+                console.log("wishlistTitle");
+                console.log(title);
+
+
+                const li = document.createElement('li');
+                const label = document.createElement('label');
+                const checkbox = document.createElement('input');
+
+                checkbox.type = 'checkbox';
+                checkbox.className = 'itemCheckbox';
+                checkbox.value = value;
+
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(' ' + title));
+                li.appendChild(label);
+                container.appendChild(li);
+
+                // Pre-check the new checkbox
+                checkbox.checked = true;
+                selectedIds.add(checkbox.value);
+
+                // Update Select All if now all are checked
+                const allCheckboxes = container.querySelectorAll('.itemCheckbox');
+                if([...allCheckboxes].every(cb => cb.checked)){
+                    selectAll.checked = true;
+                }
+
+                console.log([...selectedIds]); // debug
+            }
+        
+          })
+          .catch(err => console.error(err)); 
+  });
+
+  //Delete Wishlist
+  const btn1 = document.getElementById('delete-wishlistlist');
+  if(btn1) {
+    btn1.addEventListener('click', async () => {
+      fetch('/apps/customer-dashboard/api/customer/wishlist/delete', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+            wishlistId: "6999ce5fde29dde1d95b614e"
+        })
+    })
+    .then(async res => {
+      const response = await res.json();
+      console.log("response");
+      console.log(response);
+    })
+    .catch(err => console.error(err)); 
+    });
+  }
+
+  //Add New Wishlist Product
+  const btn2 = document.getElementById('add-wishlist-product');
+  if(btn2) {
+    btn2.addEventListener('click', async () => {
+      console.log("selectedIds");
+      console.log(Array.from(selectedIds));
+      fetch('/apps/customer-dashboard/api/customer/wishlist/add-product', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+            productId: "gid://shopify/Product/1234567891",
+            quantity: 1,
+            idsArray: Array.from(selectedIds)
+        })
+      })
+      .then(async res => {
+        const response = await res.json();
+        console.log("response");
+        console.log(response);
+      })
+      .catch(err => console.error(err)); 
+    });
+  }
+
+  //Delete Product Item
+  const btn3 = document.getElementById('delete-wishlist-product');
+  if(btn3) {
+    btn3.addEventListener('click', async () => {
+      fetch('/apps/customer-dashboard/api/customer/wishlist/delete-product', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'ngrok-skip-browser-warning': 'true'
+          },
+          body: JSON.stringify({
+              wishlistId: "6999ce5fde29dde1d95b614e",
+              wishlistProductId: "6999ce69de29dde1d95b6152"
+          })
+      })
+      .then(async res => {
+        const response = await res.json();
+        console.log("response");
+        console.log(response);
+      })
+      .catch(err => console.error(err));
+    });
+  }
+
+  //Fetch The wishlist
+  {% comment %} A-Z : ?page=1&sortBy=title&order=asc
+  Z-A : ?page=1&sortBy=title&order=desc
+  Oldest First : ?page=1&sortBy=createdDate&order=asc
+  Newest First : ?page=1 {% endcomment %}
+  {% comment %} fetch('/apps/customer-dashboard/api/customer/fetch-wishlists?page=1', {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      }
+  })
+  .then(async res => {
+    const response = await res.json();
+    console.log("response");
+    console.log(response);
+  })
+  .catch(err => console.error(err));  {% endcomment %}
+
+
+  //Fetch Wishlis Products
+  {% comment %} fetch('/apps/customer-dashboard/api/customer/fetch-wishlist-products?page=1', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+          wishlistId: "6994b5c7cb9e9ae094f84299"
+      })
+  })
+  .then(async res => {
+    const response = await res.json();
+    console.log("response");
+    console.log(response);
+  })
+  .catch(err => console.error(err)); {% endcomment %}
+
+  //Edit Wishlist Title
+  {% comment %} fetch('/apps/customer-dashboard/api/customer/edit-wishlist-title', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+          wishlistId: "6994a8baa0ecd9ac013465de",
+          wishlistName: 'Changed Title'
+      })
+  })
+  .then(async res => {
+    const response = await res.json();
+    console.log("response");
+    console.log(response);
+  })
+  .catch(err => console.error(err));  {% endcomment %}
+
+  //Create wishlist sharing link
+   {% comment %} fetch('/apps/customer-dashboard/api/customer/wishlist/create-sharing-link', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+            wishlistId: "6996ec94815d019d1f6d46c8"
+        })
+    })
+    .then(async res => {
+      const response = await res.json();
+      console.log("response");
+      console.log(response);
+    })
+    .catch(err => console.error(err));  {% endcomment %}
+
+    //Fetch Shared Wishlist
+         {% comment %} fetch('/apps/customer-dashboard/api/customer/wishlist/fetch-shared-wishlist', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({
+            id: "pN8RxChEJgpf7CfF2YAvn8QurZL2HjSDowgDprsiDukFr3GTY2e22vG"
+        })
+    })
+    .then(async res => {
+      const response = await res.json();
+      console.log("response");
+      console.log(response);
+    })
+    .catch(err => console.error(err));  {% endcomment %}
+{% comment %} 
+    fetch('/apps/customer-dashboard/api/customer/wishlist/fetch-products?page=1', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+          wishlistId: "6996ec94815d019d1f6d46c8"
+      })
+  })
+  .then(async res => {
+    const response = await res.json();
+    const data = response.data;
+    console.log("data");
+    console.log(data);
+    function insertIntoContainer() {
+        const container = document.querySelector('#product-grid'); // change this to your div selector
+        if (!container) return;
+
+        // const wrapper = document.createElement('div');
+        // wrapper.innerHTML = data;
+        // const element = wrapper.firstElementChild;
+        // container.appendChild(element);
+
+        container.insertAdjacentHTML('beforeend', data);
+
+        document.dispatchEvent(new CustomEvent('shopify:section:load'));
+        document.dispatchEvent(new Event('theme:load'));
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', insertIntoContainer);
+    } else {
+        insertIntoContainer();
+    }
+  })
+  .catch(err => console.error(err)); {% endcomment %}
+});
+</script>
+
+
+{% schema %}
+{
+  "name": "t:sections.contact-form.name",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "t:sections.contact-form.settings.title.default",
+      "label": "t:sections.contact-form.settings.title.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "hxl",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "hxxl",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.contact-form.presets.name"
+    }
+  ]
+}
+{% endschema %}
