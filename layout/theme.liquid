@@ -15,6 +15,13 @@
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
+    {% if request.path contains '/account' %}
+  <script>
+    alert("sdfsdfsd");
+    // Redirect all /account pages to homepage
+    window.location.href = '/';
+  </script>
+{% endif %}
     <title>
       {{ page_title }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
