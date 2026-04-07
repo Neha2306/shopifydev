@@ -732,3 +732,171 @@ initCartScriptsAgain();
   ]
 }
 {% endschema %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} 
+<div class="header-toggle" id="header-toggle">
+  <label class="header-toggle__label">
+    <span class="header-toggle__text">Special mode</span>
+
+    <button
+  type="button"
+  class="header-toggle__switch"
+  role="switch"
+  aria-checked="{% if cart.attributes.isApplied == 'true' %}true{% else %}false{% endif %}"
+  id="header-cart-toggle"
+  data-cart-toggle
+>
+  <span class="header-toggle__thumb"></span>
+</button>
+  </label>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const res = await fetch('/cart/update.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        attributes: {
+          _last_refresh: String(Date.now())
+          // ❌ DO NOT set isApplied here
+        },
+        sections: ['main-cart-items', 'main-cart-footer'],
+        sections_url: window.location.pathname,
+      }),
+    });
+
+    const data = await res.json();
+
+    const parser = new DOMParser();
+    const mainCartItemData = parser.parseFromString(data.sections['main-cart-items'], 'text/html');
+    const mainCartFooterData = parser.parseFromString(data.sections['main-cart-footer'], 'text/html');
+
+    document.querySelector('#main-cart-items')
+      ?.replaceWith(mainCartItemData.querySelector('#main-cart-items'));
+
+    document.querySelector('#main-cart-footer')
+      ?.replaceWith(mainCartFooterData.querySelector('#main-cart-footer'));
+
+  } catch (e) {
+    console.error('Cart pre-refresh failed', e);
+  }
+});
+
+function refreshMainContent(isApplied) {
+  const currentUrl = window.location.href;
+
+  return fetch(currentUrl, {
+    method: 'GET',
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`Failed to fetch page HTML: ${res.status}`);
+      }
+      return res.text();
+    })
+    .then((html) => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+
+      const newMain = doc.querySelector('#MainContent');
+      const currentMain = document.querySelector('#MainContent');
+
+      if (!newMain || !currentMain) {
+        console.error('Could not find #MainContent in new or current document');
+        return;
+      }
+
+      // Replace all content
+      currentMain.innerHTML = newMain.innerHTML;
+
+      // ✅ Restore toggle state AFTER DOM replacement
+      const toggle = document.querySelector('[data-cart-toggle]');
+      if (toggle && typeof isApplied !== 'undefined') {
+        toggle.setAttribute('aria-checked', isApplied ? 'true' : 'false');
+      }
+
+      // Re-bind events
+      initCartScriptsAgain();
+    })
+    .catch((error) => {
+      console.error('Error refreshing #MainContent:', error);
+    });
+}
+
+function initCartScriptsAgain() {
+  const toggle = document.querySelector('[data-cart-toggle]');
+  if (!toggle) return;
+
+  // Prevent duplicate binding
+  if (toggle.dataset.toggleBound === 'true') return;
+  toggle.dataset.toggleBound = 'true';
+
+  toggle.addEventListener('click', async () => {
+    const currentlyOn = toggle.getAttribute('aria-checked') === 'true';
+    const newState = !currentlyOn;
+
+    // Update UI instantly
+    toggle.setAttribute('aria-checked', newState ? 'true' : 'false');
+
+    try {
+      const response = await fetch('/cart/update.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          attributes: {
+            _last_refresh: String(Date.now()),
+            isApplied: newState,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        console.error('Failed to update cart for header toggle', response.status);
+        toggle.setAttribute('aria-checked', currentlyOn ? 'true' : 'false');
+        return;
+      }
+
+      const cart = await response.json();
+
+      // ✅ Get actual state from Shopify cart response
+      const isApplied =
+        cart.attributes?.isApplied === true ||
+        cart.attributes?.isApplied === 'true';
+
+      // ✅ Refresh with correct state
+      refreshMainContent(isApplied);
+
+    } catch (err) {
+      console.error('Error calling /cart/update.js from header toggle', err);
+      toggle.setAttribute('aria-checked', currentlyOn ? 'true' : 'false');
+    }
+  });
+
+  // Theme re-init (if exists)
+  if (window.theme && typeof window.theme.initCart === 'function') {
+    window.theme.initCart();
+  }
+}
+
+initCartScriptsAgain();
+
+</script> {% endcomment %}
