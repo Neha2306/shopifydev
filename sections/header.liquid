@@ -237,7 +237,7 @@
       {% comment %} /customer_authentication/login?return_to={{ '/pages/your-page-handle' | url_encode }} {% endcomment %}
       {%- if shop.customer_accounts_enabled -%}
         <a
-          href="/customer_authentication/login?return_to={{ '/collections/all' | url_encode }}"
+          href="/customer_authentication/login"
           class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"
           rel="nofollow"
         >
